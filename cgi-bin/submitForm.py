@@ -13,13 +13,16 @@ from Cheetah.Template import Template
 
 from xml.dom import minidom
 
-def createXML(dictValues):
-	xmlStr = '<paciente>'
+def createXML(keys, dictValues):
+	xmlStr = '<documento>'
+	xmlStr += '<paciente>'
 	xmlStr += '<triagem>'
-	for k,v in dictValues.iteritems():
-		xmlStr += '<%s>%s</%s>'%(k,v,k)
+	for k in keys:
+		if k != 'score':
+			xmlStr += '<%s>%s</%s>'%(k,dictValues[k],k)
 	xmlStr += '</triagem>'
 	xmlStr += '</paciente>'
+	xmlStr += '</documento>'
 	return xmlStr
 
 
@@ -35,7 +38,8 @@ def Main():
 				values[k].append(el.value)
 		else:
 			values[k] = v.value
-	domObj = minidom.parseString(createXML(values))
+	keys = [k for k in form]
+	domObj = minidom.parseString(createXML(keys,values))
 	xmlContent = domObj.toxml().encode('ascii', 'xmlcharrefreplace')
 
 

@@ -18,18 +18,22 @@ body {
 	width         : 90%;
 	margin-left   : 20px;
 	line-height   : 150%;
+	clear:both;
 }
 
 #center {
 	margin-left:360px;
 	margin-right:10px;
+	width:60%;
 }
 
 #leftpanel {
+	width:200px;
 	float:left;
 }
 
 #rightpanel{
+	width:200px;
 	float:right;
 }
 
