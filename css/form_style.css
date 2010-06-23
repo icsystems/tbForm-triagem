@@ -1,0 +1,204 @@
+/* form.css */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	width: 100%;
+}
+
+form fieldset {
+	clear: both;
+	font-size: 100%;
+	border-color: #999999;
+	border-width: 1px 0 0 0;
+	border-style: solid none none none;
+	padding: 40px;
+	margin: 0 0 0 0;
+}
+
+form fieldset legend {
+	font-size: 150%;
+	font-weight: normal;
+	margin: 0 0 0 0;
+	padding: 0 5px;
+}
+
+label {
+	font-size: 100%;
+	vertical-align: middle;
+}
+input.textbox{
+	width: 350px;
+}
+
+input, select, textarea {
+	font-family: Tahoma, Arial, sans-serif;
+	font-size: 100%;
+	color: #000000;
+	vertical-align: middle;
+}
+
+textarea {
+	overflow: auto;
+}
+
+form div {
+	clear: left;
+	display: block;
+	height:auto;
+	width: 100%;
+	zoom: 1;
+	margin: 5px 0 0 0;
+	padding: 1px 3px;
+}
+
+form div fieldset {
+	clear: none;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #666666;
+	margin: 0 0 0 310px;
+	padding: 0 5px 5px 5px;
+	width: 400px;
+}
+
+form div fieldset legend {
+	font-size: 100%;
+	padding: 0 3px 0 9px;
+}
+
+form div.required fieldset legend {
+	font-weight: bold;
+}
+
+form div label {
+	display: block;
+	float: left;
+	width: 300px;
+	padding: 3px 5px;
+	margin: 0 0 5px 0;
+	text-align: right;
+}
+
+form div.optional label, label.optional {
+	font-weight: normal;
+}
+
+form div.required label, label.required {
+	font-weight: bold;
+}
+
+form div label.labelCheckbox, form div label.labelRadio, form div label.labelTextarea {
+	float: none;
+	display: block;
+	width: 200px;
+	zoom: 1;
+	padding: 0;
+	margin: 0 0 5px 280px;
+	text-align: left;
+}
+
+form div fieldset label.labelCheckbox, form div fieldset label.labelRadio {
+	margin: 0 0 5px 0;
+	width: 300px;
+}
+
+form div fieldset label input.inputOutro{
+	size:200px;
+}
+
+p.error {
+	background-color: #ff0000;
+	background-image: url(/images/icon_error.gif);
+	background-repeat: no-repeat;
+	background-position: 3px 3px;
+	color: #ffffff;
+	padding: 3px 3px 5px 27px;
+	border: 1px solid #000000;
+	margin: auto 100px;
+}
+
+
+form div.error {
+	background-color: #ffffe1;
+	background-image: url(/images/required_bg.gif);
+	background-repeat: no-repeat;
+	background-position: top left;
+	color: #666666;
+	border: 1px solid #ff0000;
+}
+
+form div.error p.error {
+	background-image: url(/images/icon_error.gif);
+	background-position: top left;
+	background-color: transparent;
+	border-style: none;
+	font-size: 88%;
+	font-weight: bold;
+	margin: 0 0 0 118px;
+	width: 200px;
+	color: #ff0000;
+}
+
+form div select{
+	width: 200px;
+	padding: 1px 3px;
+	margin: 0 0 0 0;
+	vertical-align: bottom;
+}
+
+form div textarea{
+	width: 450px;
+	padding: 1px 3px;
+	margin: 0 0 0 180px;
+}
+
+
+form div select.selectOne, form div select.selectMultiple {
+	width: 211px;
+	padding: 1px 3px;
+}
+
+form div input.inputCheckbox, form div input.inputRadio, input.inputCheckbox, input.inputRadio {
+	display: inline;
+	height: auto;
+	width: auto;
+	background-color: transparent;
+	border-width: 0;
+	padding: 0;
+	margin: 0 0 0 140px;
+}
+form div.divButton {
+	text-align: center;
+	width: 100%;
+}
+
+
+form div.reset {
+	display: inline;
+	float: right;
+	text-align: right;
+	width: auto;
+	padding: 0;
+	margin: 0;
+}
+
+
+form div.submit {
+	float: left;
+	width: 40%;
+	margin: 0 0 0 5px;
+}
+
+form div small {
+	display: block;
+	margin: 0 0 5px 192px;
+	padding: 1px 3px;
+	font-size: 88%;
+	zoom: 1;
+}

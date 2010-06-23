@@ -1,0 +1,67 @@
+body {
+	background:white;
+	font-family:tahoma,arial,verdana,sans-serif;
+	font-size:75%;
+}
+#header{
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:1.4em;
+	background:#000066;
+	padding-top:15px;
+	padding-bottom:14px;
+	margin-left   : 20px;
+	margin-bottom   : 20px;
+	color      :white;
+}
+
+#content  {
+	width         : 90%;
+	margin-left   : 20px;
+	line-height   : 150%;
+}
+
+#center {
+	margin-left:360px;
+	margin-right:10px;
+}
+
+#leftpanel {
+	float:left;
+}
+
+#rightpanel{
+	float:right;
+}
+
+table {
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	width:350px;
+	border-collapse:collapse;
+}
+
+table thead th{
+	text-align: center;
+	font-size:1.1em;
+	padding-top:5px;
+	padding-bottom:4px;
+	background-color:#000066;
+	color:white;
+}
+
+table tbody th{
+	text-align:left;
+	font-size:0.8em;
+	padding-top:1px;
+	padding-bottom:1px;
+	color:#000066;
+}
+
+table tbody td{
+	text-align:left;
+	font-size:0.8em;
+	padding-top:1px;
+	padding-left:10px;
+	padding-bottom:1px;
+	color:#000066;
+}
+

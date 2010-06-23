@@ -1,0 +1,277 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/jquery.autocomplete.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.js"></script>
+	<script src='./js/messages_ptbr.js'   type='text/javascript'></script>
+	<script type="text/javascript" src="js/action.js"></script>
+	<style type='text/css'>
+	<!--
+		@import url(./css/page_style.css);
+		@import url(./css/form_style.css);
+		@import url(./css/smoothness/jquery-ui.css);
+		@import url(./css/styles.css);
+	-->
+	</style>
+</head>
+<body>
+	<div id='menu'>
+		<ul>
+			<li class='help'><a href='#'>Ajuda</a></li>
+		</ul>
+	</div>
+	<div id='mainFrame'>
+		<div id='content'>
+			<div id='maincontent'>
+			<form name='form_triagem' id='form_triagem' action='cgi-bin/submitForm' method='GET'>
+				<fieldset id='info_pessoais'>
+					<legend>Informa&ccedil;&otilde;es Pessoais</legend>
+					<div id='divName' class='primary required'>
+						<label for='name'> Nome: </label>
+						<input type="text" name="name" id="name" class='textbox'/>
+					</div>
+					<div id='divNomeMae' class='primary required'>
+						<label for='nome_mae'>Nome Da M&atilde;e:</label>
+						<input type="text" name="nome_mae"  class='textbox'/>
+					</div>
+					<div id='divDataNascimento' class='primary required'>
+						<label for='data_nascimento'> Data de Nascimento:</label>
+						<input  name="data_nascimento" id="data_nascimento" type="text" readonly/>
+					</div>
+					<div id='divIdade' class='primary required'>
+						<label for='name'> Idade: </label>
+						<input type="text" name="idade" id="idade"  size='4' maxlength='3' readonly/>
+					</div>
+
+					<div id='divSexo' class='primary required'>
+					<fieldset>
+						<legend>Sexo:</legend>
+						<label for='sexo' class='labelRadio'>
+							<input type="radio" name="sexo" value="Masculino"/> Masculino
+						</label>
+						<label for='sexo' class='labelRadio'>
+							<input type="radio" name="sexo" value="Feminino" /> Feminino
+						</label>
+					</fieldset>
+					</div>
+					<div id='divEstadoCivil' class='primary required'>
+						<label for='estado_civil'>Estado Civil: </label>
+						<select name = "listaEstadoCivil" maxlength="">
+							<option              >      ----     </option>
+							<option value="casado">     Casado(a)     </option>
+							<option value="solteiro">   Solteiro(a)   </option>
+							<option value="divorciado"> Divorciado(a) </option>
+							<option value="viuvo">      Vi&uacute;vo(a)      </option>
+						</select>
+					</div>
+					<div id='divEstado' class='primary required'>
+						<label for='estado'>Estado: </label>
+						<select name="estado" id="estado" >
+							<option> ---- </option>
+						</select>
+					</div>
+					<div id='divCidade' class='primary required'>
+						<label for='cidade'>Cidade: </label>
+						<input type="text" name="cidade" id="cidade" class='textbox'/>
+					</div>
+					<div id='divBairro' class='primary required'>
+						<label for='bairro'>Bairro: </label>
+						<input type="text" name="bairro" id="bairro" class='textbox'/>
+					</div>
+					<div>
+					<div id='divEndereco' class='primary required'>
+						<label for='endereco'>Endere&ccedil;o (Rua, Avenida, ...): </label>
+						<input type="text" name="endereco" id="endereco" class='textbox'/>
+					</div>
+					<div id='divNumero' class='primary'>
+						<label for='numero'>N&uacute;mero: </label>
+						<input type="text" name="numero" id="numero" class='textbox'/>
+					</div>
+					<div id='divComplemento' class='primary'>
+						<label for='complemento'>Complemento: </label>
+						<input type="text" name="complemento" id="complemento" class='textbox'/>
+					</div>
+				</fieldset>
+				<fieldset id='sinais'>
+					<legend>Sinais, sintomas e dados clínicos</legend>
+					<div class="primary" id="divAltura">
+						<label for="altura" class="required">Altura:</label>
+						<input type="text" size="5" maxlength="3" class="number required" name="altura" id="altura" /> cm
+					</div>
+					<div class="primary" id="divPesoAtual">
+						<label for="pesoAtual" class="required">Peso atual:</label>
+						<input type="text" size="5" maxlength="5" class="number required" name="pesoAtual" id="pesoAtual"/> Kg
+					</div>
+					<div class="primary" id="divPesoHabitual">
+						<label for="pesoHabitual" class="required">Peso Habitual:</label>
+						<input type="text" size="5" maxlength="5" class="number required" name="pesoHabitual" id="pesoHabitual"/> Kg
+					</div>
+					<div id='divEmagrecimento' class='primary required'>
+						<label for='emagrecimento'>Emagrecimento:</label>
+						<input type="text" size="30" maxlength="3" class="required sinais" name="emagrecimento" id="emagrecimento" readonly/ >
+						<small> Perda de peso maior do que 10% </small>
+					</div>
+					<div id='divTosse' class='primary required'>
+						<label for='tosse'>Tosse:</label>
+						<select name='tosse' id='tosse' class='selectOne sinais'>
+							<option value='nao'> N&atilde;o  </option>
+							<option value='sim'> Sim  </option>
+						</select>
+					</div>
+					<div id='divExpectoracao' class='primary required'>
+						<label for='expectoracao'>Expectoracao:</label>
+						<select name='espectoracao' id='expectoracao' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='nao'> N&atilde;o  </option>
+							<option value='sim'> Sim  </option>
+						</select>
+					</div>
+					<div id='divHemoptoico' class='primary required'>
+						<label for='hemoptoico'>Hemoptóico:</label>
+						<select name='hemoptoico' id='hemoptoico' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divHemoptise' class='primary required'>
+						<label for='hemoptise'>Hemoptise:</label>
+						<select name='hemoptise' id='hemoptise' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divSudorese' class='primary required'>
+						<label for='sudorese'>Sudorese Noturna:</label>
+						<select name='sudorese' id='sudorese' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divFebre' class='primary required'>
+						<label for='febre'>Febre:</label>
+						<select name='febre' id='febre' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divDispneia' class='primary required'>
+						<label for='dispneia'>Dispnéia:</label>
+						<select name='dispneia' id='dispneia' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divPerdaDeApetite' class='primary required'>
+						<label for='perdaDeApetite'>Perda de Apetite:</label>
+						<select name='perdaDeApetite' id='perdaDeApetite' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+				</fieldset>
+				<fieldset ='historico'>
+					<legend>Histórico de Tuberculose</legend>
+					<div id='divTratamentoAnterior' class='primary required'>
+						<label for='tratamentoAnterior'>Tratamento Anterior para TB:</label>
+						<select name='tratamentoAnterior' id='tratamentoAnterior' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divDataTratamento' class='secondary'>
+						<label for='data_tratamento'> Data do Tratamento:</label>
+						<input  name="data_tratamento" id="data_tratamento" type="text" readonly/>
+					</div>
+					<div id='divLocalTuberculose' class='secondary'>
+						<label for='divLocalTuberculose'>Local da Tuberculose:</label>
+						<select name='localTuberculose' id='localTuberculose' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='pulmonar'> Pulmonar  </option>
+							<option value='extrapulmonar'> Extra-pulmonar  </option>
+							<option value='pulmonarEExtrapulmonar'> Pulmonar e Extra-pulmonar  </option>
+						</select>
+					</div>
+					<div id='divDesfecho' class='secondary'>
+						<label for='desfechoTratamento'>Desfecho do Tratamento:</label>
+						<select name='desfechoTratamento' id='desfechoTratamento' class='selectOne'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='cura'> Cura  </option>
+							<option value='tratamentoCompleto'> Tratamento Completo (sem exame de escarro)  </option>
+							<option value='abandono'> Abandono  </option>
+						</select>
+					</div>
+				</fieldset>
+				<fieldset id='fsInternacaoHospitar'>
+					<legend>Nos &Uacute;ltimos 2 Anos</legend>
+					<div id='divInternacaoHospitalar' class='primary required'>
+						<label for='internacaoHospitalar'>Internaç&atilde;o Hospitalar:</label>
+						<select name='internacaoHospitalar' id='internacaoHospitalar' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+				</fieldset>
+				<fieldset id='fumo'>
+					<legend> Fumo </legend>
+					<div id='divFumante' class='primary required'>
+						<label for='fumante'>Fumante:</label>
+						<select name='fumante' id='fumante' class='selectOne sinais'>
+							<option> ---- </option>
+							<option value='jamais' selected> Jamais Fumou  </option>
+							<option value='exfumante'> Ex-Fumante  </option>
+							<option value='sim'> Sim  </option>
+						</select>
+					</div>
+					<div class="secondary" id="divNumeroCigarros">
+						<label for="numeroCigarros">Número de cigarros que fuma/fumava por dia:</label>
+						<input type="text" size="5" maxlength="3" class="number required" name="numeroCigarros" /> cigarros
+					</div>
+					<div class="secondary" id="divNumeroAnosFumante">
+						<label for="numeroAnosFumante">Número de anos que fuma/fumou :</label>
+						<input type="text" size="5" maxlength="2" class="number required" name="numeroAnosFumante" /> anos
+					</div>
+				</fieldset>
+				<fieldset id='fsSIDA'>
+					<legend>HIV/SIDA</legend>
+					<div id='divSIDA' class='primary required'>
+						<label for='sida'>SIDA:</label>
+						<select name='sida' id='sida' class='selectOne sinais'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divDataSida' class='secondary'>
+						<label for='data_sida'> Data do Exame:</label>
+						<input  name="data_sida" id="data_sida" type="text" readonly/>
+					</div>
+				</fieldset>
+				<fieldset id='resultado_rede'>
+					<legend>Resultado da Rede</legend>
+					<div id='divResultadoRede'><!-- It will be filled after on the fly --></div>
+					<input type='hidden' name='score' id='score' />
+				</fieldset>
+
+				<fieldset>
+					<div id='divAvaliador' class='primary required'>
+						<label for='avaliador'> Avaliado por: </label>
+						<input type="text" name="avaliador" id="avaliador" class='textbox'/>
+					</div>
+					<div class='submit'><input value="Enviar Formulário" class='inputButton'  type="submit"></div>
+				</fieldset>
+			</form>
+			</div><!--/maincontent-->
+		</div><!--/content-->
+	</div><!--/mainFrame-->
+</body>
+</html>
