@@ -40,7 +40,7 @@ def Main():
 			values[k] = v.value
 	keys = [k for k in form]
 	domObj = minidom.parseString(createXML(keys,values))
-	xmlContent = domObj.toxml().encode('ascii', 'xmlcharrefreplace')
+	xmlContent = domObj.toxml(encoding='utf-8')
 
 
 	templateDef = u"""

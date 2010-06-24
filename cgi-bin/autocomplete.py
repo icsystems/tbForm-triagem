@@ -95,11 +95,11 @@ class autoComplete:
 		cursor = self.conn.cursor()
 		cursor.execute("""
 			SELECT DISTINCT
-				Nome
+				Logradouro||' '||Nome
 			FROM
 				ruasrj
 			WHERE
-				RuaSemAcento like '%s%%'
+				Logradouro||' '||RuaSemAcento like '%s%%'
 				AND Localidade = '%s'
 			LIMIT 9
 		"""%(normalizeString(self.q) , city, ))

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-print 'Content-type: text/html'
+print 'Content-type: text/html; charset=utf-8'
 print
 import cgi
 import cgitb
@@ -29,28 +29,34 @@ def Main():
 			nodePatients.appendChild(nodeNewPatient)
 			os.remove(xmlFile)
 			xml = open(xmlFile, 'w')
-			xmlStr = domMaster.toxml().encode('utf-8', 'xmlcharrefreplace')
+			xmlStr = domMaster.toxml(encoding='utf-8')
 			xml.write(xmlStr)
 		else:
 			xml = open(xmlFile, 'w')
 			xml.write(xmlStr)
 	except:
-		print "ERROR"
+		print '<pre>'
+		print 'ERROR'
+		import traceback
+		traceback.print_exc(file=sys.stdout)
+		print xmlStr
+		print '</pre>'
+	else:
+		templateDef = u"""
+			<html>
+				<head>
+				</head>
+				<body>
+					<script>
+						alert('Paciente Registrado.');
+						window.location = '../index.html';
+					</script>
+				</body>
+			</html>
+		"""
+		t = Template(templateDef)
+		print t
 
-	templateDef = u"""
-		<html>
-			<head>
-			</head>
-			<body>
-				<script>
-					alert('Paciente Registrado.');
-					window.location = '../index.html';
-				</script>
-			</body>
-		</html>
-	"""
-	t = Template(templateDef)
-	print t
 	return 0
 
 if __name__ == '__main__':
