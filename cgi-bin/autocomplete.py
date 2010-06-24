@@ -99,7 +99,7 @@ class autoComplete:
 			FROM
 				ruasrj
 			WHERE
-				Logradouro||' '||RuaSemAcento like '%s%%'
+				Logradouro||' '||RuaSemAcento like '%%%s%%'
 				AND Localidade = '%s'
 			LIMIT 9
 		"""%(normalizeString(self.q) , city, ))

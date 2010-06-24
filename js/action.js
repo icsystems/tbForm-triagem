@@ -53,9 +53,13 @@ argumentsNNet.prototype.Set = function(
 	if(tratamentoAnterior == 'sim' &&
 		(localTuberculose=='extrapulmonar' ||
 		localTuberculose=='pulmonarEExtrapulmonar')
-		)
-		this.TBXPulmonar = 'sim'
-	else this.TBXPulmonar = 'nao'
+		){
+		this.TBXPulmonar = 'sim';
+	}else{
+		if (tratamentoAnterior == 'ignorado' || localTuberculose == 'ignorado')
+			this.TBXPulmonar = 'ignorado';
+		else this.TBXPulmonar = 'nao';
+	}
 	this.internacaoHospitalar = internacaoHospitalar;
 	this.sida = sida;
 }
@@ -131,6 +135,7 @@ $(document).ready(function(){
 							}),
 							success : function(msg){
 								$('#divResultadoRede').html(msg);
+								$('#score').val(msg);
 							}
 						});
 				}
@@ -388,7 +393,7 @@ $('#pesoHabitual').change(function(){
 				range : [0, 400]
 			},
 			pesoHabitual:{
-				range : [0, 400]
+				range : [0, 300]
 			}
 		}
 	});
