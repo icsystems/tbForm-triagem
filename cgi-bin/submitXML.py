@@ -9,7 +9,7 @@ import sys,os
 
 cgitb.enable()
 
-
+from Cheetah.Template import Template
 
 from xml.dom import minidom
 
@@ -31,15 +31,27 @@ def Main():
 			xml = open(xmlFile, 'w')
 			xmlStr = domMaster.toxml().encode('utf-8', 'xmlcharrefreplace')
 			xml.write(xmlStr)
-			sys.stdout.write("Paciente Registrado")
 		else:
 			xml = open(xmlFile, 'w')
 			xml.write(xmlStr)
-			sys.stdout.write("Paciente Registrado")
 	except:
 		print "ERROR"
+
+	templateDef = u"""
+		<html>
+			<head>
+			</head>
+			<body>
+				<script>
+					alert('Paciente Registrado.');
+					window.location = '../index.html';
+				</script>
+			</body>
+		</html>
+	"""
+	t = Template(templateDef)
+	print t
 	return 0
-	
 
 if __name__ == '__main__':
 	Main()

@@ -28,37 +28,37 @@
 			<form name='form_triagem' id='form_triagem' action='cgi-bin/submitForm' method='GET'>
 				<fieldset id='info_pessoais'>
 					<legend>Informa&ccedil;&otilde;es Pessoais</legend>
-					<div id='divName' class='primary required'>
-						<label for='name'> Nome: </label>
-						<input type="text" name="name" id="name" class='textbox'/>
+					<div id='divNome' class='primary required'>
+						<label for='nome'> Nome: </label>
+						<input type="text" name="nome" id="nome" class='textbox required'/>
 					</div>
 					<div id='divNomeMae' class='primary required'>
 						<label for='nome_mae'>Nome Da M&atilde;e:</label>
-						<input type="text" name="nome_mae"  class='textbox'/>
+						<input type="text" name="nome_mae"  class='textbox required'/>
 					</div>
 					<div id='divDataNascimento' class='primary required'>
 						<label for='data_nascimento'> Data de Nascimento:</label>
-						<input  name="data_nascimento" id="data_nascimento" type="text" readonly/>
+						<input  name="data_nascimento" id="data_nascimento" type="text" class='required' readonly/>
 					</div>
 					<div id='divIdade' class='primary required'>
 						<label for='name'> Idade: </label>
-						<input type="text" name="idade" id="idade"  size='4' maxlength='3' readonly/>
+						<input type="text" name="idade" id="idade" class='required' size='4' maxlength='3' readonly/>
 					</div>
 
 					<div id='divSexo' class='primary required'>
 					<fieldset>
 						<legend>Sexo:</legend>
 						<label for='sexo' class='labelRadio'>
-							<input type="radio" name="sexo" value="Masculino"/> Masculino
+							<input type="radio" name="sexo" class='required' value="Masculino"/> Masculino
 						</label>
 						<label for='sexo' class='labelRadio'>
-							<input type="radio" name="sexo" value="Feminino" /> Feminino
+							<input type="radio" name="sexo" class='required' value="Feminino" /> Feminino
 						</label>
 					</fieldset>
 					</div>
 					<div id='divEstadoCivil' class='primary required'>
 						<label for='estado_civil'>Estado Civil: </label>
-						<select name = "listaEstadoCivil" maxlength="">
+						<select name = "listaEstadoCivil" maxlength="" class='required'>
 							<option              >      ----     </option>
 							<option value="casado">     Casado(a)     </option>
 							<option value="solteiro">   Solteiro(a)   </option>
@@ -68,22 +68,22 @@
 					</div>
 					<div id='divEstado' class='primary required'>
 						<label for='estado'>Estado: </label>
-						<select name="estado" id="estado" >
+						<select name="estado" id="estado" class='required'>
 							<option> ---- </option>
 						</select>
 					</div>
 					<div id='divCidade' class='primary required'>
 						<label for='cidade'>Cidade: </label>
-						<input type="text" name="cidade" id="cidade" class='textbox'/>
+						<input type="text" name="cidade" id="cidade" class='textbox required'/>
 					</div>
 					<div id='divBairro' class='primary required'>
 						<label for='bairro'>Bairro: </label>
-						<input type="text" name="bairro" id="bairro" class='textbox'/>
+						<input type="text" name="bairro" id="bairro" class='textbox required'/>
 					</div>
 					<div>
 					<div id='divEndereco' class='primary required'>
-						<label for='endereco'>Endere&ccedil;o (Rua, Avenida, ...): </label>
-						<input type="text" name="endereco" id="endereco" class='textbox'/>
+						<label for='endereco'>Endere&ccedil;o: </label>
+						<input type="text" name="endereco" id="endereco" class='textbox required'/>
 					</div>
 					<div id='divNumero' class='primary'>
 						<label for='numero'>N&uacute;mero: </label>

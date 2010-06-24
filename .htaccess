@@ -1,0 +1,7 @@
+AuthUserFile /home/fferreira/public_html/triagem/.htpasswd
+AuthType Basic
+AuthName "Follow Up"
+
+<Files ".">
+  Require valid-user
+</Files>
