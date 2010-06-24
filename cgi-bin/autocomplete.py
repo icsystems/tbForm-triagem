@@ -91,7 +91,22 @@ class autoComplete:
 	def retrieveStreets(self, city):
 		if self.q == '':
 			return
-		abr = self.q
+		abbr = self.q.split(None, 1)
+		abbrRules = {
+			'R'    : 'Rua',
+			'R.'   : 'Rua',
+			'Av'   : 'Avenida',
+			'Av.'  : 'Avenida',
+			'Trav' : 'Travessa',
+			'Trav.': 'Travessa',
+			'Rod'  : 'Rodovia',
+			'Rod.' : 'Rodovia'
+		}
+		if len(abbr) == 2 :
+			for k, v in abbrRules.iteritems():
+				if normalizeString(abbr[0]) == normalizeString(k):
+					self.q = v + ' ' + abbr[1]
+
 		self.connectPostServiceDB()
 		cursor = self.conn.cursor()
 		cursor.execute("""
