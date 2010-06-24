@@ -39,7 +39,7 @@ class autoComplete:
 	def __init__(self, query=''):
 		self.q    = query
 	def connectPostServiceDB(self):
-		self.conn = sqlite.connect('/home/fferreira/public_html/triagem/cgi-bin/.db_correios')
+		self.conn = sqlite.connect('.db_correios')
 	def retrieveStates(self):
 		self.connectPostServiceDB()
 		cursor = self.conn.cursor()
@@ -91,6 +91,7 @@ class autoComplete:
 	def retrieveStreets(self, city):
 		if self.q == '':
 			return
+		abr = self.q
 		self.connectPostServiceDB()
 		cursor = self.conn.cursor()
 		cursor.execute("""
