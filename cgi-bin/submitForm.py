@@ -4,16 +4,16 @@
 
 print 'Content-type: text/html'
 print
+
 import cgi
 import cgitb
 import sys
+import numpy as np
 cgitb.enable()
 
-from Cheetah.Template import Template
-
+from art_net import ART
 from xml.dom import minidom
-
-
+from Cheetah.Template import Template
 
 def createXML(keys, dictValues):
 	xmlStr = '<?xml version="1.0" encoding="utf-8"?>'
@@ -28,6 +28,41 @@ def createXML(keys, dictValues):
 	xmlStr += '</documento>'
 	return xmlStr
 
+def runArtClustering(keys, dictValues):
+	#Translate input tags
+	fields = (
+		'idade',
+		'tosse',
+		'hemoptoico',
+		'sudorese',
+		'febre',
+		'emagrecimento',
+		'dispneia',
+		'emagrecimento',
+		'fumante',
+		'TBXPulmonar',
+		'internacaoHospitalar',
+		'sida'
+	)
+	values = []
+	for f in fields:
+		try:
+			value = dictValues[f]
+			if f == 'idade':
+				values.append(int(value))
+			elif value == 'nao':
+				values.append(-1)
+			elif value == 'jamais':
+				values.append(-1)
+			elif value == 'sim':
+				values.append(1)
+			else:
+				values.append(0)
+		except:
+			values.append(0)
+	art = ART(np.array(values, float))
+	art.net()
+	return art.getOutput()
 
 def Main():
 	form = cgi.FieldStorage()
@@ -45,8 +80,7 @@ def Main():
 	xmlStr = createXML(keys,values)
 	domObj = minidom.parseString(xmlStr)
 	xmlContent = domObj.toxml(encoding='utf-8')
-
-
+	#make output
 	templateDef = u"""
 	<html>
 		<head>
@@ -88,9 +122,16 @@ def Main():
 						<input type='hidden' value='$xmlPaciente' name='xmlPaciente' />
 						<input type='submit' value='Registrar'/>
 					</form>
+	"""
+
+	cluster, radius, similarity = runArtClustering(keys,values)
+	values['cluster'] = cluster
+	values['radius']  = radius
+	values['similarity']  = similarity
+	templateDef+="""
 				</div>
 				<div id='rightpanel'>
-					<img src='drawTrafficLights.py'>
+					<img src='drawTrafficLights.py?cluster=$cluster&radius=$radius&similarity=$similarity'>
 				</div>
 			</div>
 		</body>
