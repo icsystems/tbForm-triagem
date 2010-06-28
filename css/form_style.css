@@ -202,3 +202,27 @@ form div small {
 	font-size: 88%;
 	zoom: 1;
 }
+div.wrap{
+	width:100%;
+	margin: 0 auto;
+	display: inline;
+	clear: none;
+	padding:0;
+}
+
+div.sinais{
+	width:50%;
+	float:left;
+}
+div.sinais label{
+	width:200px;
+}
+
+div.tempoSinais{
+	width:48%;
+	float:right;
+}
+
+div.tempoSinais label{
+	width: 70px;
+}

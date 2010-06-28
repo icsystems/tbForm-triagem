@@ -25,7 +25,6 @@ argumentsNNet.prototype.Set = function(
 				idade,
 				tosse,
 				hemoptoico,
-				hemoptise,
 				sudorese,
 				febre,
 				emagrecimento,
@@ -40,8 +39,6 @@ argumentsNNet.prototype.Set = function(
 	this.idade                   = idade;
 	this.tosse                   = tosse ;
 	this.hemoptoico              = hemoptoico;
-	if(hemoptise == 'sim')
-		this.hemoptoico          = 'sim';
 	this.sudorese = sudorese;
 	this.febre = febre;
 	if(emagrecimento == 'Sim') this.emagrecimento = 'sim';
@@ -67,6 +64,9 @@ argumentsNNet.prototype.Set = function(
 //After page is loaded set actions
 $(document).ready(function(){
 	var hlcolor = '#FFF8C6';
+
+	var d = new Date()
+	var cYear = d.getFullYear();
 	var argNNet = new argumentsNNet();
 
 	//Disables enter
@@ -104,7 +104,6 @@ $(document).ready(function(){
 									$('#idade').val(),
 									$('#tosse').val(),
 									$('#hemoptoico').val(),
-									$('#hemoptise').val(),
 									$('#sudorese').val(),
 									$('#febre').val(),
 									$('#emagrecimento').val(),
@@ -142,31 +141,18 @@ $(document).ready(function(){
 			}
 	});
 
-	//Checking previous treatment date
-	$('#data_tratamento').datepicker({
-			dateFormat: 'dd/mm/yy',
-			monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-			maxDate: '+0d',
-			changeMonth: true,
-			changeYear: true,
-			maxDate   : '+0y',
-			minDate   : '-130y',
-			yearRange : '-130:+130',
-			dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
-	});
-	//Checking previous treatment date
-	$('#data_sida').datepicker({
-			dateFormat: 'dd/mm/yy',
-			monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-			maxDate: '+0d',
-			changeMonth: true,
-			changeYear: true,
-			maxDate   : '+0y',
-			minDate   : new Date(1980, 1 - 1, 1),
-			yearRange : '-10:+10',
-			dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
+	//Checking aids exam date
+	years = new Array();
+	for (i=cYear-100; i <=cYear; i++)
+		years.push(i.toString());
+
+	$('#data_tratamento').autocomplete({
+		lookup: years
 	});
 
+	$('#data_sida').autocomplete({
+		lookup: years
+	});
 
 
 	//Fill States in 'Estado' selectbox
@@ -178,6 +164,19 @@ $(document).ready(function(){
 		success : function(data){
 			$.each(data.suggestions, function(i, item){
 				$('#estado').append($('<option>'+item+'</option>' )
+					.val(item)
+				);
+			});
+		}
+	});
+	$.ajax({
+		url: './cgi-bin/autocomplete.py',
+		data:({service:'state'}),
+		dataType : 'json',
+		cache: false,
+		success : function(data){
+			$.each(data.suggestions, function(i, item){
+				$('#naturalidade').append($('<option>'+item+'</option>' )
 					.val(item)
 				);
 			});
@@ -206,6 +205,85 @@ $(document).ready(function(){
 	$('*', 'div.secondary').each(function(){
 		if($(this)[0].nodeName == 'SELECT' || $(this)[0].nodeName == 'INPUT' )
 			$(this).attr('disabled', 'disabled');
+	});
+
+	$('#hemoptoico').change(function(){
+		var dep = new Array();
+		dep[0] = '#divQuantidadeHemoptise';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim'){
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+					    && element[0].nodeName != 'SMALL'
+					    && element[0].nodeName != 'OPTION')
+						$(this).addClass('required');
+						$(this).removeAttr('disabled');
+				});
+				if($(dep[div]).css('display') != 'block')
+					$(dep[div]).toggle(function() {
+						$(this).css('background-color', hlcolor);
+						$(this).animate({backgroundColor : "white"}, 4000);
+					});
+			}
+		} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+					    && element[0].nodeName != 'SMALL'
+					    && element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						$(this).attr('disabled', 'disabled');
+				});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+		}
+	});
+	$('#bebida').change(function(){
+		var dep = new Array();
+		dep[0]='#divNecessidadeReduzirConsumo';
+		dep[1]='#divFacilidadeFazerAmizades';
+		dep[2]='#divCriticaModoBebe';
+		dep[3]='#divBebeDiminuirNervosismo';
+		dep[4]='#divCulpadoManeiraBeber';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim'){
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+					    && element[0].nodeName != 'SMALL'
+					    && element[0].nodeName != 'OPTION')
+						$(this).addClass('required');
+						$(this).removeAttr('disabled');
+				});
+				if($(dep[div]).css('display') != 'block')
+					$(dep[div]).toggle(function() {
+						$(this).css('background-color', hlcolor);
+						$(this).animate({backgroundColor : "white"}, 4000);
+					});
+			}
+		} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+					    && element[0].nodeName != 'SMALL'
+					    && element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						$(this).attr('disabled', 'disabled');
+				});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+		}
 	});
 
 	$('#tratamentoAnterior').change(function(){
@@ -251,6 +329,7 @@ $(document).ready(function(){
 		var dep = new Array();
 		dep[0] = '#divNumeroCigarros';
 		dep[1] = '#divNumeroAnosFumante';
+		dep[2] = '#divCargaTabagistica';
 		// Se sim, disponibilizar colunas listadas a cima
 		if($(this).val()=='sim' || $(this).val()=='exfumante'){
 			for(div in dep){
@@ -286,9 +365,10 @@ $(document).ready(function(){
 		}
 	});
 
-	$('#sida').change(function(){
+	$('#exameSida').change(function(){
 		var dep = new Array();
 		dep[0] = '#divDataSida';
+		dep[1] = '#divSIDA';
 		// Se sim, disponibilizar colunas listadas a cima
 		if($(this).val()=='sim'){
 			for(div in dep){
@@ -326,19 +406,21 @@ $(document).ready(function(){
 
 // Check emagrecimento field
 
-$('#pesoAtual').change(function(){
-	if((parseInt($(this).val()) - parseInt($('#pesoHabitual').val()))/parseInt($('#pesoHabitual').val()) < -0.10)
-		$('#emagrecimento').val('Sim');
-	else
-		$('#emagrecimento').val('Não');
-});
-$('#pesoHabitual').change(function(){
-	if((parseInt($('#pesoAtual').val()) - parseInt($(this).val()))/parseInt($('#pesoHabitual').val()) < -0.10)
-		$('#emagrecimento').val('Sim');
-	else
-		$('#emagrecimento').val('Não');
-});
-//Submit to the neural network to check the patient's possiblity of having TB
+	$('#pesoAtual').change(function(){
+		if((parseInt($(this).val()) - parseInt($('#pesoHabitual').val()))/parseInt($('#pesoHabitual').val()) < -0.10)
+			$('#emagrecimento').val('Sim');
+		else
+			$('#emagrecimento').val('Não');
+	});
+	$('#pesoHabitual').change(function(){
+		if((parseInt($('#pesoAtual').val()) - parseInt($(this).val()))/parseInt($('#pesoHabitual').val()) < -0.10)
+			$('#emagrecimento').val('Sim');
+		else
+			$('#emagrecimento').val('Não');
+	});
+
+
+//Submit to the neural network to check the patient's possibility of having TB
 
 	$('select.sinais').change(function(){
 			if($('#idade').val() > 0 && $('#idade').val() <131)
@@ -346,7 +428,6 @@ $('#pesoHabitual').change(function(){
 							$('#idade').val(),
 							$('#tosse').val(),
 							$('#hemoptoico').val(),
-							$('#hemoptise').val(),
 							$('#sudorese').val(),
 							$('#febre').val(),
 							$('#emagrecimento').val(),
@@ -394,8 +475,33 @@ $('#pesoHabitual').change(function(){
 			},
 			pesoHabitual:{
 				range : [0, 300]
+			},
+			data_tratamento:{
+				minlength: 4,
+				min      : cYear - $('#idade').val(),
+				max      : cYear,
+				maxlength: 4
+			},
+			numeroAnosFumante:{
+				max      : $('#idade').val(),
+				success  : function(){
+					if($('#idade').val() < $('#numeroAnosFumante').val())
+						$('#cargaTabagistica').val('');
+					else
+						$('#cargaTabagistica').val(parseFloat($('#numeroCigarros').val()*365/20.));
+				}
+			},
+			numeroCigarros:{
+				success  : function(){
+					$('#cargaTabagistica').val(parseFloat($('#numeroCigarros').val()*365/20.));
+				}
+			},
+			data_sida:{
+				minlength: 4,
+				min      : cYear - $('#idade').val(),
+				max      : cYear,
+				maxlength: 4
 			}
 		}
 	});
-
 });
