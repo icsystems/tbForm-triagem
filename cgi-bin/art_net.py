@@ -8,8 +8,8 @@
 import numpy as np
 
 def euclidianDistance(G, X):
-	s = G - np.tile(X, (G.shape[0], 1))
-	return np.sqrt(np.diag(np.dot(s,s.T)))
+	s = np.tile(X, (G.shape[0], 1)) - G
+	return np.diag(np.dot(s,s.T))
 
 class ART:
 	"""
@@ -29,26 +29,27 @@ class ART:
 	def normalize(self):
 		input     = np.array(self.input, float)
 		#Age normalization
-		input[0]  = self.input[0] - self.mean_id
+		#input[0]  = self.input[0] - self.mean_id
 		input[0]  =      input[0] / self.std_id
 		input[0]  =      input[0] * self.norm_id
 		#####
-		s         = np.sum((input)**2)
-		newInput  = self.M - s
+		s         = np.dot(input, input.T)
+		newInput  = np.sqrt(self.M - s)
 		input = np.append(input,newInput)
 		input = input /np.sqrt(self.M)
 		return input
 	def net (self):
 		input = self.normalize()
 		d = euclidianDistance(self.G, input)
-		u = self.r * np.ones(d.shape) - d
+		u = (self.r**2) * np.ones(d.shape) - d
 		self.output = np.argmax(u)
 		self.d = d[self.output]
 		if u[self.output] < 0:
 			self.output= None
-			self.d    = None
+			self.d    = 0
 	def getOutput(self):
-		return self.output, self.d, self.r
+		r = np.sqrt(self.d)
+		return self.output, r, self.r
 
 if __name__ == '__main__':
 	art = ART([58, -1., -1., -1., -1., 0., -1., 0., 0., -1, -1., -1])

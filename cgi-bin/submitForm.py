@@ -8,12 +8,18 @@ print
 import cgi
 import cgitb
 import sys
+import string
 import numpy as np
 cgitb.enable()
 
 from art_net import ART
 from xml.dom import minidom
 from Cheetah.Template import Template
+from unicodedata import normalize
+
+def normalizeString(txt, codif='utf-8'):
+	txt = normalize('NFKD', txt.decode(codif)).encode('ASCII','ignore')
+	return txt.lower()
 
 def createXML(keys, dictValues):
 	xmlStr = '<?xml version="1.0" encoding="utf-8"?>'
@@ -38,7 +44,7 @@ def runArtClustering(keys, dictValues):
 		'febre',
 		'emagrecimento',
 		'dispneia',
-		'emagrecimento',
+		'anorexia',
 		'fumante',
 		'TBXPulmonar',
 		'internacaoHospitalar',
@@ -50,11 +56,11 @@ def runArtClustering(keys, dictValues):
 			value = dictValues[f]
 			if f == 'idade':
 				values.append(int(value))
-			elif value == 'nao':
+			elif normalizeString(value) == 'nao':
 				values.append(-1)
 			elif value == 'jamais':
 				values.append(-1)
-			elif value == 'sim':
+			elif normalizeString(value) == 'sim':
 				values.append(1)
 			else:
 				values.append(0)
@@ -83,6 +89,7 @@ def Main():
 	#make output
 	templateDef = u"""
 	<html>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<head>
 			<title> Formulário Triagem </title>
 			<style type='text/css'>

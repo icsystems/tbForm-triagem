@@ -11,6 +11,7 @@ function argumentsNNet(){
 	this.fumante;
 	this.TBXPulmonar;
 	this.internacaoHospitalar;
+	this.exameSida;
 	this.sida;
 }
 
@@ -34,6 +35,7 @@ argumentsNNet.prototype.Set = function(
 				localTuberculose,
 				tratamentoAnterior,
 				internacaoHospitalar,
+				exameSida,
 				sida
 ){
 	this.idade                   = idade;
@@ -58,13 +60,44 @@ argumentsNNet.prototype.Set = function(
 		else this.TBXPulmonar = 'nao';
 	}
 	this.internacaoHospitalar = internacaoHospitalar;
-	this.sida = sida;
+	if(exameSida == 'nao' || exameSida == 'ignorado'){
+		this.sida = 'ignorado';
+	} else {
+		if(exameSida == 'sim'){
+			if (sida == 'pendente'){
+				this.sida = 'ignorado';
+			}else{
+				this.sida = sida;
+			}
+		}
+	}
 }
+
+//Custom validation rules
+$.validator.addMethod("yearsSmokingLowerThanAge", function(value, element) {
+	var age = $("#idade").val();
+	retcode = parseInt($(element).val()) < parseInt(age);
+	if(retcode && !isNaN(parseInt($('#numeroCigarros').val())))
+		$('#cargaTabagistica').val(
+			parseFloat($('#numeroCigarros').val()) * parseFloat($(element).val()) / 20. 
+		);
+	return retcode;
+}, "Esse campo deve ser menor do que a idade do paciente.");
+
+$.validator.addMethod("numberOfCigarrettes", function(value, element) {
+	retcode = (parseInt($(element).val()) < 140 && parseInt($(element).val()) != 0) ;
+	if(retcode && !isNaN(parseInt($('#numeroAnosFumante').val())))
+		$('#cargaTabagistica').val(
+			parseFloat($('#numeroAnosFumante').val()) * parseFloat($(element).val()) / 20. 
+		);
+	return retcode;
+}, "N&atilde;o é permitido fumar 0 ou mais que 140 cigarros em um dia");
+
+
 
 //After page is loaded set actions
 $(document).ready(function(){
 	var hlcolor = '#FFF8C6';
-
 	var d = new Date()
 	var cYear = d.getFullYear();
 	var argNNet = new argumentsNNet();
@@ -72,6 +105,69 @@ $(document).ready(function(){
 	//Disables enter
 	$("#form_triagem").keypress(function(e) {
 		if (e.which == 13) {
+			return false;
+		}
+	});
+
+	//Disables stranges chars for input fields
+
+	$('#nome').keypress(function(e){
+		if((e.which > 32 && e.which < 65)||
+		   (e.which > 90 && e.which < 97)||
+		   (e.which > 122 && e.which < 127)||
+		   (e.which > 127 && e.which < 192)){
+		return false;
+		}
+	});
+
+	$('#nome_mae').keypress(function(e){
+		if((e.which > 32 && e.which < 65)||
+		   (e.which > 90 && e.which < 97)||
+		   (e.which > 122 && e.which < 127)||
+		   (e.which > 127 && e.which < 192)){
+			return false;
+		}
+	});
+
+	$('#avaliador').keypress(function(e){
+		if((e.which > 32 && e.which < 65)||
+		   (e.which > 90 && e.which < 97)||
+		   (e.which > 122 && e.which < 127)||
+		   (e.which > 127 && e.which < 192)){
+			return false;
+		}
+	});
+
+	$('#cep').keypress(function(e){
+		if((e.which > 31 && e.which < 48)||(e.which > 57)){
+			return false;
+		}
+	});
+
+	$('#cidade').keypress(function(e){
+		if((e.which > 32 && e.which < 65)||
+		   (e.which > 90 && e.which < 97)||
+		   (e.which > 122 && e.which < 127)||
+		   (e.which > 127 && e.which < 192)){
+			return false;
+		}
+	});
+
+	$('#bairro').keypress(function(e){
+		if((e.which > 32 && e.which < 65)||
+		   (e.which > 90 && e.which < 97)||
+		   (e.which > 122 && e.which < 127)||
+		   (e.which > 127 && e.which < 192)){
+			return false;
+		}
+	});
+
+	$('#endereco').keypress(function(e){
+		if((e.which > 32 && e.which < 44)||
+		   (e.which > 57 && e.which < 65)||
+		   (e.which > 90 && e.which < 97)||
+		   (e.which > 122 && e.which < 127)||
+		   (e.which > 127 && e.which < 192)){
 			return false;
 		}
 	});
@@ -87,14 +183,14 @@ $(document).ready(function(){
 			minDate   : '-130y',
 			yearRange : '-130:+130',
 			dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-			onSelect: function(date){
+			onSelect: function(dateStr){
 				var cd = new Date();
 				var cEpochs = parseInt(cd.getTime()-cd.getMilliseconds())/1000;
 				var d = new Date();
-				d.setDate(parseInt(date[0]+date[1]));
-				d.setMonth(parseInt(date[3]+date[4])-1);
-				d.setYear(parseInt(date[6]+date[7]+date[8]+date[9]));
-				var epochs = parseInt(d.getTime()-d.getMilliseconds())/1000;
+				d.setDate(parseInt(dateStr.charAt(0)+dateStr.charAt(1)));
+				d.setMonth(parseInt(dateStr.charAt(3)+dateStr.charAt(4))-1);
+				d.setYear(parseInt(dateStr.charAt(6)+dateStr.charAt(7)+dateStr.charAt(8)+dateStr.charAt(9)));
+				var epochs = (d.getTime()-d.getMilliseconds())/1000;
 				var age = parseInt((cEpochs - epochs)/31556926);
 				if(d.getDate() == cd.getDate()) age++;
 				$('#idade').val(age);
@@ -113,6 +209,7 @@ $(document).ready(function(){
 									$('#localTuberculose').val(),
 									$('#tratamentoAnterior').val(),
 									$('#internacaoHospitalar').val(),
+									$('#exameSida').val(),
 									$('#sida').val()
 					);
 					$.ajax({
@@ -206,6 +303,12 @@ $(document).ready(function(){
 		if($(this)[0].nodeName == 'SELECT' || $(this)[0].nodeName == 'INPUT' )
 			$(this).attr('disabled', 'disabled');
 	});
+
+	$('*', 'div.tempoSinais').each(function(){
+		if($(this)[0].nodeName == 'SELECT' || $(this)[0].nodeName == 'INPUT' )
+			$(this).attr('disabled', 'disabled');
+	});
+
 
 	$('#hemoptoico').change(function(){
 		var dep = new Array();
@@ -423,47 +526,56 @@ $(document).ready(function(){
 //Submit to the neural network to check the patient's possibility of having TB
 
 	$('select.sinais').change(function(){
-			if($('#idade').val() > 0 && $('#idade').val() <131)
-				argNNet.Set(
-							$('#idade').val(),
-							$('#tosse').val(),
-							$('#hemoptoico').val(),
-							$('#sudorese').val(),
-							$('#febre').val(),
-							$('#emagrecimento').val(),
-							$('#dispneia').val(),
-							$('#perdaDeApetite').val(),
-							$('#fumante').val(),
-							$('#localTuberculose').val(),
-							$('#tratamentoAnterior').val(),
-							$('#internacaoHospitalar').val(),
-							$('#sida').val()
-				);
-				$.ajax({
-						url:'./cgi-bin/runNet.py',
-						dataType:'html',
-						data: ({
-							idade:argNNet.idade,
-							tosse: argNNet.tosse,
-							hemoptoico: argNNet.hemoptoico,
-							sudorese: argNNet.sudorese,
-							febre: argNNet.febre,
-							emagrecimento:argNNet.emagrecimento,
-							dispneia: argNNet.dispneia,
-							anorexia: argNNet.anorexia,
-							fuma: argNNet.fumante,
-							TBXPulmonar: argNNet.TBXPulmonar,
-							internacaoHospitalar: argNNet.internacaoHospitalar,
-							sida: argNNet.sida
-						}),
-					success : function(msg){
-						$('#divResultadoRede').html(msg);
-						$('#score').val(msg);
-					}
-				});
-		});
-
-
+		if($('#idade').val() > 0 && $('#idade').val() <131){
+			argNNet.Set(
+						$('#idade').val(),
+						$('#tosse').val(),
+						$('#hemoptoico').val(),
+						$('#sudorese').val(),
+						$('#febre').val(),
+						$('#emagrecimento').val(),
+						$('#dispneia').val(),
+						$('#perdaDeApetite').val(),
+						$('#fumante').val(),
+						$('#localTuberculose').val(),
+						$('#tratamentoAnterior').val(),
+						$('#internacaoHospitalar').val(),
+						$('#exameSida').val(),
+						$('#sida').val()
+			);
+			$.ajax({
+					url:'./cgi-bin/runNet.py',
+					dataType:'html',
+					data: ({
+						idade:argNNet.idade,
+						tosse: argNNet.tosse,
+						hemoptoico: argNNet.hemoptoico,
+						sudorese: argNNet.sudorese,
+						febre: argNNet.febre,
+						emagrecimento:argNNet.emagrecimento,
+						dispneia: argNNet.dispneia,
+						anorexia: argNNet.anorexia,
+						fuma: argNNet.fumante,
+						TBXPulmonar: argNNet.TBXPulmonar,
+						internacaoHospitalar: argNNet.internacaoHospitalar,
+						sida: argNNet.sida
+					}),
+				success : function(msg){
+					$('#divResultadoRede').html(msg);
+					$('#score').val(msg);
+				}
+			});
+		}
+		elem_id  = $(this).attr('id');
+		elem_id = elem_id.charAt(0).toUpperCase() + elem_id.substr(1);
+		elem_id = '#tempo' + elem_id;
+		if($(this).val() == 'sim'){
+			$(elem_id).removeAttr('disabled');
+		} else {
+			$(elem_id).attr('disabled', true);
+			$(elem_id).val('');
+		}
+	});
 
 	$('#form_triagem').validate({
 		rules:{
@@ -471,10 +583,10 @@ $(document).ready(function(){
 				range : [30, 230]
 			},
 			pesoAtual:{
-				range : [0, 400]
+				range : [0, 500]
 			},
 			pesoHabitual:{
-				range : [0, 300]
+				range : [0, 500]
 			},
 			data_tratamento:{
 				minlength: 4,
@@ -483,18 +595,10 @@ $(document).ready(function(){
 				maxlength: 4
 			},
 			numeroAnosFumante:{
-				max      : $('#idade').val(),
-				success  : function(){
-					if($('#idade').val() < $('#numeroAnosFumante').val())
-						$('#cargaTabagistica').val('');
-					else
-						$('#cargaTabagistica').val(parseFloat($('#numeroCigarros').val()*365/20.));
-				}
+				yearsSmokingLowerThanAge: true,
 			},
 			numeroCigarros:{
-				success  : function(){
-					$('#cargaTabagistica').val(parseFloat($('#numeroCigarros').val()*365/20.));
-				}
+				numberOfCigarrettes: true,
 			},
 			data_sida:{
 				minlength: 4,

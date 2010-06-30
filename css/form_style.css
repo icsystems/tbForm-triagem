@@ -164,6 +164,11 @@ form div select.selectOne, form div select.selectMultiple {
 	padding: 1px 3px;
 }
 
+form div select.selectOneSinais {
+	width: 120px;
+	padding: 1px 3px;
+}
+
 form div input.inputCheckbox, form div input.inputRadio, input.inputCheckbox, input.inputRadio {
 	display: inline;
 	height: auto;
@@ -206,12 +211,10 @@ div.wrap{
 	width:100%;
 	margin: 0 auto;
 	display: inline;
-	clear: none;
-	padding:0;
 }
 
 div.sinais{
-	width:50%;
+	width:40%;
 	float:left;
 }
 div.sinais label{
@@ -219,7 +222,8 @@ div.sinais label{
 }
 
 div.tempoSinais{
-	width:48%;
+	width:58%;
+	clear:none;
 	float:right;
 }
 

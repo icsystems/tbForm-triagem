@@ -12,7 +12,6 @@ from pysqlite2 import dbapi2 as sqlite
 import sys
 import string
 
-
 from unicodedata import normalize
 
 def normalizeString(txt, codif='utf-8'):
