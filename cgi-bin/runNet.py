@@ -22,9 +22,7 @@ def Main():
 		'febre',
 		'emagrecimento',
 		'dispneia',
-		'anorexia',
 		'fuma',
-		'TBXPulmonar',
 		'internacaoHospitalar',
 		'sida'
 	)
@@ -45,8 +43,12 @@ def Main():
 			input.append(0)
 	nn = MLP(np.array(input))
 	nn.net()
-	res = '%.02f'%(abs(nn.getOutput()[0]*100))
-	if nn.getOutput()[0] < 0:
+	if nn.getOutput() < nn.getLimit():
+		level = nn.getOutput()[0]-nn.getLimit()/(1+nn.getLimit())*100
+	else:
+		level = nn.getOutput()[0]-nn.getLimit()/(1-nn.getLimit())*100
+	res = '%.02f'%(abs(level))
+	if level < 0:
 		outcome = u'TB <strong>NEGATIVO</strong> a nível de %s %%'%res
 		sys.stdout.write(outcome.encode('utf-8', 'replace'))
 	else:

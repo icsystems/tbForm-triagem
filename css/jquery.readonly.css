@@ -1,0 +1,7 @@
+.readonly_overlay{
+  background-color: #666;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+  padding: 0pt !IMPORTANT;
+  margin: 0pt !IMPORTANT;
+}

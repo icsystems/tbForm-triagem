@@ -1,4 +1,3 @@
-
 function argumentsNNet(){
 	this.idade;
 	this.tosse;
@@ -7,9 +6,7 @@ function argumentsNNet(){
 	this.febre;
 	this.emagrecimento;
 	this.dispneia;
-	this.anorexia;
 	this.fumante;
-	this.TBXPulmonar;
 	this.internacaoHospitalar;
 	this.exameSida;
 	this.sida;
@@ -30,10 +27,7 @@ argumentsNNet.prototype.Set = function(
 				febre,
 				emagrecimento,
 				dispneia,
-				anorexia,
 				fumante,
-				localTuberculose,
-				tratamentoAnterior,
 				internacaoHospitalar,
 				exameSida,
 				sida
@@ -46,19 +40,8 @@ argumentsNNet.prototype.Set = function(
 	if(emagrecimento == 'Sim') this.emagrecimento = 'sim';
 	else this.emagrecimento = 'nao';
 	this.dispneia = dispneia;
-	this.anorexia = anorexia;
 	this.fumante = fumante;
 	if(fumante != 'sim') this.fumante = 'nao';
-	if(tratamentoAnterior == 'sim' &&
-		(localTuberculose=='extrapulmonar' ||
-		localTuberculose=='pulmonarEExtrapulmonar')
-		){
-		this.TBXPulmonar = 'sim';
-	}else{
-		if (tratamentoAnterior == 'ignorado' || localTuberculose == 'ignorado')
-			this.TBXPulmonar = 'ignorado';
-		else this.TBXPulmonar = 'nao';
-	}
 	this.internacaoHospitalar = internacaoHospitalar;
 	if(exameSida == 'nao' || exameSida == 'ignorado'){
 		this.sida = 'ignorado';
@@ -87,12 +70,36 @@ $.validator.addMethod("yearsSmokingLowerThanAge", function(value, element) {
 $.validator.addMethod("numberOfCigarrettes", function(value, element) {
 	retcode = (parseInt($(element).val()) < 140 && parseInt($(element).val()) != 0) ;
 	if(retcode && !isNaN(parseInt($('#numeroAnosFumante').val())))
+$.validator.addMethod("yearsSmokingLowerThanAge", function(value, element) {
+	var age = $("#idade").val();
+	retcode = parseInt($(element).val()) < parseInt(age);
+	if(retcode && !isNaN(parseInt($('#numeroCigarros').val())))
+		$('#cargaTabagistica').val(
+			parseFloat($('#numeroCigarros').val()) * parseFloat($(element).val()) / 20. 
+		);
+	return retcode;
+}, "Esse campo deve ser menor do que a idade do paciente.");
 		$('#cargaTabagistica').val(
 			parseFloat($('#numeroAnosFumante').val()) * parseFloat($(element).val()) / 20. 
 		);
 	return retcode;
 }, "N&atilde;o é permitido fumar 0 ou mais que 140 cigarros em um dia");
 
+$.validator.addMethod("GreaterThanBirthYear", function(value, element) {
+	var age = $("#idade").val();
+	var d = new Date()
+	var cYear = d.getFullYear();
+	retcode = parseInt($(element).val()) > parseInt(cYear) - parseInt(age);
+	return retcode;
+}, "Ano anterior ao nascimento do paciente");
+
+$.validator.addMethod("LowerThanCurrentYear", function(value, element) {
+	var age = $("#idade").val();
+	var d = new Date()
+	var cYear = d.getFullYear();
+	retcode = parseInt($(element).val()) < parseInt(cYear);
+	return retcode;
+}, "Ano maior do que o ano atual.");
 
 
 //After page is loaded set actions
@@ -192,7 +199,8 @@ $(document).ready(function(){
 				d.setYear(parseInt(dateStr.charAt(6)+dateStr.charAt(7)+dateStr.charAt(8)+dateStr.charAt(9)));
 				var epochs = (d.getTime()-d.getMilliseconds())/1000;
 				var age = parseInt((cEpochs - epochs)/31556926);
-				if(d.getDate() == cd.getDate()) age++;
+				if(d.getDate() == cd.getDate() && d.getMonth() == cd.getMonth())
+					age++;
 				$('#idade').val(age);
 				//After calculate age, check the possibility of TB
 				if(age >= 0 && age <= 130){
@@ -204,10 +212,7 @@ $(document).ready(function(){
 									$('#febre').val(),
 									$('#emagrecimento').val(),
 									$('#dispneia').val(),
-									$('#perdaDeApetite').val(),
 									$('#fumante').val(),
-									$('#localTuberculose').val(),
-									$('#tratamentoAnterior').val(),
 									$('#internacaoHospitalar').val(),
 									$('#exameSida').val(),
 									$('#sida').val()
@@ -223,9 +228,7 @@ $(document).ready(function(){
 								febre: argNNet.febre,
 								emagrecimento:argNNet.emagrecimento,
 								dispneia: argNNet.dispneia,
-								anorexia: argNNet.anorexia,
 								fuma: argNNet.fumante,
-								TBXPulmonar: argNNet.TBXPulmonar,
 								internacaoHospitalar: argNNet.internacaoHospitalar,
 								sida: argNNet.sida
 							}),
@@ -309,83 +312,21 @@ $(document).ready(function(){
 			$(this).attr('disabled', 'disabled');
 	});
 
+//Take care about the address fields
 
-	$('#hemoptoico').change(function(){
-		var dep = new Array();
-		dep[0] = '#divQuantidadeHemoptise';
-		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim'){
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).addClass('required');
-						$(this).removeAttr('disabled');
-				});
-				if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-					});
-			}
-		} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						$(this).attr('disabled', 'disabled');
-				});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-		}
-	});
-	$('#bebida').change(function(){
-		var dep = new Array();
-		dep[0]='#divNecessidadeReduzirConsumo';
-		dep[1]='#divFacilidadeFazerAmizades';
-		dep[2]='#divCriticaModoBebe';
-		dep[3]='#divBebeDiminuirNervosismo';
-		dep[4]='#divCulpadoManeiraBeber';
-		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim'){
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).addClass('required');
-						$(this).removeAttr('disabled');
-				});
-				if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-					});
-			}
-		} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						$(this).attr('disabled', 'disabled');
-				});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
+	$('#cep').keyup(function() {
+		var cepForm = $(this).val();
+		var format = '#####-###';
+		var i = cepForm.length;
+		var output = format.substring(0,1);
+		var text   = format.substring(i)
+		if (text.substring(0,1) != output) $(this).val(cepForm + text.substring(0,1))
+		if (cepForm.length == 9){
+			$.getJSON('./cgi-bin/autocomplete.py?service=cep&query=' + cepForm, function(json){
+				$('#estado').val(json.state);
+				$('#cidade').val(json.city);
+				$('#endereco').val(json.street);
+			});
 		}
 	});
 
@@ -533,12 +474,9 @@ $(document).ready(function(){
 						$('#hemoptoico').val(),
 						$('#sudorese').val(),
 						$('#febre').val(),
-						$('#emagrecimento').val(),
 						$('#dispneia').val(),
 						$('#perdaDeApetite').val(),
 						$('#fumante').val(),
-						$('#localTuberculose').val(),
-						$('#tratamentoAnterior').val(),
 						$('#internacaoHospitalar').val(),
 						$('#exameSida').val(),
 						$('#sida').val()
@@ -554,9 +492,7 @@ $(document).ready(function(){
 						febre: argNNet.febre,
 						emagrecimento:argNNet.emagrecimento,
 						dispneia: argNNet.dispneia,
-						anorexia: argNNet.anorexia,
 						fuma: argNNet.fumante,
-						TBXPulmonar: argNNet.TBXPulmonar,
 						internacaoHospitalar: argNNet.internacaoHospitalar,
 						sida: argNNet.sida
 					}),
@@ -573,7 +509,6 @@ $(document).ready(function(){
 			$(elem_id).removeAttr('disabled');
 		} else {
 			$(elem_id).attr('disabled', true);
-			$(elem_id).val('');
 		}
 	});
 
@@ -590,20 +525,20 @@ $(document).ready(function(){
 			},
 			data_tratamento:{
 				minlength: 4,
-				min      : cYear - $('#idade').val(),
-				max      : cYear,
+				GreaterThanBirthYear : true,
+				LowerThanCurrentYear: true,
 				maxlength: 4
 			},
 			numeroAnosFumante:{
-				yearsSmokingLowerThanAge: true,
+				yearsSmokingLowerThanAge: true
 			},
 			numeroCigarros:{
-				numberOfCigarrettes: true,
+				numberOfCigarrettes: true
 			},
 			data_sida:{
 				minlength: 4,
-				min      : cYear - $('#idade').val(),
-				max      : cYear,
+				GreaterThanBirthYear : true,
+				LowerThanCurrentYear: true,
 				maxlength: 4
 			}
 		}

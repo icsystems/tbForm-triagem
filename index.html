@@ -5,6 +5,7 @@
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
 	<script type="text/javascript" src="js/jquery.autocomplete.js"></script>
 	<script type="text/javascript" src="js/jquery.validate.js"></script>
+	<script type="text/javascript" src="js/jquery.readonly.js"></script>
 	<script src='./js/messages_ptbr.js'   type='text/javascript'></script>
 	<script type="text/javascript" src="js/action.js"></script>
 	<style type='text/css'>
@@ -12,6 +13,7 @@
 		@import url(./css/page_style.css);
 		@import url(./css/form_style.css);
 		@import url(./css/smoothness/jquery-ui.css);
+		@import url(./css/readonly.css);
 		@import url(./css/styles.css);
 	-->
 	</style>
@@ -71,24 +73,29 @@
 							<option value="viuvo">      Vi&uacute;vo(a)      </option>
 						</select>
 					</div>
+
+					<div id='divCep' class='primary'>
+						<label for='cep'>CEP: </label>
+						<input type="text" name="cep" id="cep" size='10' maxlength='9' class='textbox'/>
+					</div>
+
 					<div id='divEstado' class='primary required'>
 						<label for='estado'>Estado: </label>
-						<select name="estado" id="estado" class='required'>
+						<select name="estado" id="estado" class='required address'>
 							<option> ---- </option>
 						</select>
 					</div>
 					<div id='divCidade' class='primary required'>
 						<label for='cidade'>Cidade: </label>
-						<input type="text" name="cidade" id="cidade" class='textbox required'/>
+						<input type="text" name="cidade" id="cidade" class='textbox required address'/>
 					</div>
 					<div id='divBairro' class='primary required'>
 						<label for='bairro'>Bairro: </label>
-						<input type="text" name="bairro" id="bairro" class='textbox required'/>
+						<input type="text" name="bairro" id="bairro" class='textbox required address'/>
 					</div>
-					<div>
 					<div id='divEndereco' class='primary required'>
 						<label for='endereco'>Endere&ccedil;o: </label>
-						<input type="text" name="endereco" id="endereco" class='textbox required'/>
+						<input type="text" name="endereco" id="endereco" class='textbox required address'/>
 					</div>
 					<div id='divNumero' class='primary'>
 						<label for='numero'>N&uacute;mero: </label>
@@ -130,6 +137,7 @@
 							<label for='tempoTosse'>Tempo:</label>
 							<select name='tempoTosse' id='tempoTosse' class='selectOneSinais'>
 								<option>  ---- </option>
+								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
 								<option value='2semanas'>  2 semanas  </option>
 								<option value='3semanas'>  3 semanas  </option>
@@ -188,6 +196,7 @@
 							<label for='tempoExpectoracao'>Tempo:</label>
 							<select name='tempoExpectoracao' id='tempoExpectoracao' class='selectOneSinais'>
 								<option>  ---- </option>
+								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
 								<option value='2semanas'>  2 semanas  </option>
 								<option value='3semanas'>  3 semanas  </option>
@@ -246,6 +255,7 @@
 							<label for='tempoHemoptoico'>Tempo:</label>
 							<select name='tempoHemoptoico' id='tempoHemoptoico' class='selectOneSinais'>
 								<option>  ---- </option>
+								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
 								<option value='2semanas'>  2 semanas  </option>
 								<option value='3semanas'>  3 semanas  </option>
@@ -291,20 +301,6 @@
 							</select>
 						</div>
 					</div>
-					<div id='divQuantidadeHemoptise' class='secondary'>
-						<fieldset>
-							<legend>Quantidade: </legend>
-							<label for='quantidadeHemoptise' class='labelRadio'>
-								<input type="radio" name="quantidadeHemoptise" value="copinhoDeCafe'"/> &lt; copinho de café
-							</label>
-							<label for='sexo' class='labelRadio'>
-								<input type="radio" name="quantidadeHemoptise" value="maisDoQueCopinhoDeCafe" />  &gt; copinho de café
-							</label>
-							<label for='quantidadeHemoptise' class='labelRadio'>
-								<input type="radio" name="quantidadeHemoptise" value="copinhoDeGeleia'"/> &ge; copo de geléia
-							</label>
-						</fieldset>
-					</div>
 					<div class='wrap'>
 						<div id='divSudorese' class='primary required sinais'>
 							<label for='sudorese'>Sudorese Noturna:</label>
@@ -318,6 +314,7 @@
 							<label for='tempoSudorese'>Tempo:</label>
 							<select name='tempoSudorese' id='tempoSudorese' class='selectOneSinais'>
 								<option>  ---- </option>
+								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
 								<option value='2semanas'>  2 semanas  </option>
 								<option value='3semanas'>  3 semanas  </option>
@@ -376,6 +373,7 @@
 							<label for='tempoFebre'>Tempo:</label>
 							<select name='tempoFebre' id='tempoFebre' class='selectOneSinais'>
 								<option>  ---- </option>
+								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
 								<option value='2semanas'>  2 semanas  </option>
 								<option value='3semanas'>  3 semanas  </option>
@@ -436,6 +434,7 @@
 							<label for='tempoDispneia'>Tempo:</label>
 							<select name='tempoDispneia' id='tempoDispneia' class='selectOneSinais'>
 								<option>  ---- </option>
+								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
 								<option value='2semanas'>  2 semanas  </option>
 								<option value='3semanas'>  3 semanas  </option>
@@ -494,6 +493,7 @@
 							<label for='tempoPerdaDeApetite'>Tempo:</label>
 							<select name='tempoPerdaDeApetite' id='tempoPerdaDeApetite' class='selectOneSinais'>
 								<option>  ---- </option>
+								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
 								<option value='2semanas'>  2 semanas  </option>
 								<option value='3semanas'>  3 semanas  </option>
@@ -619,49 +619,9 @@
 						<label for='bebida'>Consome bebidas alcoólicas:</label>
 						<select name='bebida' id='bebida' class='selectOne'>
 							<option> ---- </option>
-							<option value='ignorado' selected> Ignorado  </option>
-							<option value='nao '> N&atilde;o  </option>
-							<option value='sim'> Sim  </option>
-						</select>
-					</div>
-					<div id='divFacilidadeFazerAmizades' class='secondary bebidaField'>
-						<label for='facilidadeFazerAmizades'>Possui facilidade em fazer amizades:</label>
-						<select name='facilidadeFazerAmizade' id='facilidadeFazerAmizade' class='selectOne'>
-							<option> ---- </option>
-							<option value='nao '> N&atilde;o  </option>
-							<option value='sim'> Sim  </option>
-						</select>
-					</div>
-					<div id='divNecessidadeReduzirConsumo' class='secondary bebidaField'>
-						<label for='necessidadeReduzirConsumo'>Já sentiu necessidade de diminuir a quantidade de bebida consumida:</label>
-						<select name='necessidadeReduzirConsumo' id='necessidadeReduzirConsumo' class='selectOne'>
-							<option> ---- </option>
-							<option value='nao '> N&atilde;o  </option>
-							<option value='sim'> Sim  </option>
-						</select>
-					</div>
-					<div id='divCriticaModoBebe' class='secondary bebidaField'>
-						<label for='criticaModoBebe'>Alguém critica ou já criticou o modo de beber:</label>
-						<select name='criticaModoBebe' id='criticaModoBebe' class='selectOne'>
-							<option> ---- </option>
-							<option value='nao '> N&atilde;o  </option>
-							<option value='sim'> Sim  </option>
-						</select>
-					</div>
-					<div id='divBebeDiminuirNervosismo' class='secondary bebidaField'>
-						<label for='bebeDiminuirNervosismo'>Bebe para diminuir nervosismo/ressaca:</label>
-						<select name='bebeDiminuirNervosismo' id='bebeDiminuirNervosismo' class='selectOne'>
-							<option> ---- </option>
-							<option value='nao '> N&atilde;o  </option>
-							<option value='sim'> Sim  </option>
-						</select>
-					</div>
-					<div id='divCulpadoManeiraBeber' class='secondary bebidaField'>
-						<label for='culpadoManeiraBeber'> Já se sentiu culpado pela maneira com que bebe:</label>
-						<select name='culpadoManeiraBeber' id='culpadoManeiraBeber' class='selectOne'>
-							<option> ---- </option>
-							<option value='nao '> N&atilde;o  </option>
-							<option value='sim'> Sim  </option>
+							<option value='nunca' selected> Nunca consumiu  </option>
+							<option value='jaconsumiu'> Já consumiu, mas n&atilde;o mais.  </option>
+							<option value='sim'> Consome </option>
 						</select>
 					</div>
 				</fieldset>
@@ -679,8 +639,8 @@
 						<label for='sida'>Resultado:</label>
 						<select name='sida' id='sida' class='selectOne sinais'>
 							<option value='pendente' selected> Pendente  </option>
-							<option value='sim'> Sim  </option>
-							<option value='nao'> N&atilde;o  </option>
+							<option value='sim'> Positivo </option>
+							<option value='nao'> Negativo  </option>
 						</select>
 					</div>
 					<div id='divDataSida' class='secondary'>
@@ -697,7 +657,7 @@
 				<fieldset>
 					<div id='divAvaliador' class='primary required'>
 						<label for='avaliador'> Avaliado por: </label>
-						<input type="text" name="avaliador" id="avaliador" class='textbox'/>
+						<input type="text" name="avaliador" id="avaliador" class='textbox required'/>
 					</div>
 					<div class='submit'><input value="Enviar Formulário"  class='inputButton'  type="submit"></div>
 				</fieldset>

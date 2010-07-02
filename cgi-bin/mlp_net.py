@@ -22,6 +22,8 @@ class MLP:
 		self.lim     = config_data['lim']
 		self.input   = input
 		self.output  = .0
+	def getLimit(self):
+		return self.lim
 	def net(self):
 		input = (self.input - self.centers)*self.factors
 		Y1 = np.tanh(np.dot(self.W1, input) + self.b1)
@@ -35,10 +37,6 @@ class MLP:
 		return True
 
 if __name__ == '__main__':
-	try:
-		input = np.load('inputs.npz')
-	except:
-		raise ValueError('No input file')
-	nn = MLP(input['input'])
+	nn = MLP([23, -1, -1, -1, 1, -1, 1, -1,-1,0 ])
 	nn.net()
 	print nn.getOutput()

@@ -122,6 +122,32 @@ class autoComplete:
 		cursor.close()
 		self.conn.close()
 		return retarr
+	def completeFromCEP(self):
+	#Format XXXXX-XXX
+		if self.q == '':
+			return
+		self.connectPostServiceDB()
+		cursor = self.conn.cursor()
+		cursor.execute("""
+			SELECT
+				cidadesbr.UF as UF,
+				ruasrj.Localidade as Localidade,
+				ruasrj.Logradouro||" "||ruasrj.Nome as NomeCompleto
+			FROM
+				ruasrj,cidadesbr
+			WHERE
+				cidadesbr.Nome = ruasrj.Localidade
+				AND ruasrj.CEP = '%s'
+		"""%(self.q,))
+		row = cursor.fetchone()
+		retarr = {}
+		retarr['UF'] = row[0]
+		retarr['Localidade'] = row[1]
+		retarr['NomeCompleto'] = row[2]
+		cursor.close()
+		self.conn.close()
+		return retarr
+
 
 
 def Main():
@@ -142,6 +168,11 @@ def Main():
 			res = ac.retrieveNeighborhoods(form['city'].value)
 		elif service == 'street':
 			res = ac.retrieveStreets(form['city'].value)
+		elif service == 'cep':
+			res = ac.completeFromCEP()
+			str = u"{'cep':'%s','state':'%s','city':'%s','street':'%s'}"%(q, res['UF'], res['Localidade'], res['NomeCompleto'],)
+			sys.stdout.write(str.encode('ascii', 'backslashreplace'))
+			return
 	except:
 		return
 	str = JSONizer(q, res)
