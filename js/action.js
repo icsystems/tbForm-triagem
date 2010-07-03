@@ -330,6 +330,135 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#dispneia').change(function(){
+		var dep = new Array();
+		dep[0] = '#divFaltaAr';
+		dep[1] = '#divCansaco';
+		dep[2] = '#divInterrompeuAtividade';
+		dep[3] = '#divAcordaSemAr';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim'){
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+					    && element[0].nodeName != 'SMALL'
+					    && element[0].nodeName != 'OPTION')
+						$(this).addClass('required');
+						$(this).removeAttr('disabled');
+				});
+				if($(dep[div]).css('display') != 'block')
+					$(dep[div]).toggle(function() {
+						$(this).css('background-color', hlcolor);
+						$(this).animate({backgroundColor : "white"}, 4000);
+					});
+			}
+		} else {
+			for(div in dep){
+				if(dep[div] == '#divAcordaSemAr'){
+					if( $('#chiado').val()  == 'sim' ||
+						$('#tosse').val()   == 'sim'
+					) continue;
+				}
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+					    && element[0].nodeName != 'SMALL'
+					    && element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						$(this).attr('disabled', 'disabled');
+				});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+		}
+	});
+	$('#chiado').change(function(){
+		var dep = new Array();
+		dep[0] = '#divAcordaSemAr';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim'){
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+					    && element[0].nodeName != 'SMALL'
+					    && element[0].nodeName != 'OPTION')
+						$(this).addClass('required');
+						$(this).removeAttr('disabled');
+				});
+				if($(dep[div]).css('display') != 'block')
+					$(dep[div]).toggle(function() {
+						$(this).css('background-color', hlcolor);
+						$(this).animate({backgroundColor : "white"}, 4000);
+					});
+			}
+		} else {
+			for(div in dep){
+				if(dep[div] == '#divAcordaSemAr'){
+					if( $('#dispneia').val() == 'sim' ||
+						$('#tosse').val()   == 'sim'
+					) continue;
+				}
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+					    && element[0].nodeName != 'SMALL'
+					    && element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						$(this).attr('disabled', 'disabled');
+				});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+		}
+	});
+	$('#tosse').change(function(){
+		var dep = new Array();
+		dep[0] = '#divAcordaSemAr';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim'){
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+					    && element[0].nodeName != 'SMALL'
+					    && element[0].nodeName != 'OPTION')
+						$(this).addClass('required');
+						$(this).removeAttr('disabled');
+				});
+				if($(dep[div]).css('display') != 'block')
+					$(dep[div]).toggle(function() {
+						$(this).css('background-color', hlcolor);
+						$(this).animate({backgroundColor : "white"}, 4000);
+					});
+			}
+		} else {
+			for(div in dep){
+				if(dep[div] == '#divAcordaSemAr'){
+					if( $('#dispneia').val() == 'sim' ||
+						$('#tosse').val()   == 'sim'
+					) continue;
+				}
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+					    && element[0].nodeName != 'SMALL'
+					    && element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						$(this).attr('disabled', 'disabled');
+				});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+		}
+	});
 	$('#tratamentoAnterior').change(function(){
 		var dep = new Array();
 		dep[0] = '#divDataTratamento';

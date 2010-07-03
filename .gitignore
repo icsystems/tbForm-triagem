@@ -1,1 +1,2 @@
 cgi-bin/pacientes.xml
+cgi-bin/*.pyc

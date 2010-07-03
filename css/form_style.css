@@ -83,6 +83,7 @@ form div label {
 	padding: 3px 5px;
 	margin: 0 0 5px 0;
 	text-align: right;
+	vertical-align: middle;
 }
 
 form div.optional label, label.optional {
@@ -162,11 +163,13 @@ form div textarea{
 form div select.selectOne, form div select.selectMultiple {
 	width: 211px;
 	padding: 1px 3px;
+	vertical-align: middle;
 }
 
 form div select.selectOneSinais {
 	width: 120px;
 	padding: 1px 3px;
+	vertical-align: middle;
 }
 
 form div input.inputCheckbox, form div input.inputRadio, input.inputCheckbox, input.inputRadio {
@@ -218,7 +221,7 @@ div.sinais{
 	float:left;
 }
 div.sinais label{
-	width:200px;
+	width:250px;
 }
 
 div.tempoSinais{
