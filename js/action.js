@@ -12,13 +12,6 @@ function argumentsNNet(){
 	this.sida;
 }
 
-function calculateIMC(peso, altura){
-	imc = parseFloat(peso);
-	imc = 100*imc/ parseFloat(altura);
-	imc = 100*imc/ parseFloat(altura);
-	return imc;
-}
-
 argumentsNNet.prototype.Set = function(
 				idade,
 				tosse,
@@ -55,52 +48,6 @@ argumentsNNet.prototype.Set = function(
 		}
 	}
 }
-
-//Custom validation rules
-$.validator.addMethod("yearsSmokingLowerThanAge", function(value, element) {
-	var age = $("#idade").val();
-	retcode = parseInt($(element).val()) < parseInt(age);
-	if(retcode && !isNaN(parseInt($('#numeroCigarros').val())))
-		$('#cargaTabagistica').val(
-			parseFloat($('#numeroCigarros').val()) * parseFloat($(element).val()) / 20. 
-		);
-	return retcode;
-}, "Esse campo deve ser menor do que a idade do paciente.");
-
-$.validator.addMethod("numberOfCigarrettes", function(value, element) {
-	retcode = (parseInt($(element).val()) < 140 && parseInt($(element).val()) != 0) ;
-	if(retcode && !isNaN(parseInt($('#numeroAnosFumante').val())))
-$.validator.addMethod("yearsSmokingLowerThanAge", function(value, element) {
-	var age = $("#idade").val();
-	retcode = parseInt($(element).val()) < parseInt(age);
-	if(retcode && !isNaN(parseInt($('#numeroCigarros').val())))
-		$('#cargaTabagistica').val(
-			parseFloat($('#numeroCigarros').val()) * parseFloat($(element).val()) / 20. 
-		);
-	return retcode;
-}, "Esse campo deve ser menor do que a idade do paciente.");
-		$('#cargaTabagistica').val(
-			parseFloat($('#numeroAnosFumante').val()) * parseFloat($(element).val()) / 20. 
-		);
-	return retcode;
-}, "N&atilde;o é permitido fumar 0 ou mais que 140 cigarros em um dia");
-
-$.validator.addMethod("GreaterThanBirthYear", function(value, element) {
-	var age = $("#idade").val();
-	var d = new Date()
-	var cYear = d.getFullYear();
-	retcode = parseInt($(element).val()) > parseInt(cYear) - parseInt(age);
-	return retcode;
-}, "Ano anterior ao nascimento do paciente");
-
-$.validator.addMethod("LowerThanCurrentYear", function(value, element) {
-	var age = $("#idade").val();
-	var d = new Date()
-	var cYear = d.getFullYear();
-	retcode = parseInt($(element).val()) < parseInt(cYear);
-	return retcode;
-}, "Ano maior do que o ano atual.");
-
 
 //After page is loaded set actions
 $(document).ready(function(){
@@ -151,6 +98,18 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#pesoAtual').keypress(function(e){
+		if((e.which > 31 && e.which < 48)||(e.which > 57)){
+			return false;
+		}
+	});
+
+	$('#pesoHabitual').keypress(function(e){
+		if((e.which > 31 && e.which < 48)||(e.which > 57)){
+			return false;
+		}
+	});
+
 	$('#cidade').keypress(function(e){
 		if((e.which > 32 && e.which < 65)||
 		   (e.which > 90 && e.which < 97)||
@@ -191,16 +150,7 @@ $(document).ready(function(){
 			yearRange : '-130:+130',
 			dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
 			onSelect: function(dateStr){
-				var cd = new Date();
-				var cEpochs = parseInt(cd.getTime()-cd.getMilliseconds())/1000;
-				var d = new Date();
-				d.setDate(parseInt(dateStr.charAt(0)+dateStr.charAt(1)));
-				d.setMonth(parseInt(dateStr.charAt(3)+dateStr.charAt(4))-1);
-				d.setYear(parseInt(dateStr.charAt(6)+dateStr.charAt(7)+dateStr.charAt(8)+dateStr.charAt(9)));
-				var epochs = (d.getTime()-d.getMilliseconds())/1000;
-				var age = parseInt((cEpochs - epochs)/31556926);
-				if(d.getDate() == cd.getDate() && d.getMonth() == cd.getMonth())
-					age++;
+				var age = calculateAge(dateStr);
 				$('#idade').val(age);
 				//After calculate age, check the possibility of TB
 				if(age >= 0 && age <= 130){
@@ -253,7 +203,6 @@ $(document).ready(function(){
 	$('#data_sida').autocomplete({
 		lookup: years
 	});
-
 
 	//Fill States in 'Estado' selectbox
 	$.ajax({
@@ -592,7 +541,6 @@ $(document).ready(function(){
 			$('#emagrecimento').val('Não');
 	});
 
-
 //Submit to the neural network to check the patient's possibility of having TB
 
 	$('select.sinais').change(function(){
@@ -642,15 +590,31 @@ $(document).ready(function(){
 	});
 
 	$('#form_triagem').validate({
+		onkeyup: false,
+		onclick: false,
 		rules:{
 			altura:{
-				range : [30, 230]
+				range : [30, 250],
+				validIMC : true,
+				warningHeight : true
+			},
+			idade:{
+				warningAge: true,
+				warningMaritalState: true
+			},
+			data_nascimento:{
+				warningBirthAge: true
 			},
 			pesoAtual:{
-				range : [0, 500]
+				range : [1, 500],
+				validIMC : true,
+				warningWeight : true
 			},
 			pesoHabitual:{
-				range : [0, 500]
+				range : [1, 500]
+			},
+			estado_civil:{
+				warningMaritalState:true
 			},
 			data_tratamento:{
 				minlength: 4,
@@ -659,16 +623,46 @@ $(document).ready(function(){
 				maxlength: 4
 			},
 			numeroAnosFumante:{
-				yearsSmokingLowerThanAge: true
+				CantSmokeFor70Years: true,
+				yearsSmokingLowerThanAge: true,
+				warningYearsSmoking: true
 			},
 			numeroCigarros:{
-				numberOfCigarrettes: true
+				numberOfCigarrettes: true,
+				warningNumberOfCigarrettes: true
+			},
+			cargaTabagistica:{
+				max:   500,
+				warningCT: true,
+				checkCT: true
 			},
 			data_sida:{
+				min: 1987,
 				minlength: 4,
 				GreaterThanBirthYear : true,
 				LowerThanCurrentYear: true,
 				maxlength: 4
+			},
+			tempoTosse:{
+				warningSymptoms:'20semanas'
+			},
+			tempoExpectoracao:{
+				warningSymptoms:'12meses'
+			},
+			tempoHemoptoico:{
+				warningSymptoms:'16semanas'
+			},
+			tempoSudorese:{
+				warningSymptoms:'24semanas'
+			},
+			tempoFebre:{
+				warningSymptoms:'20semanas'
+			},
+			tempoDispneia:{
+				warningSymptoms:'12meses'
+			},
+			tempoPerdaDeApetite:{
+				warningSymptoms:'14meses'
 			}
 		}
 	});

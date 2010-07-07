@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="js/jquery.validate.js"></script>
 	<script type="text/javascript" src="js/jquery.readonly.js"></script>
 	<script src='./js/messages_ptbr.js'   type='text/javascript'></script>
+	<script src='./js/tb.validation.jquery.js'   type='text/javascript'></script>
 	<script type="text/javascript" src="js/action.js"></script>
 	<style type='text/css'>
 	<!--
@@ -135,7 +136,7 @@
 						</div>
 						<div id='divTempoTosse' class='primary required tempoSinais'>
 							<label for='tempoTosse'>Tempo:</label>
-							<select name='tempoTosse' id='tempoTosse' class='selectOneSinais'>
+							<select name='tempoTosse' id='tempoTosse' class='selectOneSinais required'>
 								<option>  ---- </option>
 								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
@@ -186,7 +187,7 @@
 					<div class='wrap'>
 						<div id='divExpectoracao' class='primary required sinais'>
 							<label for='expectoracao'>Expectoracao:</label>
-							<select name='espectoracao' id='expectoracao' class='selectOneSinais sinais'>
+							<select name='espectoracao' id='expectoracao' class='selectOneSinais sinais required'>
 								<option value='ignorado' selected> Ignorado  </option>
 								<option value='nao'> N&atilde;o  </option>
 								<option value='sim'> Sim  </option>
@@ -194,7 +195,7 @@
 						</div>
 						<div id='divTempoExpectoracao' class='primary required tempoSinais'>
 							<label for='tempoExpectoracao'>Tempo:</label>
-							<select name='tempoExpectoracao' id='tempoExpectoracao' class='selectOneSinais'>
+							<select name='tempoExpectoracao' id='tempoExpectoracao' class='selectOneSinais required'>
 								<option>  ---- </option>
 								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
@@ -245,7 +246,7 @@
 					<div class='wrap'>
 						<div id='divHemoptoico' class='primary required sinais'>
 							<label for='hemoptoico'>Hemoptóico/hemoptise:</label>
-							<select name='hemoptoico' id='hemoptoico' class='selectOneSinais sinais'>
+							<select name='hemoptoico' id='hemoptoico' class='selectOneSinais sinais required'>
 								<option value='ignorado' selected> Ignorado  </option>
 								<option value='sim'> Sim  </option>
 								<option value='nao'> N&atilde;o  </option>
@@ -253,7 +254,7 @@
 						</div>
 						<div id='divTempoHemoptoico' class='primary required tempoSinais'>
 							<label for='tempoHemoptoico'>Tempo:</label>
-							<select name='tempoHemoptoico' id='tempoHemoptoico' class='selectOneSinais'>
+							<select name='tempoHemoptoico' id='tempoHemoptoico' class='selectOneSinais required'>
 								<option>  ---- </option>
 								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
@@ -304,7 +305,7 @@
 					<div class='wrap'>
 						<div id='divSudorese' class='primary required sinais'>
 							<label for='sudorese'>Sudorese Noturna:</label>
-							<select name='sudorese' id='sudorese' class='selectOneSinais sinais'>
+							<select name='sudorese' id='sudorese' class='selectOneSinais sinais required'>
 								<option value='ignorado' selected> Ignorado  </option>
 								<option value='sim'> Sim  </option>
 								<option value='nao'> N&atilde;o  </option>
@@ -312,7 +313,7 @@
 						</div>
 						<div id='divTempoSudorese' class='primary required tempoSinais'>
 							<label for='tempoSudorese'>Tempo:</label>
-							<select name='tempoSudorese' id='tempoSudorese' class='selectOneSinais'>
+							<select name='tempoSudorese' id='tempoSudorese' class='selectOneSinais required'>
 								<option>  ---- </option>
 								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
@@ -363,7 +364,7 @@
 					<div class='wrap'>
 						<div id='divFebre' class='primary required sinais'>
 							<label for='febre'>Febre:</label>
-							<select name='febre' id='febre' class='selectOneSinais sinais'>
+							<select name='febre' id='febre' class='selectOneSinais sinais required'>
 								<option value='ignorado' selected> Ignorado  </option>
 								<option value='sim'> Sim  </option>
 								<option value='nao'> N&atilde;o  </option>
@@ -371,7 +372,7 @@
 						</div>
 						<div id='divTempoFebre' class='primary required tempoSinais'>
 							<label for='tempoFebre'>Tempo:</label>
-							<select name='tempoFebre' id='tempoFebre' class='selectOneSinais'>
+							<select name='tempoFebre' id='tempoFebre' class='selectOneSinais required'>
 								<option>  ---- </option>
 								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
@@ -422,7 +423,7 @@
 					<div class='wrap'>
 						<div id='divPerdaDeApetite' class='primary required sinais'>
 							<label for='perdaDeApetite'>Perda de Apetite:</label>
-							<select name='perdaDeApetite' id='perdaDeApetite' class='selectOneSinais sinais'>
+							<select name='perdaDeApetite' id='perdaDeApetite' class='selectOneSinais sinais required'>
 								<option value='ignorado' selected> Ignorado  </option>
 								<option value='sim'> Sim  </option>
 								<option value='nao'> N&atilde;o  </option>
@@ -430,7 +431,7 @@
 						</div>
 						<div id='divTempoPerdaDeApetite' class='primary required tempoSinais'>
 							<label for='tempoPerdaDeApetite'>Tempo:</label>
-							<select name='tempoPerdaDeApetite' id='tempoPerdaDeApetite' class='selectOneSinais'>
+							<select name='tempoPerdaDeApetite' id='tempoPerdaDeApetite' class='selectOneSinais required'>
 								<option>  ---- </option>
 								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
@@ -481,7 +482,7 @@
 					<div class='wrap'>
 						<div id='divDispneia' class='primary required sinais'>
 							<label for='dispneia'>Dispnéia:</label>
-							<select name='dispneia' id='dispneia' class='selectOneSinais sinais'>
+							<select name='dispneia' id='dispneia' class='selectOneSinais sinais required'>
 								<option value='ignorado' selected> Ignorado  </option>
 								<option value='sim'> Sim  </option>
 								<option value='nao'> N&atilde;o  </option>
@@ -489,7 +490,7 @@
 						</div>
 						<div id='divTempoDispneia' class='primary required tempoSinais'>
 							<label for='tempoDispneia'>Tempo:</label>
-							<select name='tempoDispneia' id='tempoDispneia' class='selectOneSinais'>
+							<select name='tempoDispneia' id='tempoDispneia' class='selectOneSinais required'>
 								<option>  ---- </option>
 								<option value='menos1semana'> menos de 1 semana  </option>
 								<option value='1semana'>  1 semana  </option>
@@ -563,7 +564,7 @@
 					</div>
 					<div id='divChiado' class='primary required sinais'>
 						<label for='chiado'>Possui ou já possuiu chiado no peito:</label>
-						<select name='chiado' id='chiado' class='selectOneSinais'>
+						<select name='chiado' id='chiado' class='selectOneSinais required'>
 							<option value='ignorado' selected> Ignorado  </option>
 							<option value='sim'> Sim  </option>
 							<option value='nao'> N&atilde;o  </option>
@@ -571,7 +572,7 @@
 					</div>
 					<div id='divCoriza' class='primary required sinais'>
 						<label for='coriza'> Coriza, coceira no nariz ou espirros frequentes:</label>
-						<select name='coriza' id='coriza' class='selectOneSinais'>
+						<select name='coriza' id='coriza' class='selectOneSinais required'>
 							<option value='ignorado' selected> Ignorado  </option>
 							<option value='sim'> Sim  </option>
 							<option value='nao'> N&atilde;o  </option>
@@ -590,7 +591,7 @@
 					<legend>Histórico de Tuberculose</legend>
 					<div id='divTratamentoAnterior' class='primary required'>
 						<label for='tratamentoAnterior'>Tratamento Anterior para TB:</label>
-						<select name='tratamentoAnterior' id='tratamentoAnterior' class='selectOneSinais sinais'>
+						<select name='tratamentoAnterior' id='tratamentoAnterior' class='selectOneSinais sinais required'>
 							<option value='ignorado' selected> Ignorado  </option>
 							<option value='sim'> Sim  </option>
 							<option value='nao'> N&atilde;o  </option>
@@ -623,7 +624,7 @@
 					<legend>Nos &Uacute;ltimos 2 Anos</legend>
 					<div id='divInternacaoHospitalar' class='primary required'>
 						<label for='internacaoHospitalar'>Internaç&atilde;o Hospitalar:</label>
-						<select name='internacaoHospitalar' id='internacaoHospitalar' class='selectOneSinais sinais'>
+						<select name='internacaoHospitalar' id='internacaoHospitalar' class='selectOneSinais sinais required'>
 							<option value='ignorado' selected> Ignorado  </option>
 							<option value='sim'> Sim  </option>
 							<option value='nao'> N&atilde;o  </option>
@@ -631,7 +632,7 @@
 					</div>
 					<div id='divContatoTuberculose' class='primary required'>
 						<label for='contatoTuberculose'>Contato com TB positivo em casa:</label>
-						<select name='contatoTuberculose' id='contatoTuberculose' class='selectOneSinais sinais'>
+						<select name='contatoTuberculose' id='contatoTuberculose' class='selectOneSinais sinais required'>
 							<option value='ignorado' selected> Ignorado  </option>
 							<option value='sim'> Sim  </option>
 							<option value='nao'> N&atilde;o  </option>
@@ -642,7 +643,7 @@
 					<legend> Hábitos </legend>
 					<div id='divFumante' class='primary required'>
 						<label for='fumante'>Fumante:</label>
-						<select name='fumante' id='fumante' class='selectOne sinais'>
+						<select name='fumante' id='fumante' class='selectOne sinais required'>
 							<option> ---- </option>
 							<option value='nao' selected> Jamais Fumou  </option>
 							<option value='exfumante'> Ex-Fumante  </option>
@@ -663,7 +664,7 @@
 					</div>
 					<div id='divBebida' class='primary required'>
 						<label for='bebida'>Consome bebidas alcoólicas:</label>
-						<select name='bebida' id='bebida' class='selectOne'>
+						<select name='bebida' id='bebida' class='selectOne required'>
 							<option> ---- </option>
 							<option value='nunca' selected> Nunca consumiu  </option>
 							<option value='jaconsumiu'> Já consumiu, mas n&atilde;o mais.  </option>
