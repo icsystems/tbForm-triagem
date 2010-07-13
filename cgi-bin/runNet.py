@@ -35,7 +35,7 @@ def Main():
 				input.append(int(value))
 			elif value == 'nao':
 				input.append(-1)
-			elif value == 'sim':
+			elif value == 'sim' or value=='Sim':
 				input.append(1)
 			else:
 				input.append(0)
@@ -43,16 +43,17 @@ def Main():
 			input.append(0)
 	nn = MLP(np.array(input))
 	nn.net()
+	a = nn.getOutput()[0] - nn.getLimit()
 	if nn.getOutput() < nn.getLimit():
-		level = nn.getOutput()[0]-nn.getLimit()/(1+nn.getLimit())*100
+		level = a/(1+nn.getLimit())
 	else:
-		level = nn.getOutput()[0]-nn.getLimit()/(1-nn.getLimit())*100
-	res = '%.02f'%(abs(level))
+		level = a/(1-nn.getLimit())
 	if level < 0:
-		outcome = u'TB <strong>NEGATIVO</strong> a nível de %s %%'%res
+		outcome = u'<strong> O paciente n&atilde;o possui TB</strong>'
 		sys.stdout.write(outcome.encode('utf-8', 'replace'))
 	else:
-		outcome = u'TB <strong>POSITIVO</strong> a nível de %s %%'%res
+		res = '%.02f'%level
+		outcome = u'TB <strong>POSITIVO</strong> com %s %% de chances'%res
 		sys.stdout.write(outcome.encode('utf-8', 'replace'))
 if __name__ == '__main__':
 	Main()

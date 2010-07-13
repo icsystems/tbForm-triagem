@@ -49,6 +49,20 @@ argumentsNNet.prototype.Set = function(
 	}
 }
 
+function calculateAge(dateStr){
+	var cd = new Date();
+	var cEpochs = parseInt(cd.getTime()-cd.getMilliseconds())/1000;
+	var d = new Date();
+	d.setDate(parseInt(dateStr.charAt(0)+dateStr.charAt(1)));
+	d.setMonth(parseInt(dateStr.charAt(3)+dateStr.charAt(4))-1);
+	d.setYear(parseInt(dateStr.charAt(6)+dateStr.charAt(7)+dateStr.charAt(8)+dateStr.charAt(9)));
+	var epochs = (d.getTime()-d.getMilliseconds())/1000;
+	var age = parseInt((cEpochs - epochs)/31556926);
+	if(d.getDate() == cd.getDate() && d.getMonth() == cd.getMonth())
+		age++;
+	return age;
+}
+
 //After page is loaded set actions
 $(document).ready(function(){
 	var hlcolor = '#FFF8C6';
@@ -152,6 +166,7 @@ $(document).ready(function(){
 			onSelect: function(dateStr){
 				var age = calculateAge(dateStr);
 				$('#idade').val(age);
+				$('#idade').valid();
 				//After calculate age, check the possibility of TB
 				if(age >= 0 && age <= 130){
 					argNNet.Set(
@@ -598,12 +613,11 @@ $(document).ready(function(){
 				validIMC : true,
 				warningHeight : true
 			},
+// JQuery UI calendar confuses the focus and blur events
+// The validation will be done directly to the calendar's code
 			idade:{
 				warningAge: true,
 				warningMaritalState: true
-			},
-			data_nascimento:{
-				warningBirthAge: true
 			},
 			pesoAtual:{
 				range : [1, 500],

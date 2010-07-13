@@ -37,6 +37,37 @@ class MLP:
 		return True
 
 if __name__ == '__main__':
-	nn = MLP([23, -1, -1, -1, 1, -1, 1, -1,-1,0 ])
-	nn.net()
-	print nn.getOutput()
+	def lStr2lInt (l):
+		return [float(a) for a in l]
+	csvFile = 'saidas_10_10_1_spw.csv'
+	csv = __import__('csv')
+	string = __import__('string')
+	dataFile = csv.reader(open(csvFile))
+	outputFile = open('test_outcome_text.csv', 'w')
+	for row in dataFile:
+		data = lStr2lInt(row[0:-2])
+		nn = MLP(np.array(data, 'float'))
+		nn.net()
+		outputFile.write('%f \n '%nn.getOutput()[0])
+	outputFile.close()
+	#Validate output
+	dataFile = csv.reader(open(csvFile))
+	outputFile = csv.reader(open('test_outcome_text.csv'))
+	saidas = []
+	target = []
+	try:
+		for row in dataFile:
+			if row[-1] == '':
+				continue
+			target.append(float(row[-1]))
+		for row in outputFile:
+			if row[0] == string.strip(''):
+				continue
+			saidas.append(float(string.strip(row[0])))
+	except:
+		pass
+	diff = np.array(target) - np.array(saidas)
+	vFile = open('test_validation.txt', 'w');
+	for v in diff:
+		vFile.write('%f \r\n'%v)
+	vFile.close()
