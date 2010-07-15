@@ -18,11 +18,12 @@
 		var settings = $.extend({
 				height:140,
 				resizable: false,
+				modal:true,
 				overlay: {
 					opacity: 0.5,
 					background:"black"
 				},
-				buttonFalse: 'Nao',
+				buttonFalse: 'Não',
 				buttonTrue: 'Sim',
 			}, options||{}
 		);
@@ -33,6 +34,8 @@
 				retcode = callbackFnc.call(this,element);
 				if(retcode){
 					dialogBox.hide();
+					ignoreValue = $(element).val();
+					$(dialogBox).attr('ignoreValue', ignoreValue);
 					return true
 				}
 				//else
@@ -54,11 +57,12 @@
 		var settings = $.extend({
 				height:140,
 				resizable: false,
+				modal:true,
 				overlay: {
 					opacity: 0.5,
 					background:"black"
 				},
-				buttonFalse: 'Nao',
+				buttonFalse: 'Não',
 				buttonTrue: 'Sim',
 			}, options||{}
 		);
