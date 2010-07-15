@@ -71,8 +71,6 @@ $.validator.addMethod("warningMaritalState", function(value, element) {
 		var mstate = $(element).val();
 		if(idade >= 75 && mstate == 'solteiro')
 			retcode = false;
-		if(idade < 17 && mstate == 'solteiro')
-			retcode = false;
 		if(idade <= 15 && mstate == 'casado')
 			retcode = false;
 		if(idade <= 19 && mstate == 'divorciado')
