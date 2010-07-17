@@ -144,7 +144,7 @@ $.validator.addMethod("LowerThanCurrentYear", function(value, element) {
 	var age = $("#idade").val();
 	var d = new Date()
 	var cYear = d.getFullYear();
-	var retcode = parseInt($(element).val()) < parseInt(cYear);
+	var retcode = parseInt($(element).val()) <= parseInt(cYear);
 	return retcode;
 }, "Ano maior do que o ano atual.");
 
