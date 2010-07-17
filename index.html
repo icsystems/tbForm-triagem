@@ -30,8 +30,22 @@
 		<div id='content'>
 			<div id='maincontent'>
 			<form name='form_triagem' id='form_triagem' action='cgi-bin/submitForm' method='POST'>
+				<fieldset>
+					<div id='divDataConsulta' class='primary required'>
+						<label for='data_consulta'> Data da triagem: </label>
+						<input type="text" name="data_consulta" id="data_consulta" class='textbox required' readonly/>
+					</div>
+					<div id='divUnidade' class='primary required'>
+						<label for='unidade'> Unidade: </label>
+						<input type="text" name="unidade" id="unidade" class='textbox required'/>
+					</div>
+					<div id='divNumeroPaciente' class='primary required'>
+						<label for='numeroPaciente'> Número do Paciente: </label>
+						<input type="text" name="numeroPaciente" id="numeroPaciente" class='number required' size='10' />
+					</div>
+				</fieldset>
 				<fieldset id='info_pessoais'>
-					<legend>Informa&ccedil;&otilde;es Pessoais</legend>
+					<legend>Informa&ccedil;&otilde;es Pessoais do Paciente</legend>
 					<div id='divNome' class='primary required'>
 						<label for='nome'> Nome: </label>
 						<input type="text" name="nome" id="nome" class='textbox required'/>
@@ -618,6 +632,7 @@
 							<option value='cura'> Cura  </option>
 							<option value='tratamentoCompleto'> Tratamento Completo (sem exame de escarro)  </option>
 							<option value='abandono'> Abandono  </option>
+							<option value='falencia'> Falência  </option>
 						</select>
 					</div>
 				</fieldset>
@@ -632,7 +647,7 @@
 						</select>
 					</div>
 					<div id='divContatoTuberculose' class='primary required'>
-						<label for='contatoTuberculose'>Contato com TB positivo em casa:</label>
+						<label for='contatoTuberculose'>Contato com TB pulmonar positiva:</label>
 						<select name='contatoTuberculose' id='contatoTuberculose' class='selectOneSinais sinais required'>
 							<option value='ignorado' selected> Ignorado  </option>
 							<option value='sim'> Sim  </option>
