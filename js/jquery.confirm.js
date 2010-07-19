@@ -24,7 +24,7 @@
 					background:"black"
 				},
 				buttonFalse: 'Não',
-				buttonTrue: 'Sim',
+				buttonTrue: 'Sim'
 			}, options||{}
 		);
 		var ignoreValue = dialogBox.attr('ignoreValue');
@@ -63,7 +63,7 @@
 					background:"black"
 				},
 				buttonFalse: 'Não',
-				buttonTrue: 'Sim',
+				buttonTrue: 'Sim'
 			}, options||{}
 		);
 		if(typeof callbackFnc == 'function'){
