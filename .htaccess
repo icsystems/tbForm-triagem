@@ -1,7 +1,0 @@
-AuthUserFile /home/lpsuser/public_html/.htpasswd
-AuthType Basic
-AuthName "Follow Up"
-
-<Files ".">
-  Require valid-user
-</Files>
