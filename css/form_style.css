@@ -167,7 +167,7 @@ form div select.selectOne, form div select.selectMultiple {
 }
 
 form div select.selectOneSinais {
-	width: 120px;
+	width: 97px;
 	padding: 1px 3px;
 	vertical-align: middle;
 }
@@ -221,15 +221,15 @@ div.sinais{
 	float:left;
 }
 div.sinais label{
-	width:250px;
+	width:223px;
 }
 
 div.tempoSinais{
-	width:58%;
+	width:48%;
 	clear:none;
 	float:right;
 }
 
 div.tempoSinais label{
-	width: 70px;
+	width: 50px;
 }
