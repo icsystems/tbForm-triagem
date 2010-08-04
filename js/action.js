@@ -91,17 +91,24 @@ argumentsNNet.prototype.Set = function(
 }
 
 function calculateAge(dateStr){
-	var cd = new Date();
-	var cEpochs = parseInt(cd.getTime()-cd.getMilliseconds())/1000;
-	var d = new Date();
-	d.setDate(parseInt(dateStr.charAt(0)+dateStr.charAt(1)));
-	d.setMonth(parseInt(dateStr.charAt(3)+dateStr.charAt(4))-1);
-	d.setYear(parseInt(dateStr.charAt(6)+dateStr.charAt(7)+dateStr.charAt(8)+dateStr.charAt(9)));
-	var epochs = (d.getTime()-d.getMilliseconds())/1000;
-	var age = parseInt((cEpochs - epochs)/31556926);
-	if(d.getDate() == cd.getDate() && d.getMonth() == cd.getMonth())
-		age++;
-	return age;
+	
+	var data = new Date();
+	var arrayData = dateStr.split('/');
+	var ano = parseInt(arrayData[2]);
+	var mes = parseInt(arrayData[1],10);
+	var dia = parseInt(arrayData[0],10);
+	
+	var mesAtual = data.getMonth() + 1;
+	var diaAtual = data.getDate();
+	var anoAtual = data.getFullYear();
+
+	var idade = anoAtual - ano;
+
+	if (mesAtual < mes) idade--;
+
+	if (mes == mesAtual && diaAtual < dia) idade--;
+
+	return idade;
 }
 
 //After page is loaded set actions
@@ -693,14 +700,14 @@ $(document).ready(function(){
 				checkCT: true
 			},
 			data_sida:{
-				min: 1987,
+				lowerThanHIVTest:true,
 				minlength: 4,
 				GreaterThanBirthYear : true,
 				LowerThanCurrentYear: true,
 				maxlength: 4
 			},
 			tempoTosse:{
-				warningSymptoms:'20semanas'
+				warningSymptoms:'20meses'
 			},
 			tempoExpectoracao:{
 				warningSymptoms:'12meses'

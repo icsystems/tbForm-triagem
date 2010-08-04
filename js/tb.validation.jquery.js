@@ -7,7 +7,11 @@ function calculateIMC(peso, altura){
 }
 $.validator.addMethod("warningAge", function(value, element) {
 	var retcode = parseInt(value) >= 1  && parseInt(value) <= 95;
-	var msg = 'O paciente tem '+ value + ' anos. Está correto?';
+	var msg = '';
+	if (parseInt(value)> 95)
+		msg = "A idade é maior que 95 anos. Confirma? "
+	else if (parseInt(value) < 1)
+		msg = "A idade é 0 anos. Confirma?"
 	retcode = $(element).ConfirmUI(msg, function(element){
 		return retcode;
 	});
@@ -21,7 +25,7 @@ $.validator.addMethod("warningCT", function(value, element) {
 		return $(element).val() <= target;
 	});
 	return retcode;
-}, 'Por favor, confira a quantidade de cigarros fumados e a quantos anos o paciente fuma.');
+}, 'Por favor, confira a quantidade de cigarros fumados e há quantos anos o paciente fuma.');
 
 $.validator.addMethod("CantSmokeFor70Years", function(value, element) {
 	retcode = $(element).ConfirmUI('Tem certeza que o paciente fuma a mais de 70 anos?', function(element){
@@ -31,7 +35,7 @@ $.validator.addMethod("CantSmokeFor70Years", function(value, element) {
 }, 'Por favor, confira a quantos anos o paciente fuma');
 
 $.validator.addMethod("warningNumberOfCigarrettes", function(value, element) {
-	retcode = $(element).ConfirmUI('Tem certeza que o paciente fuma mais do que 4 maços (80 cigarros) por dia?', function(element){
+	retcode = $(element).ConfirmUI('O paciente fuma mais que 80 cigarros/dia (4 maços). Confirma?', function(element){
 		return $(element).val() <= 80;
 	});
 	return retcode;
@@ -69,16 +73,28 @@ $.validator.addMethod("warningMaritalState", function(value, element) {
 	if($('#idade').val() != '' && $('#estado_civil').val() != '----'){
 		var idade = parseInt($('#idade').val());
 		var mstate = $(element).val();
+		var msg = "";
 		if(idade >= 75 && mstate == 'solteiro')
+		{
+			msg = "A idade é maior que 75 anos e o paciente  é solteiro. Confirma?";
 			retcode = false;
-		if(idade <= 15 && mstate == 'casado')
+		}
+		if(idade <= 17 && mstate == 'casado')
+		{
+			msg = "A idade é  menor que 17 anos e o paciente é casado. Confirma?";
 			retcode = false;
+		}
 		if(idade <= 19 && mstate == 'divorciado')
+		{
+			msg = "A idade é  menor que 19 anos e o paciente é divorciado.Confirma?";
 			retcode = false;
+		}
 		if(idade <= 24 && mstate == 'viuvo')
+		{
+			msg = "A idade é menor que 24 anos e o paciente  é  viúvo.Confirma?";
 			retcode = false;
+		}
 	}
-	var msg = 'O estado civil do paciente é ' + $(element).val() + ' e possui '+ $('#idade').val() +' anos. Está correto?';
 	retcode = $(element).ConfirmUI(msg, function(element){
 		return retcode;
 	});
@@ -87,13 +103,14 @@ $.validator.addMethod("warningMaritalState", function(value, element) {
 
 $.validator.addMethod("warningYearsSmoking", function(value, element) {
 	var age = $("#idade").val();
-	retcode = parseInt($(element).val()) < parseInt(age) - 10;
-	var msg ='O paciente começou a fumar com menos de 10 anos. Está correto?';
+	var retcode = parseInt($(element).val()) < parseInt(age) - 10;
+	var msg ='O paciente começou a fumar cantes dos 10 anos. Confirma?';
+	var options = {idTest: 'warningYearsSmoking'};
 	retcode = $(element).ConfirmUI(msg, function(element){
 		return retcode;
-	});
+	},options);
 	return retcode;
-}, "Por favor confira a idade e a quanto tempo o paciente fuma.");
+}, "Por favor confira a idade e há quanto tempo o paciente fuma.");
 
 $.validator.addMethod("warningSymptoms", function(value, element, params) {
 	var retcode = true;
@@ -103,9 +120,9 @@ $.validator.addMethod("warningSymptoms", function(value, element, params) {
 	var n2 = parseInt(params);
 	if(t.search('ano') >= 0) n=n*52;
 	if(t.search('mes') >= 0) n=n*4;
-	if(params[0].search('ano') >= 0 ) n2=n2*52;
-	if(params[0].search('mes') >= 0 ) n2=n2*4;
-	msg = 'O sintoma ' +$(element).attr('name').substr(5)+ ' possui mais do que ' +n2+ ' semanas.';
+	if(params.search('ano') >= 0 ) n2=n2*52;
+	if(params.search('mes') >= 0 ) n2=n2*4;
+	msg = 'O tempo de ' +$(element).attr('name').substr(5)+ ' é maior que ' +n2+ ' semanas. Confirma?';
 	retcode = $(element).ConfirmUI(msg, function(element){
 		return n < n2;
 	});
@@ -130,7 +147,7 @@ $.validator.addMethod("numberOfCigarrettes", function(value, element) {
 			parseFloat($('#numeroAnosFumante').val()) * parseFloat($(element).val()) / 20.
 		);
 	return retcode;
-}, "N&atilde;o é permitido fumar 0 ou mais que 140 cigarros em um dia");
+}, "O número de cigarros/dia deve ser menor ou igual a 140  (7 maços) e maior do que 0.");
 
 $.validator.addMethod("GreaterThanBirthYear", function(value, element) {
 	var age = $("#idade").val();
@@ -154,4 +171,7 @@ $.validator.addMethod("checkCT", function(value, element) {
 	return parseInt($(element).val()) < target
 }, 'Por favor, confira a quantidade de cigarros fumados e a quantos anos o paciente fuma.');
 
+$.validator.addMethod("lowerThanHIVTest", function(value, element) {
+        return parseInt($('#data_sida').val()) > 1987;
+}, 'O teste de HIV surgiu após 1987.');
 

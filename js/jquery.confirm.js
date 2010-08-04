@@ -3,19 +3,8 @@
 		var element = $(this[0]);
 		var value   = $(element).val();
 		var divId =  element.attr('id');
-		divId = divId +'-'+ 909099;
-		if($('#'+divId).length == 0){
-			dialogBox = $('<div />')
-				.append(msg)
-				.attr('ignoreValue', '')
-				.attr('id', divId);
-			$('body').append(dialogBox);
-		} else {
-			dialogBox = $('#'+divId);
-			dialogBox.empty();
-			dialogBox.append(msg);
-		}
 		var settings = $.extend({
+				idTest: 'default',
 				height:140,
 				resizable: false,
 				modal:true,
@@ -27,11 +16,26 @@
 				buttonTrue: 'Sim'
 			}, options||{}
 		);
+		divId = divId +'-'+settings.idTest+'-'+ 909099;
+		if($('#'+divId).length == 0){
+			dialogBox = $('<div />')
+				.append(msg)
+				.attr('ignoreValue', '')
+				.attr('id', divId);
+			$('body').append(dialogBox);
+		} else {
+			dialogBox = $('#'+divId);
+			dialogBox.empty();
+			dialogBox.append(msg);
+		}
 		var ignoreValue = dialogBox.attr('ignoreValue');
 		return (function(){
 			if(value == ignoreValue) return true;
 			if(typeof callbackFnc == 'function'){
+				console.log($(this));
+				console.log($(element));
 				retcode = callbackFnc.call(this,element);
+				console.log('dentro do confirm: ' + retcode);
 				if(retcode){
 					dialogBox.hide();
 					ignoreValue = $(element).val();
