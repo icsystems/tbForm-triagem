@@ -32,10 +32,7 @@
 		return (function(){
 			if(value == ignoreValue) return true;
 			if(typeof callbackFnc == 'function'){
-				console.log($(this));
-				console.log($(element));
 				retcode = callbackFnc.call(this,element);
-				console.log('dentro do confirm: ' + retcode);
 				if(retcode){
 					dialogBox.hide();
 					ignoreValue = $(element).val();
