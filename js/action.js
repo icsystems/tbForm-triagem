@@ -91,23 +91,17 @@ argumentsNNet.prototype.Set = function(
 }
 
 function calculateAge(dateStr){
-	
 	var data = new Date();
 	var arrayData = dateStr.split('/');
 	var ano = parseInt(arrayData[2]);
 	var mes = parseInt(arrayData[1],10);
 	var dia = parseInt(arrayData[0],10);
-	
 	var mesAtual = data.getMonth() + 1;
 	var diaAtual = data.getDate();
 	var anoAtual = data.getFullYear();
-
 	var idade = anoAtual - ano;
-
 	if (mesAtual < mes) idade--;
-
 	if (mes == mesAtual && diaAtual < dia) idade--;
-
 	return idade;
 }
 
@@ -615,8 +609,8 @@ $(document).ready(function(){
 						$('#hemoptoico').val(),
 						$('#sudorese').val(),
 						$('#febre').val(),
+						$('#emagrecimento').val(),
 						$('#dispneia').val(),
-						$('#perdaDeApetite').val(),
 						$('#fumante').val(),
 						$('#internacaoHospitalar').val(),
 						$('#exameSida').val(),

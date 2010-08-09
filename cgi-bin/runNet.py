@@ -50,10 +50,9 @@ def Main():
 		level = a/(1-nn.getLimit())
 	if level < 0:
 		outcome = u'<strong> O paciente n&atilde;o possui TB</strong>'
-		sys.stdout.write(outcome.encode('utf-8', 'replace'))
 	else:
-		res = '%.02f'%level
+		res = '%.02f'%(100*level)
 		outcome = u'TB <strong>POSITIVO</strong> com %s %% de chances'%res
-		sys.stdout.write(outcome.encode('utf-8', 'replace'))
+	sys.stdout.write(outcome.encode('utf-8', 'replace'))
 if __name__ == '__main__':
 	Main()
