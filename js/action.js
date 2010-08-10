@@ -1,4 +1,3 @@
-
 (function($){
 	$.fn.writePortugueseDate = function(){
 		var element = $(this[0]);
@@ -39,57 +38,6 @@
 	};
 })(jQuery);
 
-function argumentsNNet(){
-	this.idade;
-	this.tosse;
-	this.hemoptoico;
-	this.sudorese;
-	this.febre;
-	this.emagrecimento;
-	this.dispneia;
-	this.fumante;
-	this.internacaoHospitalar;
-	this.exameSida;
-	this.sida;
-}
-
-argumentsNNet.prototype.Set = function(
-				idade,
-				tosse,
-				hemoptoico,
-				sudorese,
-				febre,
-				emagrecimento,
-				dispneia,
-				fumante,
-				internacaoHospitalar,
-				exameSida,
-				sida
-){
-	this.idade                   = idade;
-	this.tosse                   = tosse ;
-	this.hemoptoico              = hemoptoico;
-	this.sudorese = sudorese;
-	this.febre = febre;
-	if(emagrecimento == 'Sim') this.emagrecimento = 'sim';
-	else this.emagrecimento = 'nao';
-	this.dispneia = dispneia;
-	this.fumante = fumante;
-	if(fumante != 'sim') this.fumante = 'nao';
-	this.internacaoHospitalar = internacaoHospitalar;
-	if(exameSida == 'nao' || exameSida == 'ignorado'){
-		this.sida = 'ignorado';
-	} else {
-		if(exameSida == 'sim'){
-			if (sida == 'pendente'){
-				this.sida = 'ignorado';
-			}else{
-				this.sida = sida;
-			}
-		}
-	}
-}
-
 function calculateAge(dateStr){
 	var data = new Date();
 	var arrayData = dateStr.split('/');
@@ -110,7 +58,6 @@ $(document).ready(function(){
 	var hlcolor = '#FFF8C6';
 	var d = new Date()
 	var cYear = d.getFullYear();
-	var argNNet = new argumentsNNet();
 
 	//Disables enter
 	$("#form_triagem").keypress(function(e) {
@@ -205,77 +152,7 @@ $(document).ready(function(){
 			maxDate   : '+0y',
 			minDate   : '-130y',
 			yearRange : '-130:+130',
-			dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-			onSelect: function(dateStr){
-				var age = calculateAge(dateStr);
-				$('#idade').val(age);
-				$('#idade').valid();
-				//After calculate age, check the possibility of TB
-				if(age >= 0 && age <= 130){
-					argNNet.Set(
-									$('#idade').val(),
-									$('#tosse').val(),
-									$('#hemoptoico').val(),
-									$('#sudorese').val(),
-									$('#febre').val(),
-									$('#emagrecimento').val(),
-									$('#dispneia').val(),
-									$('#fumante').val(),
-									$('#internacaoHospitalar').val(),
-									$('#exameSida').val(),
-									$('#sida').val()
-					);
-					$.ajax({
-							url:'./cgi-bin/runNet.py',
-							dataType:'json',
-							cache: false,
-							data: ({
-								idade:argNNet.idade,
-								tosse: argNNet.tosse,
-								hemoptoico: argNNet.hemoptoico,
-								sudorese: argNNet.sudorese,
-								febre: argNNet.febre,
-								emagrecimento:argNNet.emagrecimento,
-								dispneia: argNNet.dispneia,
-								fuma: argNNet.fumante,
-								internacaoHospitalar: argNNet.internacaoHospitalar,
-								sida: argNNet.sida
-							}),
-							success : function(response){
-								$('#divResultadoRede').html('');
-								var msg = $('<div />');
-								var msgOrientacao = $('#msgResultado');
-								msgOrientacao.html('');
-								if(response.TB == 'no'){
-									msgOrientacao.append('Se Doença Pulmonar, agilizar consulta com médico do pulmão. Caso contrário, encaminhar para consulta com clínico geral.');
-									msg.append($('<strong />')
-										.append('O paciente não possui TB')
-									);
-									$('#score').val('nao');
-								} else {
-									msg.append($('<strong />')
-										.append('O paciente tem probabilidade '+response.probability.toUpperCase()+' de possuir TB.')
-									);
-									if(response.probability == 'baixa') { 
-										msg.css('border', '10px green solid');
-										msgOrientacao.append('Encaminhar para o clínico geral.');
-									} else if (response.probability == 'média') {
-										msg.css('border', '10px yellow solid');
-										msgOrientacao.append('Agilizar realização de BAAR.');
-									} else if(response.probability == 'alta'){
-										msg.css('border', '10px red solid');
-										msgOrientacao.append('Agilizar realização de BAAR e cultura (quando disponível), e consulta com médico da TB ou do pulmão.');
-									}
-									msg.css('padding', '15px');
-									msg.css('width', '650px');
-									$('#score').val(response.probability);
-								}
-									'O paciente não possui TB';
-								$('#divResultadoRede').append(msg);
-							}
-						});
-				}
-			}
+			dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 	});
 
 	$('#data_assinatura').datepicker({
@@ -830,69 +707,6 @@ $(document).ready(function(){
 //Submit to the neural network to check the patient's possibility of having TB
 
 	$('select.sinais').change(function(){
-		if($('#idade').val() > 0 && $('#idade').val() <131){
-			argNNet.Set(
-						$('#idade').val(),
-						$('#tosse').val(),
-						$('#hemoptoico').val(),
-						$('#sudorese').val(),
-						$('#febre').val(),
-						$('#emagrecimento').val(),
-						$('#dispneia').val(),
-						$('#fumante').val(),
-						$('#internacaoHospitalar').val(),
-						$('#exameSida').val(),
-						$('#sida').val()
-			);
-			$.ajax({
-				url:'./cgi-bin/runNet.py',
-				dataType:'json',
-				data: ({
-					idade:argNNet.idade,
-					tosse: argNNet.tosse,
-					hemoptoico: argNNet.hemoptoico,
-					sudorese: argNNet.sudorese,
-					febre: argNNet.febre,
-					emagrecimento:argNNet.emagrecimento,
-					dispneia: argNNet.dispneia,
-					fuma: argNNet.fumante,
-					internacaoHospitalar: argNNet.internacaoHospitalar,
-					sida: argNNet.sida
-				}),
-				success : function(response){
-					$('#divResultadoRede').html('');
-					var msg = $('<div />');
-					var msgOrientacao = $('#msgResultado');
-					msgOrientacao.html('');
-					if(response.TB == 'no'){
-						msgOrientacao.append('Se Doença Pulmonar, agilizar consulta com médico do pulmão. Caso contrário, encaminhar para consulta com clínico geral');
-						msg.append($('<strong />')
-							.append('O paciente não possui TB')
-						);
-						$('#score').val('nao');
-					} else {
-						msg.append($('<strong />')
-							.append('O paciente tem probabilidade '+response.probability.toUpperCase()+' de possuir TB.')
-						);
-						if(response.probability == 'baixa') { 
-							msg.css('border', '10px green solid');
-							msgOrientacao.append('Encaminhar para o clínico geral.');
-						} else if (response.probability == 'média') {
-							msg.css('border', '10px yellow solid');
-							msgOrientacao.append('Agilizar realização de BAAR.');
-						} else if(response.probability == 'alta'){
-							msg.css('border', '10px red solid');
-							msgOrientacao.append('Agilizar realização de BAAR e cultura (quando disponível), e consulta com médico da TB ou do pulmão.');
-						}
-						msg.css('padding', '15px');
-						msg.css('width', '650px');
-						$('#score').val(response.probability);
-					}
-						'O paciente não possui TB';
-					$('#divResultadoRede').append(msg);
-				}
-			});
-		}
 		elem_id  = $(this).attr('id');
 		elem_id = elem_id.charAt(0).toUpperCase() + elem_id.substr(1);
 		elem_id = '#tempo' + elem_id;
