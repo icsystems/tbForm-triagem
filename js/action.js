@@ -242,7 +242,6 @@ $(document).ready(function(){
 							}),
 							success : function(msg){
 								$('#divResultadoRede').html(msg);
-								$('#score').val(msg);
 							}
 						});
 				}
@@ -633,7 +632,6 @@ $(document).ready(function(){
 					}),
 				success : function(msg){
 					$('#divResultadoRede').html(msg);
-					$('#score').val(msg);
 				}
 			});
 		}

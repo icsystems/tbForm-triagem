@@ -50,9 +50,18 @@ def Main():
 		level = a/(1-nn.getLimit())
 	if level < 0:
 		outcome = u'<strong> O paciente n&atilde;o possui TB</strong>'
+		outcome += u'<input type="hidden" name="score" id="score" value="naoTB"/>'
 	else:
-		res = '%.02f'%(100*level)
-		outcome = u'TB <strong>POSITIVO</strong> com %s %% de chances'%res
+		color = u'red'
+		prob  = u'ALTA'
+		if nn.getOutput() <= nn.getLowerThreshold():
+			color = u'green'
+			prob  = u'BAIXA'
+		elif nn.getOutput <= nn.getHigherThreshold():
+			color = u'yellow'
+			prob  = u'MÉDIA'
+		outcome = u'<p style="color:%s">O paciente possui probabilidade %s de possuir TB</p>'%(color, prob)
+		outcome += u'<input type="hidden" name="score" id="score" value="%s"/>'%(prob.lower())
 	sys.stdout.write(outcome.encode('utf-8', 'replace'))
 if __name__ == '__main__':
 	Main()

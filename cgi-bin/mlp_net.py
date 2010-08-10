@@ -21,6 +21,8 @@ class MLP:
 		self.b2      = config_data['b2']
 		self.lim     = config_data['lim']
 		self.input   = input
+		self.higherThreshold  = 0.75
+		self.lowerThreshold   = 0.25
 		self.output  = .0
 	def getLimit(self):
 		return self.lim
@@ -31,6 +33,10 @@ class MLP:
 		self.output = Y2
 	def getOutput(self):
 		return self.output
+	def getLowerThreshold(self):
+		return self.lowerThreshold
+	def getHigherThreshold(self):
+		return self.higherThreshold
 	def evaluatePatient(self):
 		if self.output < self.lim:
 			return False
