@@ -79,12 +79,24 @@
 						</label>
 					</fieldset>
 					</div>
+					<div id='divRaca' class='primary required'>
+						<label for='raca'>Raça/Cor: </label>
+						<select name = "raca" class='required'>
+							<option              >     ----   </option>
+							<option value="branco">   Branca   </option>
+							<option value="preta">    Preta    </option>
+							<option value="amarela">  Amarela  </option>
+							<option value="parda">    Parda    </option>
+							<option value="Indígena"> Indígena </option>
+						</select>
+					</div>
 					<div id='divEstadoCivil' class='primary required'>
 						<label for='estado_civil'>Estado Civil: </label>
-						<select name = "estado_civil" maxlength="" class='required'>
+						<select name = "estado_civil"  class='required'>
 							<option              >      ----     </option>
 							<option value="casado">     Casado(a)     </option>
 							<option value="solteiro">   Solteiro(a)   </option>
+							<option value="amigado">    Amigado(a)   </option>
 							<option value="divorciado"> Divorciado(a) </option>
 							<option value="viuvo">      Vi&uacute;vo(a)      </option>
 						</select>
@@ -714,6 +726,7 @@
 				<fieldset id='resultado_rede'>
 					<legend>Resultado da Rede</legend>
 					<div id='divResultadoRede' class='score'><!-- It will be filled after on the fly --></div>
+					<div id='msgResultado'> </div>
 					<input type='hidden' name='score' id='score' />
 				</fieldset>
 

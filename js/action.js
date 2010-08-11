@@ -227,7 +227,8 @@ $(document).ready(function(){
 					);
 					$.ajax({
 							url:'./cgi-bin/runNet.py',
-							dataType:'html',
+							dataType:'json',
+							cache: false,
 							data: ({
 								idade:argNNet.idade,
 								tosse: argNNet.tosse,
@@ -240,8 +241,37 @@ $(document).ready(function(){
 								internacaoHospitalar: argNNet.internacaoHospitalar,
 								sida: argNNet.sida
 							}),
-							success : function(msg){
-								$('#divResultadoRede').html(msg);
+							success : function(response){
+								$('#divResultadoRede').html('');
+								var msg = $('<div />');
+								var msgOrientacao = $('#msgResultado');
+								msgOrientacao.html('');
+								if(response.TB == 'no'){
+									msgOrientacao.append('Se Doença Pulmonar, agilizar consulta com médico do pulmão. Caso contrário, encaminhar para consulta com clínico geral.');
+									msg.append($('<strong />')
+										.append('O paciente não possui TB')
+									);
+									$('#score').val('nao');
+								} else {
+									msg.append($('<strong />')
+										.append('O paciente tem probabilidade '+response.probability.toUpperCase()+' de possuir TB.')
+									);
+									if(response.probability == 'baixa') { 
+										msg.css('border', '10px green solid');
+										msgOrientacao.append('Encaminhar para o clínico geral.');
+									} else if (response.probability == 'média') {
+										msg.css('border', '10px yellow solid');
+										msgOrientacao.append('Agilizar realização de BAAR.');
+									} else if(response.probability == 'alta'){
+										msg.css('border', '10px red solid');
+										msgOrientacao.append('Agilizar realização de BAAR e cultura (quando disponível), e consulta com médico da TB ou do pulmão.');
+									}
+									msg.css('padding', '15px');
+									msg.css('width', '650px');
+									$('#score').val(response.probability);
+								}
+									'O paciente não possui TB';
+								$('#divResultadoRede').append(msg);
 							}
 						});
 				}
@@ -616,22 +646,51 @@ $(document).ready(function(){
 						$('#sida').val()
 			);
 			$.ajax({
-					url:'./cgi-bin/runNet.py',
-					dataType:'html',
-					data: ({
-						idade:argNNet.idade,
-						tosse: argNNet.tosse,
-						hemoptoico: argNNet.hemoptoico,
-						sudorese: argNNet.sudorese,
-						febre: argNNet.febre,
-						emagrecimento:argNNet.emagrecimento,
-						dispneia: argNNet.dispneia,
-						fuma: argNNet.fumante,
-						internacaoHospitalar: argNNet.internacaoHospitalar,
-						sida: argNNet.sida
-					}),
-				success : function(msg){
-					$('#divResultadoRede').html(msg);
+				url:'./cgi-bin/runNet.py',
+				dataType:'json',
+				data: ({
+					idade:argNNet.idade,
+					tosse: argNNet.tosse,
+					hemoptoico: argNNet.hemoptoico,
+					sudorese: argNNet.sudorese,
+					febre: argNNet.febre,
+					emagrecimento:argNNet.emagrecimento,
+					dispneia: argNNet.dispneia,
+					fuma: argNNet.fumante,
+					internacaoHospitalar: argNNet.internacaoHospitalar,
+					sida: argNNet.sida
+				}),
+				success : function(response){
+					$('#divResultadoRede').html('');
+					var msg = $('<div />');
+					var msgOrientacao = $('#msgResultado');
+					msgOrientacao.html('');
+					if(response.TB == 'no'){
+						msgOrientacao.append('Se Doença Pulmonar, agilizar consulta com médico do pulmão. Caso contrário, encaminhar para consulta com clínico geral');
+						msg.append($('<strong />')
+							.append('O paciente não possui TB')
+						);
+						$('#score').val('nao');
+					} else {
+						msg.append($('<strong />')
+							.append('O paciente tem probabilidade '+response.probability.toUpperCase()+' de possuir TB.')
+						);
+						if(response.probability == 'baixa') { 
+							msg.css('border', '10px green solid');
+							msgOrientacao.append('Encaminhar para o clínico geral.');
+						} else if (response.probability == 'média') {
+							msg.css('border', '10px yellow solid');
+							msgOrientacao.append('Agilizar realização de BAAR.');
+						} else if(response.probability == 'alta'){
+							msg.css('border', '10px red solid');
+							msgOrientacao.append('Agilizar realização de BAAR e cultura (quando disponível), e consulta com médico da TB ou do pulmão.');
+						}
+						msg.css('padding', '15px');
+						msg.css('width', '650px');
+						$('#score').val(response.probability);
+					}
+						'O paciente não possui TB';
+					$('#divResultadoRede').append(msg);
 				}
 			});
 		}

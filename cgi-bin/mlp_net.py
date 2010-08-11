@@ -20,9 +20,9 @@ class MLP:
 		self.b1      = config_data['b1']
 		self.b2      = config_data['b2']
 		self.lim     = config_data['lim']
+		self.higherThreshold  = config_data['higherThreshold']
+		self.lowerThreshold  = config_data['lowerThreshold']
 		self.input   = input
-		self.higherThreshold  = 0.75
-		self.lowerThreshold   = 0.25
 		self.output  = .0
 	def getLimit(self):
 		return self.lim

@@ -48,20 +48,20 @@ def Main():
 		level = a/(1+nn.getLimit())
 	else:
 		level = a/(1-nn.getLimit())
+	outcome  = u"{ 'output': %.02f," %(nn.getOutput())
+	outcome += u"  'hThreshold': %.02f," %(nn.getHigherThreshold())
+	outcome += u"  'lThreshold': %.02f," %(nn.getLowerThreshold())
 	if level < 0:
-		outcome = u'<strong> O paciente n&atilde;o possui TB</strong>'
-		outcome += u'<input type="hidden" name="score" id="score" value="naoTB"/>'
+		outcome += u"  'TB': 'no',"
 	else:
-		color = u'red'
-		prob  = u'ALTA'
-		if nn.getOutput() <= nn.getLowerThreshold():
-			color = u'green'
-			prob  = u'BAIXA'
-		elif nn.getOutput <= nn.getHigherThreshold():
-			color = u'yellow'
-			prob  = u'MÉDIA'
-		outcome = u'<p style="color:%s">O paciente possui probabilidade %s de possuir TB</p>'%(color, prob)
-		outcome += u'<input type="hidden" name="score" id="score" value="%s"/>'%(prob.lower())
+		outcome += u"  'TB': 'yes',"
+		if nn.getOutput() < nn.getLowerThreshold():
+			outcome += u"  'probability': 'baixa',"
+		elif nn.getOutput() < nn.getHigherThreshold():
+			outcome += u"  'probability': 'média',"
+		else:
+			outcome += u"  'probability': 'alta',"
+	outcome += u" 'threshold' : %.02f }"%(nn.getLimit())
 	sys.stdout.write(outcome.encode('utf-8', 'replace'))
 if __name__ == '__main__':
 	Main()
