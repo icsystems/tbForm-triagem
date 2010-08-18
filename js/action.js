@@ -810,8 +810,7 @@ $(document).ready(function(){
 	var indiceCriterioCage;
 	var contadorSim;
 	var contadorNao;
-	$('#criterio_cage_0').change(function(){
-		console.log($('.criterio_cage'));
+	$('.criterio_cage').change(function(){
 		indiceCriterioCage = 0;
 		contadorSim = 0;
 		contadorNao = 0;
@@ -828,58 +827,6 @@ $(document).ready(function(){
 		if (contadorNao >= 2)
 			$('#criterioCage').val('Negativo');
 	});
-	$('#criterio_cage_1').change(function(){
-		indiceCriterioCage = 0;
-		contadorSim = 0;
-		contadorNao = 0;
-		while (indiceCriterioCage <= 3)
-		{
-			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'sim')
-				contadorSim++;
-			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'nao')
-				contadorNao++;
-			indiceCriterioCage++;
-		}
-		if (contadorSim >= 3)
-			$('#criterioCage').val('Positivo');
-		if (contadorNao >= 2)
-			$('#criterioCage').val('Negativo');
-	});
-	$('#criterio_cage_2').change(function(){
-		indiceCriterioCage = 0;
-		contadorSim = 0;
-		contadorNao = 0;
-		while (indiceCriterioCage <= 3)
-		{
-			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'sim')
-				contadorSim++;
-			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'nao')
-				contadorNao++;
-			indiceCriterioCage++;
-		}
-		if (contadorSim >= 3)
-			$('#criterioCage').val('Positivo');
-		if (contadorNao >= 2)
-			$('#criterioCage').val('Negativo');
-	});
-	$('#criterio_cage_3').change(function(){
-		indiceCriterioCage = 0;
-		contadorSim = 0;
-		contadorNao = 0;
-		while (indiceCriterioCage <= 3)
-		{
-			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'sim')
-				contadorSim++;
-			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'nao')
-				contadorNao++;
-			indiceCriterioCage++;
-		}
-		if (contadorSim >= 3)
-			$('#criterioCage').val('Positivo');
-		if (contadorNao >= 2)
-			$('#criterioCage').val('Negativo');
-	});
-
 //Submit to the neural network to check the patient's possibility of having TB
 
 	$('select.sinais').change(function(){
