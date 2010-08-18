@@ -278,12 +278,25 @@ $(document).ready(function(){
 			}
 	});
 
+	$('#data_assinatura').datepicker({
+		dateFormat: 'dd/mm/yy',
+		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		maxDate: '+0d',
+		changeMonth: true,
+		changeYear: true,
+		maxDate : '+0y',
+		minDate : '-130y',
+		yearRange : '-130:+130',
+		dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
+	});
+
+
 	//Checking aids exam date
 	years = new Array();
 	for (i=cYear-100; i <=cYear; i++)
 		years.push(i.toString());
 
-	$('#data_tratamento').autocomplete({
+	$('#data_ultimo_tratamento').autocomplete({
 		lookup: years
 	});
 
@@ -365,6 +378,7 @@ $(document).ready(function(){
 			});
 		}
 	});
+
 
 	$('#dispneia').change(function(){
 		var dep = new Array();
@@ -495,11 +509,87 @@ $(document).ready(function(){
 			}
 		}
 	});
+	$('#divContatoTuberculosePositiva').change(function(){
+			var dep = new Array();
+			dep[0] = '#divTipoContatoTuberculosePositiva';
+			// Se sim, disponibilizar colunas listadas a cima
+			if($(this).val()=='sim'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+				$(this).addClass('required');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			}
+			// Se nao, ocultar colunas listadas a cima
+			if($(this).val()=='nao' || $(this).val() == 'ignorado'){
+				for(div in dep){
+					var elems = $('*', dep[div]);
+					$(elems).each(function(){
+							var element = $(this);
+							if (   element[0].nodeName != 'FIELDSET'
+								&& element[0].nodeName != 'SMALL'
+								&& element[0].nodeName != 'OPTION')
+							$(this).removeClass('required');
+							});
+					if($(dep[div]).css('display') != 'none')
+						$(dep[div]).toggle();
+				}
+			}
+	});
+	$('#divContatoTuberculoseResistente').change(function(){
+			var dep = new Array();
+			dep[0] = '#divTipoContatoTuberculoseResistente';
+			// Se sim, disponibilizar colunas listadas a cima
+			if($(this).val()=='sim'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+				$(this).addClass('required');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			}
+			// Se nao, ocultar colunas listadas a cima
+			if($(this).val()=='nao' || $(this).val() == 'ignorado'){
+				for(div in dep){
+					var elems = $('*', dep[div]);
+					$(elems).each(function(){
+							var element = $(this);
+							if (   element[0].nodeName != 'FIELDSET'
+								&& element[0].nodeName != 'SMALL'
+								&& element[0].nodeName != 'OPTION')
+							$(this).removeClass('required');
+							});
+					if($(dep[div]).css('display') != 'none')
+						$(dep[div]).toggle();
+				}
+			}
+	});
+
 	$('#tratamentoAnterior').change(function(){
 		var dep = new Array();
-		dep[0] = '#divDataTratamento';
-		dep[1] = '#divLocalTuberculose';
-		dep[2] = '#divDesfecho';
+		dep[0] = '#divQuantasVezesTratouTB';
+		dep[1] = '#divDataUltimoTratamento';
+		dep[2] = '#divLocalTuberculose';
+		dep[3] = '#divDesfecho';
 		// Se sim, disponibilizar colunas listadas a cima
 		if($(this).val()=='sim'){
 			for(div in dep){
@@ -601,9 +691,9 @@ $(document).ready(function(){
 				var elems = $('*', dep[div]);
 				$(elems).each(function(){
 					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
+					if (element[0].nodeName != 'FIELDSET'
+						&& element[0].nodeName != 'SMALL'
+						&& element[0].nodeName != 'OPTION')
 						$(this).removeClass('required');
 						$(this).attr('disabled', 'disabled');
 				});
@@ -616,16 +706,178 @@ $(document).ready(function(){
 // Check emagrecimento field
 
 	$('#pesoAtual').change(function(){
-		if((parseInt($(this).val()) - parseInt($('#pesoHabitual').val()))/parseInt($('#pesoHabitual').val()) < -0.10)
-			$('#emagrecimento').val('Sim');
-		else
-			$('#emagrecimento').val('Não');
+		if ($('#tempoEmagrecimento').val()>=1 && $('#tempoEmagrecimento').val()<3)
+		{
+			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.05)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		}else if ($('#tempoEmagrecimento').val()>=3 && $('#tempoEmagrecimento').val()<6){
+			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.075)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		}else if ($('#tempoEmagrecimento').val()>=6){
+			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.10)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		}
 	});
 	$('#pesoHabitual').change(function(){
-		if((parseInt($('#pesoAtual').val()) - parseInt($(this).val()))/parseInt($('#pesoHabitual').val()) < -0.10)
-			$('#emagrecimento').val('Sim');
-		else
-			$('#emagrecimento').val('Não');
+		if ($('#tempoEmagrecimento').val()>=1 && $('#tempoEmagrecimento').val()<3)
+		{
+			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.05)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		}else if ($('#tempoEmagrecimento').val()>=3 && $('#tempoEmagrecimento').val()<6){
+			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.075)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		}else if ($('#tempoEmagrecimento').val()>=6){
+			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.10)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		}
+	});
+	$('#tempoEmagrecimento').change(function(){
+		if ($('#tempoEmagrecimento').val()>=1 && $('#tempoEmagrecimento').val()<3)
+		{
+			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.05)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		}else if ($('#tempoEmagrecimento').val()>=3 && $('#tempoEmagrecimento').val()<6){
+			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.075)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		}else if ($('#tempoEmagrecimento').val()>=6){
+			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.10)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		}
+	});
+
+
+	$('#bebida').change(function(){
+		var dep = new Array();
+		dep[0] = '#divDiminuirQuantidadeBebida';
+		dep[1] = '#divCriticasModoBeber';
+		dep[2] = '#divBebePelaManha';
+		dep[3] = '#divCulpadoManeiraBeber';
+		dep[4] = '#divCriterioCage';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim'){
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+						&& element[0].nodeName != 'SMALL'
+						&& element[0].nodeName != 'OPTION')
+						$(this).addClass('required');
+						$(this).removeAttr('disabled');
+				});
+				if($(dep[div]).css('display') != 'block')
+					$(dep[div]).toggle(function() {
+						$(this).css('background-color', hlcolor);
+						$(this).animate({backgroundColor : "white"}, 4000);
+					});
+			}
+		} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+						&& element[0].nodeName != 'SMALL'
+						&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						$(this).attr('disabled', 'disabled');
+				});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+		}
+	});
+
+//Check bebida field
+	var indiceCriterioCage;
+	var contadorSim;
+	var contadorNao;
+	$('#criterio_cage_0').change(function(){
+		console.log($('.criterio_cage'));
+		indiceCriterioCage = 0;
+		contadorSim = 0;
+		contadorNao = 0;
+		while (indiceCriterioCage <= 3)
+		{
+			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'sim')
+				contadorSim++;
+			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'nao')
+				contadorNao++;
+			indiceCriterioCage++;
+		}
+		if (contadorSim >= 3)
+			$('#criterioCage').val('Positivo');
+		if (contadorNao >= 2)
+			$('#criterioCage').val('Negativo');
+	});
+	$('#criterio_cage_1').change(function(){
+		indiceCriterioCage = 0;
+		contadorSim = 0;
+		contadorNao = 0;
+		while (indiceCriterioCage <= 3)
+		{
+			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'sim')
+				contadorSim++;
+			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'nao')
+				contadorNao++;
+			indiceCriterioCage++;
+		}
+		if (contadorSim >= 3)
+			$('#criterioCage').val('Positivo');
+		if (contadorNao >= 2)
+			$('#criterioCage').val('Negativo');
+	});
+	$('#criterio_cage_2').change(function(){
+		indiceCriterioCage = 0;
+		contadorSim = 0;
+		contadorNao = 0;
+		while (indiceCriterioCage <= 3)
+		{
+			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'sim')
+				contadorSim++;
+			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'nao')
+				contadorNao++;
+			indiceCriterioCage++;
+		}
+		if (contadorSim >= 3)
+			$('#criterioCage').val('Positivo');
+		if (contadorNao >= 2)
+			$('#criterioCage').val('Negativo');
+	});
+	$('#criterio_cage_3').change(function(){
+		indiceCriterioCage = 0;
+		contadorSim = 0;
+		contadorNao = 0;
+		while (indiceCriterioCage <= 3)
+		{
+			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'sim')
+				contadorSim++;
+			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'nao')
+				contadorNao++;
+			indiceCriterioCage++;
+		}
+		if (contadorSim >= 3)
+			$('#criterioCage').val('Positivo');
+		if (contadorNao >= 2)
+			$('#criterioCage').val('Negativo');
 	});
 
 //Submit to the neural network to check the patient's possibility of having TB
@@ -703,6 +955,17 @@ $(document).ready(function(){
 			$(elem_id).attr('disabled', true);
 		}
 	});
+	var valorOpcaoTempoExpectoracao;
+	$('#tempoExpectoracao').change(function(){
+	valorOpcaoTempoExpectoracao = $('#tempoExpectoracao').val();
+	if (valorOpcaoTempoExpectoracao.substring(2,valorOpcaoTempoExpectoracao.length)== 'anos')
+	{
+		if(!$('#msgTosse').html())
+			$('#msgTosse').append('<font color="red">Tempo de Expectoração maior que 24 meses, favor encaminhar para clínica.</font>');
+	}else
+		$('#msgTosse').html('');
+	});
+
 
 	$('#form_triagem').validate({
 		onkeyup: false,

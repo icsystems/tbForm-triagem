@@ -43,6 +43,19 @@
 						<label for='numeroPaciente'> Número do Paciente: </label>
 						<input type="text" name="numeroPaciente" id="numeroPaciente" class='number required' size='10' />
 					</div>
+					<div id='divDataAssinatura' class='primary required'>
+						<label for='data_assinatura'> Data de assinatura do termo de consentimento (TCLE): </label>
+						<input type="text" name="data_assinatura" id="data_assinatura" class='required' readonly/>
+					</div>
+					<div id='divPacienteExcluido' class='primary required'>
+						<label for='pacienteExcluido'>Excluído: </label>
+						<select name = "pacienteExcluido" class='required'>
+							<option              	>  ----   	</option>
+							<option value="sim"		>  Sim   	</option>
+							<option value="nao"		>  Não    	</option>
+							<option value="semTcle"	>  Sem TCLE </option>
+						</select>
+					</div>
 				</fieldset>
 				<fieldset id='info_pessoais'>
 					<legend>Informa&ccedil;&otilde;es Pessoais do Paciente</legend>
@@ -113,6 +126,10 @@
 							<option> ---- </option>
 						</select>
 					</div>
+					<div id='divTempoResidenteEstadoAtual' class='primary required'>
+						<label for='tempoResidenteEstadoAtual'>Tempo que reside no estado atual: </label>
+						<input type='text' name="tempoResidenteEstadoAtual" id="tempoResidenteEstadoAtual" class='required address' size='3' maxlength='2'> anos
+					</div>
 					<div id='divCidade' class='primary required'>
 						<label for='cidade'>Cidade: </label>
 						<input type="text" name="cidade" id="cidade" class='textbox required address'/>
@@ -148,10 +165,13 @@
 						<label for="pesoHabitual" class="required">Peso Habitual:</label>
 						<input type="text" size="5" maxlength="5" class="number required" name="pesoHabitual" id="pesoHabitual"/> Kg
 					</div>
+					<div id='divTempoEmagrecimento' class='primary required'>
+						<label for='tempoEmagrecimento'>Tempo:</label>
+						<input type="text" size="5" maxlength="5" class="required sinais" name="tempoEmagrecimento" id="tempoEmagrecimento"/ > mes(es)
+					</div>
 					<div id='divEmagrecimento' class='primary required'>
 						<label for='emagrecimento'>Emagrecimento:</label>
 						<input type="text" size="30" maxlength="3" class="required sinais" name="emagrecimento" id="emagrecimento" readonly/ >
-						<small> Perda de peso maior do que 10% </small>
 					</div>
 					<div class='wrap'>
 						<div id='divTosse' class='primary required sinais'>
@@ -213,7 +233,7 @@
 					</div>
 					<div class='wrap'>
 						<div id='divExpectoracao' class='primary required sinais'>
-							<label for='expectoracao'>Expectoracao:</label>
+							<label for='expectoracao'>Expectoração:</label>
 							<select name='espectoracao' id='expectoracao' class='selectOneSinais sinais required'>
 								<option value='ignorado' selected> Ignorado  </option>
 								<option value='nao'> N&atilde;o  </option>
@@ -624,9 +644,13 @@
 							<option value='nao'> N&atilde;o  </option>
 						</select>
 					</div>
-					<div id='divDataTratamento' class='secondary'>
-						<label for='data_tratamento'> Ano do tratamento:</label>
-						<input  name="data_tratamento" id="data_tratamento" type="text" class='number' maxlength=4 size='8'/>
+					<div id='divQuantasVezesTratouTB' class='secondary'>
+						<label for='quantasVezesTratouTB'> Quantas vezes tratou de TB:</label>
+						<input  name="quantasVezesTratouTB" id="quantasVezesTratouTB" type="text" class='number' maxlength='2' size='4'/>
+					</div>
+					<div id='divDataUltimoTratamento' class='secondary'>
+						<label for='data_ultimo_tratamento'> Ano do último tratamento:</label>
+						<input  name="data_ultimo_tratamento" id="data_ultimo_tratamento" type="text" class='number' maxlength=4 size='8'/>
 					</div>
 					<div id='divLocalTuberculose' class='secondary'>
 						<label for='divLocalTuberculose'>Local da Tuberculose:</label>
@@ -658,12 +682,58 @@
 							<option value='nao'> N&atilde;o  </option>
 						</select>
 					</div>
-					<div id='divContatoTuberculose' class='primary required'>
-						<label for='contatoTuberculose'>Contato com TB pulmonar positiva:</label>
-						<select name='contatoTuberculose' id='contatoTuberculose' class='selectOneSinais sinais required'>
+					<div id='divPermanenciaPrisional' class='primary required'>
+						<label for='permanenciaPrisional'>Permanência em instituição prisional ou delegacia</label>
+						<select name='permanenciaPrisional' id='permanenciaPrisional' class='selectOneSinais sinais required'>
 							<option value='ignorado' selected> Ignorado  </option>
 							<option value='sim'> Sim  </option>
 							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divPermanenciaCasaApoio' class='primary required'>
+						<label for='permanenciaCasaApoio'>Permanência em casa de apoio(idoso,dependente químico):</label>
+						<select name='permanenciaCasaApoio' id='permanenciaCasaApoio' class='selectOneSinais sinais required'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divContatoTuberculosePositiva' class='primary required'>
+						<label for='contatoTuberculosePositiva'>Contato com TB pulmonar positiva:</label>
+						<select name='contatoTuberculosePositiva' id='contatoTuberculosePositiva' class='selectOneSinais sinais required'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divTipoContatoTuberculosePositiva' class='secondary'>
+						<label for='tipoContatoTuberculosePositiva'>Tipo de contato:</label>
+						<select name='tipoContatoTuberculosePositiva' id='tipoContatoTuberculosePositiva'>
+							<option value='domiciliar' selected> Domiciliar  </option>
+							<option value='trabalho'> Trabalho  </option>
+							<option value='vizinhanca'> Vizinhança  </option>
+							<option value='presDel'> Presídio/Delegacia  </option>
+							<option value='hospital'> Hospital  </option>
+							<option value='casaApoio'> Casa de apoio  </option>
+						</select>
+					</div>
+					<div id='divContatoTuberculoseResistente' class='primary required'>
+						<label for='contatoTuberculoseResistente'>Contato com TB pulmonar resistente:</label>
+						<select name='contatoTuberculoseResistente' id='contatoTuberculoseResistente' class='selectOneSinais sinais required'>
+							<option value='ignorado' selected> Ignorado  </option>
+							<option value='sim'> Sim  </option>
+							<option value='nao'> N&atilde;o  </option>
+						</select>
+					</div>
+					<div id='divTipoContatoTuberculoseResistente' class='secondary'>
+						<label for='tipoContatoTuberculoseResistente'>Tipo de contato:</label>
+						<select name='tipoContatoTuberculoseResistente' id='tipoContatoTuberculoseResistente'>
+							<option value='domiciliar' selected> Domiciliar  </option>
+							<option value='trabalho'> Trabalho  </option>
+							<option value='vizinhanca'> Vizinhança  </option>
+							<option value='presDel'> Presídio/Delegacia  </option>
+							<option value='hospital'> Hospital  </option>
+							<option value='casaApoio'> Casa de apoio  </option>
 						</select>
 					</div>
 				</fieldset>
@@ -699,6 +769,38 @@
 							<option value='sim'> Consome </option>
 						</select>
 					</div>
+					<div id='divDiminuirQuantidadeBebida' class='secondary'>
+						<label for='criterio_cage_0'> Já sentiu que deveria diminuir a quantidade de bebida?</label>
+						<select name='criterio_cage_0' id='criterio_cage_0' class='selectOne required' class='criterio_cage'>
+							<option value='nao'		selected > Não 		</option>
+							<option value='sim'				 > Sim  	</option>
+						</select>
+					</div>
+					<div id='divCriticasModoBeber' class='secondary'>
+						<label for='criterio_cage_1'> Recebeu críticas ao modo de beber?</label>
+						<select name='criterio_cage_1' id='criterio_cage_1' class='selectOne required' class='criterio_cage'>
+							<option value='nao'		selected > Não 		</option>
+							<option value='sim'				 > Sim  	</option>
+						</select>
+					</div>
+					<div id='divBebePelaManha' class='secondary'>
+						<label for='criterio_cage_2'> Bebe pela manhã para diminuir o nervosismo ou ressaca?</label>
+						<select name='criterio_cage_2' id='criterio_cage_2' class='selectOne required' class='criterio_cage'>
+							<option value='nao'		selected > Não 		</option>
+							<option value='sim'				 > Sim  	</option>
+						</select>
+					</div>
+					<div id='divCulpadoManeiraBeber' class='secondary'>
+						<label for='criterio_cage_3'> Sente-se culpado pela maneira de beber?</label>
+						<select name='criterio_cage_3' id='criterio_cage_3' class='selectOne required' class='criterio_cage'>
+							<option value='nao'		selected > Não 		</option>
+							<option value='sim'				 > Sim  	</option>
+						</select>
+					</div>
+					<div id='divCriterioCage' class='secondary'>
+						<label for='criterioCage'> Criterio CAGE: </label>
+						<input type="text" name="criterioCage" id="criterioCage" class='required' readonly/>
+					</div>
 				</fieldset>
 				<fieldset id='fsSIDA'>
 					<legend>HIV/SIDA</legend>
@@ -727,6 +829,7 @@
 					<legend>Resultado da Rede</legend>
 					<div id='divResultadoRede' class='score'><!-- It will be filled after on the fly --></div>
 					<div id='msgResultado'> </div>
+					<div id='msgTosse'></div>
 					<input type='hidden' name='score' id='score' />
 				</fieldset>
 
@@ -737,7 +840,6 @@
 					</div>
 					<div class='submit'><input value="Enviar Formulário"  class='inputButton'  type="submit"></div>
 				</fieldset>
-			</form>
 			</div><!--/maincontent-->
 		</div><!--/content-->
 	</div><!--/mainFrame-->
