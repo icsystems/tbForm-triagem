@@ -509,10 +509,9 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#divContatoTuberculosePositiva').change(function(){
+	$('#contatoTuberculosePositiva').change(function(){
 			var dep = new Array();
 			dep[0] = '#divTipoContatoTuberculosePositiva';
-			// Se sim, disponibilizar colunas listadas a cima
 			if($(this).val()=='sim'){
 			for(div in dep){
 			var elems = $('*', dep[div]);
@@ -521,7 +520,8 @@ $(document).ready(function(){
 				if (   element[0].nodeName != 'FIELDSET'
 					&& element[0].nodeName != 'SMALL'
 					&& element[0].nodeName != 'OPTION')
-				$(this).addClass('required');
+					$(this).addClass('required');
+					$(this).removeAttr('disabled');
 				});
 			if($(dep[div]).css('display') != 'block')
 			$(dep[div]).toggle(function() {
@@ -529,27 +529,24 @@ $(document).ready(function(){
 				$(this).animate({backgroundColor : "white"}, 4000);
 				});
 			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
 			}
-			// Se nao, ocultar colunas listadas a cima
-			if($(this).val()=='nao' || $(this).val() == 'ignorado'){
-				for(div in dep){
-					var elems = $('*', dep[div]);
-					$(elems).each(function(){
-							var element = $(this);
-							if (   element[0].nodeName != 'FIELDSET'
-								&& element[0].nodeName != 'SMALL'
-								&& element[0].nodeName != 'OPTION')
-							$(this).removeClass('required');
-							});
-					if($(dep[div]).css('display') != 'none')
-						$(dep[div]).toggle();
-				}
 			}
 	});
-	$('#divContatoTuberculoseResistente').change(function(){
+	$('#contatoTuberculoseResistente').change(function(){
 			var dep = new Array();
 			dep[0] = '#divTipoContatoTuberculoseResistente';
-			// Se sim, disponibilizar colunas listadas a cima
 			if($(this).val()=='sim'){
 			for(div in dep){
 			var elems = $('*', dep[div]);
@@ -558,7 +555,8 @@ $(document).ready(function(){
 				if (   element[0].nodeName != 'FIELDSET'
 					&& element[0].nodeName != 'SMALL'
 					&& element[0].nodeName != 'OPTION')
-				$(this).addClass('required');
+					$(this).addClass('required');
+					$(this).removeAttr('disabled');
 				});
 			if($(dep[div]).css('display') != 'block')
 			$(dep[div]).toggle(function() {
@@ -566,24 +564,21 @@ $(document).ready(function(){
 				$(this).animate({backgroundColor : "white"}, 4000);
 				});
 			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
 			}
-			// Se nao, ocultar colunas listadas a cima
-			if($(this).val()=='nao' || $(this).val() == 'ignorado'){
-				for(div in dep){
-					var elems = $('*', dep[div]);
-					$(elems).each(function(){
-							var element = $(this);
-							if (   element[0].nodeName != 'FIELDSET'
-								&& element[0].nodeName != 'SMALL'
-								&& element[0].nodeName != 'OPTION')
-							$(this).removeClass('required');
-							});
-					if($(dep[div]).css('display') != 'none')
-						$(dep[div]).toggle();
-				}
 			}
 	});
-
 	$('#tratamentoAnterior').change(function(){
 		var dep = new Array();
 		dep[0] = '#divQuantasVezesTratouTB';
