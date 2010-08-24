@@ -154,6 +154,12 @@ $(document).ready(function(){
 		}
 	});
 
+	$('.number').keypress(function(e){
+		if((e.which > 31 && e.which < 48)||(e.which > 57)){
+			return false;
+		}
+	});
+
 	$('#pesoAtual').keypress(function(e){
 		if((e.which > 31 && e.which < 48)||(e.which > 57)){
 			return false;
@@ -698,6 +704,366 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#freezer').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeFreezer';
+			if($(this).val()=='sim'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('primary');
+					$(this).removeAttr('disabled');
+					$(this).addClass('number');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+			}
+	});
+	$('#geladeira').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeGeladeira';
+			if($(this).val()=='sim'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('primary');
+					$(this).removeAttr('disabled');
+					$(this).addClass('number');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+			}
+	});
+	$('#maquinaLavarRoupa').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeMaquinaLavarRoupa';
+			if($(this).val()=='sim'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('primary');
+					$(this).removeAttr('disabled');
+					$(this).addClass('number');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+			}
+	});
+	$('#videoDVD').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeVideoDVD';
+			if($(this).val()=='sim'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('primary');
+					$(this).removeAttr('disabled');
+					$(this).addClass('number');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+			}
+	});
+	$('#televisao').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeTelevisao';
+			if($(this).val()=='sim'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('primary');
+					$(this).removeAttr('disabled');
+					$(this).addClass('number');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+			}
+	});
+	$('#radio').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeRadio';
+			if($(this).val()=='sim'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('primary');
+					$(this).removeAttr('disabled');
+					$(this).addClass('number');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+			}
+	});
+	$('#banheiro').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeBanheiro';
+			if($(this).val()=='sim'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('primary');
+					$(this).removeAttr('disabled');
+					$(this).addClass('number');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+			}
+	});
+	$('#automovel').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeAutomovel';
+			if($(this).val()=='sim'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('primary');
+					$(this).removeAttr('disabled');
+					$(this).addClass('number');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+			}
+	});
+	$('#procurouUnidadeSaudePorOrientacao').change(function(){
+			var dep = new Array();
+			dep[0] = '#divEspecificacaoEncaminhamento';
+			if($(this).val()=='encaminhadoPorOutroServicoDeSaude'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('primary');
+					$(this).removeAttr('disabled');
+					$(this).addClass('number');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+			}
+	});
+	$('#procurouUnidadeSaudePorOrientacao').change(function(){
+			var dep = new Array();
+			dep[0] = '#divEspecificacaoOutros';
+			if($(this).val()=='outros'){
+			for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('primary');
+					$(this).removeAttr('disabled');
+					$(this).addClass('number');
+				});
+			if($(dep[div]).css('display') != 'block')
+			$(dep[div]).toggle(function() {
+				$(this).css('background-color', hlcolor);
+				$(this).animate({backgroundColor : "white"}, 4000);
+				});
+			}
+			} else {
+			for(div in dep){
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+			}
+	});
 // Check emagrecimento field
 
 	$('#pesoAtual').change(function(){
@@ -817,9 +1183,9 @@ $(document).ready(function(){
 				contadorNao++;
 			indiceCriterioCage++;
 		}
-		if (contadorSim >= 3)
+		if (contadorSim >= 2)
 			$('#criterioCage').val('Positivo');
-		if (contadorNao >= 2)
+		if (contadorNao > 2)
 			$('#criterioCage').val('Negativo');
 	});
 //Submit to the neural network to check the patient's possibility of having TB
