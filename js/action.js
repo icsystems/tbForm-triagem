@@ -107,6 +107,7 @@ function calculateAge(dateStr){
 
 //After page is loaded set actions
 $(document).ready(function(){
+
 	var hlcolor = '#FFF8C6';
 	var d = new Date()
 	var cYear = d.getFullYear();
@@ -296,6 +297,30 @@ $(document).ready(function(){
 		dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 	});
 
+	$('.data').datepicker({
+		dateFormat: 'dd/mm/yy',
+		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		maxDate: '+0d',
+		changeMonth: true,
+		changeYear: true,
+		maxDate : '+0y',
+		minDate : '-130y',
+		yearRange : '-130:+130',
+		dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
+	});
+
+	$('.data_2').datepicker({
+		dateFormat: 'dd/mm/yy',
+		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		maxDate: '+0d',
+		changeMonth: true,
+		changeYear: true,
+		maxDate : '+0y',
+		minDate : '-130y',
+		yearRange : '-130:+130',
+		dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+		numberOfMonths: 2
+	});
 
 	//Checking aids exam date
 	years = new Array();
@@ -992,10 +1017,10 @@ $(document).ready(function(){
 			}
 			}
 	});
-	$('#procurouUnidadeSaudePorOrientacao').change(function(){
+	$('#empregadaMensalista').change(function(){
 			var dep = new Array();
-			dep[0] = '#divEspecificacaoEncaminhamento';
-			if($(this).val()=='encaminhadoPorOutroServicoDeSaude'){
+			dep[0] = '#divQuantidadeEmpregadaMensalista';
+			if($(this).val()=='sim'){
 			for(div in dep){
 			var elems = $('*', dep[div]);
 			$(elems).each(function(){
@@ -1030,7 +1055,7 @@ $(document).ready(function(){
 	});
 	$('#procurouUnidadeSaudePorOrientacao').change(function(){
 			var dep = new Array();
-			dep[0] = '#divEspecificacaoOutros';
+			dep[0] = '#divEspecificacaoEncaminhamento';
 			if($(this).val()=='outros'){
 			for(div in dep){
 			var elems = $('*', dep[div]);
@@ -1041,7 +1066,7 @@ $(document).ready(function(){
 					&& element[0].nodeName != 'OPTION')
 					$(this).addClass('primary');
 					$(this).removeAttr('disabled');
-					$(this).addClass('number');
+					$(this).addClass('text');
 				});
 			if($(dep[div]).css('display') != 'block')
 			$(dep[div]).toggle(function() {
@@ -1320,6 +1345,9 @@ $(document).ready(function(){
 				max:   500,
 				warningCT: true,
 				checkCT: true
+			},
+			avaliacao:{
+				max:	10
 			},
 			data_sida:{
 				lowerThanHIVTest:true,
