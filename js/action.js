@@ -1091,6 +1091,91 @@ $(document).ready(function(){
 	});
 // Check emagrecimento field
 
+	$('#pesoAtual').keyup(function(){
+		if (($(this).val() != 0)&&($('#pesoHabitual').val() != 0))
+		{
+			var dep = new Array();
+			dep[0] = '#divTempoEmagrecimento';
+			if ($(this).val() <= $('#pesoHabitual').val())
+			{
+				for(div in dep)
+				{
+					var elems = $('*', dep[div]);
+					$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+							$(this).addClass('primary');
+							$(this).removeAttr('disabled');
+							$(this).addClass('number');
+						});
+					if($(dep[div]).css('display') != 'block')
+					$(dep[div]).toggle(function() {
+						$(this).css('background-color', hlcolor);
+						$(this).animate({backgroundColor : "white"}, 4000);
+						});
+				}
+			} else {
+				for(div in dep){
+					var elems = $('*', dep[div]);
+					$(elems).each(function(){
+							var element = $(this);
+							if (   element[0].nodeName != 'FIELDSET'
+								&& element[0].nodeName != 'SMALL'
+								&& element[0].nodeName != 'OPTION')
+							$(this).removeClass('required');
+							});
+					if($(dep[div]).css('display') != 'none')
+						$(dep[div]).toggle();
+					$('#emagrecimento').val('Não');
+				}
+			}
+		}
+	});
+	$('#pesoHabitual').keyup(function(){
+		if (($(this).val() != 0)&&($('#pesoAtual').val() != 0))
+		{
+			var dep = new Array();
+			dep[0] = '#divTempoEmagrecimento';
+			if ($('#pesoAtual').val() <= $(this).val())
+			{
+				for(div in dep)
+				{
+					var elems = $('*', dep[div]);
+					$(elems).each(function(){
+						var element = $(this);
+						if (   element[0].nodeName != 'FIELDSET'
+							&& element[0].nodeName != 'SMALL'
+							&& element[0].nodeName != 'OPTION')
+							$(this).addClass('primary');
+							$(this).removeAttr('disabled');
+							$(this).addClass('number');
+						});
+					if($(dep[div]).css('display') != 'block')
+					$(dep[div]).toggle(function() {
+						$(this).css('background-color', hlcolor);
+						$(this).animate({backgroundColor : "white"}, 4000);
+						});
+				}
+			} else {
+				for(div in dep){
+					var elems = $('*', dep[div]);
+					$(elems).each(function(){
+							var element = $(this);
+							if (   element[0].nodeName != 'FIELDSET'
+								&& element[0].nodeName != 'SMALL'
+								&& element[0].nodeName != 'OPTION')
+							$(this).removeClass('required');
+							});
+					if($(dep[div]).css('display') != 'none')
+						$(dep[div]).toggle();
+					$('#emagrecimento').val('Não');
+				}
+			}
+		}
+	});
+
 	$('#pesoAtual').change(function(){
 		if ($('#tempoEmagrecimento').val()>=1 && $('#tempoEmagrecimento').val()<3)
 		{

@@ -84,22 +84,22 @@ $.validator.addMethod("warningMaritalState", function(value, element) {
 		var msg = "";
 		if(idade >= 75 && mstate == 'solteiro')
 		{
-			msg = "A idade é maior que 75 anos e o paciente  é solteiro. Confirma?";
+			msg = "O paciente tem "+ idade + " anos e é solteiro. Confirma?";
 			retcode = false;
 		}
 		if(idade <= 17 && mstate == 'casado')
 		{
-			msg = "A idade é  menor que 17 anos e o paciente é casado. Confirma?";
+			msg = "O paciente tem "+ idade + " anos e é casado. Confirma?";
 			retcode = false;
 		}
 		if(idade <= 19 && mstate == 'divorciado')
 		{
-			msg = "A idade é  menor que 19 anos e o paciente é divorciado. Confirma?";
+			msg = "O paciente tem "+ idade + " anos e é divorciado. Confirma?";
 			retcode = false;
 		}
 		if(idade <= 24 && mstate == 'viuvo')
 		{
-			msg = "A idade é menor que 24 anos e o paciente  é  viúvo. Confirma?";
+			msg = "O paciente tem "+ idade + " anos e é viúvo. Confirma?";
 			retcode = false;
 		}
 	}
