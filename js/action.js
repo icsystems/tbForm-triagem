@@ -102,15 +102,21 @@ $(document).ready(function(){
 	$('#data_consulta').writePortugueseDate();
 	//Build birthday calendar
 	$('#data_nascimento').datepicker({
-			dateFormat: 'dd/mm/yy',
-			monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-			maxDate: '+0d',
-			changeMonth: true,
-			changeYear: true,
-			maxDate   : '+0y',
-			minDate   : '-130y',
-			yearRange : '-130:+130',
-			dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
+		dateFormat: 'dd/mm/yy',
+		monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+		'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'], 
+		maxDate: '+0d',
+		changeMonth: true,
+		changeYear: true,
+		maxDate   : '+0y',
+		minDate   : '-130y',
+		yearRange : '-130:+130',
+		dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+		onSelect: function(dateStr){
+			var age = calculateAge(dateStr);
+			$('#idade').val(age);
+			$('#idade').valid();
+		}
 	});
 
 
