@@ -62,9 +62,14 @@ def Main():
 			</style>
 		</head>
 		<body>
-			<div id='header'>
-				$score
-			</div>
+	"""
+	if 'score' in keys():
+		templateDef += u"""
+				<div id='header'>
+					$score
+				</div>
+		"""
+	templateDef += u"""
 			<div id='content'>
 				<div id='leftpanel'>
 					<table>
