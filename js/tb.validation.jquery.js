@@ -155,6 +155,15 @@ $.validator.addMethod("yearsLowerThanAge", function(value, element) {
 	return retcode;
 }, "Esse campo deve ser menor do que a idade do paciente.");
 
+
+$.validator.addMethod("yearsLowerThanAge", function(value, element) {
+	var age = $("#idade").val();
+	retcode = parseInt($(element).val()) < parseInt(age);
+	return retcode;
+}, "Esse campo deve ser menor do que a idade do paciente.");
+
+
+
 $.validator.addMethod("numberOfCigarrettes", function(value, element) {
 	var retcode = (parseInt($(element).val()) < 140 && parseInt($(element).val()) != 0) ;
 	if(retcode && !isNaN(parseInt($('#numeroAnosFumante').val())))

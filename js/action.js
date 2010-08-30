@@ -1153,6 +1153,9 @@ $(document).ready(function(){
 				LowerThanCurrentYear: true,
 				maxlength: 4
 			},
+			tempoResidenteEstadoAtual:{
+				yearsLowerThanAge:true
+			},
 			numeroAnosFumante:{
 				CantSmokeFor70Years: true,
 				yearsSmokingLowerThanAge: true,

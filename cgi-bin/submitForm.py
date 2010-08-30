@@ -63,7 +63,7 @@ def Main():
 		</head>
 		<body>
 	"""
-	if 'score' in keys():
+	if 'score' in keys:
 		templateDef += u"""
 				<div id='header'>
 					$score
