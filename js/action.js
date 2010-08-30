@@ -1341,6 +1341,10 @@ $(document).ready(function(){
 				numberOfCigarrettes: true,
 				warningNumberOfCigarrettes: true
 			},
+			//Gambiarrado
+			tempoResidenteEstadoAtual:{
+				yearsSmokingLowerThanAge: true
+			},
 			cargaTabagistica:{
 				max:   500,
 				warningCT: true,
