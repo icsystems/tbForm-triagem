@@ -1,4 +1,3 @@
-
 (function($){
 	$.fn.writePortugueseDate = function(){
 		var element = $(this[0]);
@@ -122,81 +121,32 @@ $(document).ready(function(){
 
 	//Disables stranges chars for input fields
 
-	$('#nome').keypress(function(e){
+	$('.text').keypress(function(e){
 		if((e.which > 32 && e.which < 65)||
-		   (e.which > 90 && e.which < 97)||
-		   (e.which > 122 && e.which < 127)||
-		   (e.which > 127 && e.which < 192)){
+			(e.which > 90 && e.which < 97)||
+			(e.which > 122 && e.which < 127)||
+			(e.which > 127 && e.which < 192)){
 		return false;
 		}
 	});
-
-	$('#nome_mae').keypress(function(e){
-		if((e.which > 32 && e.which < 65)||
-		   (e.which > 90 && e.which < 97)||
-		   (e.which > 122 && e.which < 127)||
-		   (e.which > 127 && e.which < 192)){
-			return false;
-		}
+	$('.data').datepicker({
+		dateFormat: 'dd/mm/yy',
+		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		maxDate: '+0d',
+		changeMonth: true,
+		changeYear: true,
+		maxDate : '+0y',
+		minDate : '-130y',
+		yearRange : '-130:+130',
+		dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 	});
-
-	$('#avaliador').keypress(function(e){
-		if((e.which > 32 && e.which < 65)||
-		   (e.which > 90 && e.which < 97)||
-		   (e.which > 122 && e.which < 127)||
-		   (e.which > 127 && e.which < 192)){
-			return false;
-		}
-	});
-
 	$('#cep').keypress(function(e){
 		if((e.which > 31 && e.which < 48)||(e.which > 57)){
 			return false;
 		}
 	});
-
 	$('.number').keypress(function(e){
 		if((e.which > 31 && e.which < 48)||(e.which > 57)){
-			return false;
-		}
-	});
-
-	$('#pesoAtual').keypress(function(e){
-		if((e.which > 31 && e.which < 48)||(e.which > 57)){
-			return false;
-		}
-	});
-
-	$('#pesoHabitual').keypress(function(e){
-		if((e.which > 31 && e.which < 48)||(e.which > 57)){
-			return false;
-		}
-	});
-
-	$('#cidade').keypress(function(e){
-		if((e.which > 32 && e.which < 65)||
-		   (e.which > 90 && e.which < 97)||
-		   (e.which > 122 && e.which < 127)||
-		   (e.which > 127 && e.which < 192)){
-			return false;
-		}
-	});
-
-	$('#bairro').keypress(function(e){
-		if((e.which > 32 && e.which < 65)||
-		   (e.which > 90 && e.which < 97)||
-		   (e.which > 122 && e.which < 127)||
-		   (e.which > 127 && e.which < 192)){
-			return false;
-		}
-	});
-
-	$('#endereco').keypress(function(e){
-		if((e.which > 32 && e.which < 44)||
-		   (e.which > 57 && e.which < 65)||
-		   (e.which > 90 && e.which < 97)||
-		   (e.which > 122 && e.which < 127)||
-		   (e.which > 127 && e.which < 192)){
 			return false;
 		}
 	});
@@ -285,42 +235,6 @@ $(document).ready(function(){
 			}
 	});
 
-	$('#data_assinatura').datepicker({
-		dateFormat: 'dd/mm/yy',
-		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-		maxDate: '+0d',
-		changeMonth: true,
-		changeYear: true,
-		maxDate : '+0y',
-		minDate : '-130y',
-		yearRange : '-130:+130',
-		dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
-	});
-
-	$('.data').datepicker({
-		dateFormat: 'dd/mm/yy',
-		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-		maxDate: '+0d',
-		changeMonth: true,
-		changeYear: true,
-		maxDate : '+0y',
-		minDate : '-130y',
-		yearRange : '-130:+130',
-		dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
-	});
-
-	$('.data_2').datepicker({
-		dateFormat: 'dd/mm/yy',
-		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-		maxDate: '+0d',
-		changeMonth: true,
-		changeYear: true,
-		maxDate : '+0y',
-		minDate : '-130y',
-		yearRange : '-130:+130',
-		dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-		numberOfMonths: 2
-	});
 
 	//Checking aids exam date
 	years = new Array();
@@ -733,38 +647,39 @@ $(document).ready(function(){
 			var dep = new Array();
 			dep[0] = '#divQuantidadeFreezer';
 			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('number');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
+				for(div in dep){
+					var elems = $('*', dep[div]);
+					$(elems).each(function(){
 						var element = $(this);
 						if (   element[0].nodeName != 'FIELDSET'
 							&& element[0].nodeName != 'SMALL'
 							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
+							$(this).addClass('primary');
+							$(this).removeAttr('disabled');
+							$(this).addClass('number');
 						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
+					if($(dep[div]).css('display') != 'block')
+					$(dep[div]).toggle(function() {
+						$(this).css('background-color', hlcolor);
+						$(this).animate({backgroundColor : "white"}, 4000);
+						});
+				}
+			} else {
+				for(div in dep){
+					var elems = $('*', dep[div]);
+					$(elems).each(function(){
+							var element = $(this);
+							if (   element[0].nodeName != 'FIELDSET'
+								&& element[0].nodeName != 'SMALL'
+								&& element[0].nodeName != 'OPTION')
+							$(this).removeClass('required');
+							});
+					if($(dep[div]).css('display') != 'none')
+						$(dep[div]).toggle();
+				}
 			}
 	});
+
 	$('#geladeira').change(function(){
 			var dep = new Array();
 			dep[0] = '#divQuantidadeGeladeira';
@@ -1091,12 +1006,12 @@ $(document).ready(function(){
 	});
 // Check emagrecimento field
 
-	$('#pesoAtual').keyup(function(){
+	$('#pesoAtual').change(function(){
 		if (($(this).val() != 0)&&($('#pesoHabitual').val() != 0))
 		{
 			var dep = new Array();
 			dep[0] = '#divTempoEmagrecimento';
-			if ($(this).val() <= $('#pesoHabitual').val())
+			if ($(this).val() < $('#pesoHabitual').val())
 			{
 				for(div in dep)
 				{
@@ -1133,12 +1048,12 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#pesoHabitual').keyup(function(){
+	$('#pesoHabitual').change(function(){
 		if (($(this).val() != 0)&&($('#pesoAtual').val() != 0))
 		{
 			var dep = new Array();
 			dep[0] = '#divTempoEmagrecimento';
-			if ($('#pesoAtual').val() <= $(this).val())
+			if ($('#pesoAtual').val() < $(this).val())
 			{
 				for(div in dep)
 				{
@@ -1425,6 +1340,10 @@ $(document).ready(function(){
 			numeroCigarros:{
 				numberOfCigarrettes: true,
 				warningNumberOfCigarrettes: true
+			},
+			//Gambiarrado
+			tempoResidenteEstadoAtual:{
+				yearsSmokingLowerThanAge: true
 			},
 			cargaTabagistica:{
 				max:   500,
