@@ -153,10 +153,10 @@
 						<label for='complemento'>Complemento: </label>
 						<input type="text" name="complemento" id="complemento" class='textbox'/>
 					</div>
-				<div id='divGrauInstrucao' class='primary'>
+				<div id='divGrauInstrucao' class='primary required'>
 					<label for='grauInstrucao'>Grau de Instrução:</label>
 					<select name='grauInstrucao' id='grauInstrucao' style="width:360px;">
-						<option value=''							> ------	</option>
+						<option value='ignorado'					> Ignorado	</option>
 						<option value='naoFrequentaEscola'			> Não frequenta a escola  </option>
 						<option value='primarioIncompleto'			> Primário incompleto(até 3ª série fundamental)  </option>
 						<option value='primarioCompleto'			> Primário completo(até 4ª série fundamental)  </option>
@@ -167,10 +167,10 @@
 						<option value='ignorado'					> Ignorado  </option>
 					</select>
 				</div>
-				<div id='divGrauInstrucaoChefeFamilia' class='primary'>
+				<div id='divGrauInstrucaoChefeFamilia' class='primary required'>
 					<label for='grauInstrucaoChefeFamilia'>Grau de Instrução do chefe de família:</label>
 					<select name='grauInstrucaoChefeFamilia' id='grauInstrucaoChefeFamilia' style="width:360px;">
-						<option value=''							> ------	</option>
+						<option value='ignorado'					> Ignorado	</option>
 						<option value='analfabetoPrimarioIncompleto'> Analfabeto / primário incompleto (até 3ª série fundamental)  </option>
 						<option value='primarioCompleto'> Primário completo(até 4ª série fundamental)  </option>
 						<option value='ginasialOuFundamentalCompleto'> Ginasial ou Fundamental completo  </option>
@@ -183,9 +183,9 @@
 					<label for='rendaMensalFamiliar'>Renda mensal da família(Valor em reais. Somar as rendas de todosos familiares): </label>
 					<input type="text" name="rendaMensalFamiliar" id="rendaMensalFamiliar" class='number' size='10'/>
 				</div>
-				<div id='idAquisicaoDeBens' class='primary'>
+				<div id='idAquisicaoDeBens' class='primary required'>
 					<label for='aquisicaoDeBens'> Aquisição de Bens </label>
-						<div id='divFreezer'>
+						<div id='divFreezer' class='primary required'>
 							<label for='freezer'>Freezer(normal ou porta duplex):</label>
 							<select name='freezer' id='freezer' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado</option>
@@ -197,7 +197,7 @@
 							<label for='quantidadeFreezer'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeFreezer" id="quantidadeFreezer" />
 						</div>
-						<div id='divGeladeira'>
+						<div id='divGeladeira' class='primary required'>
 							<label for='geladeira'>Geladeira(simples ou duplex):</label>
 							<select name='geladeira' id='geladeira' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado</option>
@@ -209,7 +209,7 @@
 							<label for='quantidadeGeladeira'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeGeladeira" id="quantidadeGeladeira" />
 						</div>
-						<div id='divMaquinaLavarRoupa'>
+						<div id='divMaquinaLavarRoupa' class='primary required'>
 							<label for='maquinaLavarRoupa'>Máquina de lavar roupa:</label>
 							<select name='maquinaLavarRoupa' id='maquinaLavarRoupa' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado</option>
@@ -221,7 +221,7 @@
 							<label for='quantidadeMaquinaLavarRoupa'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeMaquinaLavarRoupa" id="quantidadeMaquinaLavarRoupa" />
 						</div>
-						<div id='divVideoDVD'>
+						<div id='divVideoDVD' class='primary required'>
 							<label for='videoDVD'>Vídeo cassete / DVD:</label>
 							<select name='videoDVD' id='videoDVD' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado</option>
@@ -233,7 +233,7 @@
 							<label for='quantidadeVideoDVD'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeVideoDVD" id="quantidadeVideoDVD" />
 						</div>
-						<div id='divTelevisao'>
+						<div id='divTelevisao' class='primary required'>
 							<label for='televisao'>Televisão:</label>
 							<select name='televisao' id='televisao' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado</option>
@@ -245,7 +245,7 @@
 							<label for='quantidadeTelevisao'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeTelevisao" id="quantidadeTelevisao" />
 						</div>
-						<div id='divRadio'>
+						<div id='divRadio' class='primary required'>
 							<label for='radio'>Rádio:</label>
 							<select name='radio' id='radio' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado</option>
@@ -257,7 +257,7 @@
 							<label for='quantidadeRadio'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeRadio" id="quantidadeRadio" />
 						</div>
-						<div id='divBanheiro'>
+						<div id='divBanheiro' class='primary required'>
 							<label for='banheiro'>Banheiro:</label>
 							<select name='banheiro' id='banheiro' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado</option>
@@ -269,7 +269,7 @@
 							<label for='quantidadeBanheiro'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeBanheiro" id="quantidadeBanheiro" />
 						</div>
-						<div id='divAutomovel'>
+						<div id='divAutomovel' class='primary required'>
 							<label for='automovel'>Automóvel:</label>
 							<select name='automovel' id='automovel' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado</option>
@@ -281,7 +281,7 @@
 							<label for='quantidadeAutomovel'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeAutomovel" id="quantidadeAutomovel" />
 						</div>
-						<div id='divEmpregadaMensalista'>
+						<div id='divEmpregadaMensalista' class='primary required'>
 							<label for='empregadaMensalista'>Empregada Mensalista:</label>
 							<select name='empregadaMensalista' id='empregadaMensalista' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado</option>
@@ -293,9 +293,10 @@
 							<label for='quantidadeEmpregadaMensalista'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeEmpregadaMensalista" id="quantidadeEmpregadaMensalista" />
 						</div>
-						<div id='divMotivoVindaUnidadeSaude'>
+						<div id='divMotivoVindaUnidadeSaude' class='primary required'>
 							<label for='motivoVindaUnidadeSaude'>Por que você veio a unidade de saúde para a consulta?</label>
 							<select name='motivoVindaUnidadeSaude' id='motivoVindaUnidadeSaude' class='primary' style='width:176px'>
+								<option value='ignorado'>Ignorado </option>
 								<option value='tosse'>Tosse </option>
 								<option value='febre'>Febre </option>
 								<option value='expectoracao'>Expectoração (catarro) </option>
@@ -307,9 +308,10 @@
 								<option value='outros'>Outros </option>
 							</select>
 						</div>
-						<div id='divProcurouUnidadeSaudePorOrientacao'>
+						<div id='divProcurouUnidadeSaudePorOrientacao' class='primary required'>
 							<label for='procurouUnidadeSaudePorOrientacao'>Você procurou a unidade de saúde por orientação de alguém?</label>
 							<select name='procurouUnidadeSaudePorOrientacao' id='procurouUnidadeSaudePorOrientacao' class='primary' style='width:176px'>
+								<option value='ignorado'>Ignorado </option>
 								<option value='decidiuSozinho'>Decidiu sozinho</option>
 								<option value='orientadoPorFamiliar'>Orientado por familiar</option>
 								<option value='visitaFamiliar'>Visita familiar</option>
