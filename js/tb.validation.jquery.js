@@ -162,7 +162,7 @@ $.validator.addMethod("GreaterThanBirthYear", function(value, element) {
 	var age = $("#idade").val();
 	var d = new Date()
 	var cYear = d.getFullYear();
-	var retcode = parseInt($(element).val()) > parseInt(cYear) - parseInt(age);
+	var retcode = parseInt($(element).val()) >= parseInt(cYear) - parseInt(age);
 	return retcode;
 }, "Ano anterior ao nascimento do paciente");
 
