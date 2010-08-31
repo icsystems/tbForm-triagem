@@ -1343,7 +1343,7 @@ $(document).ready(function(){
 			},
 			//Gambiarrado
 			tempoResidenteEstadoAtual:{
-				yearsSmokingLowerThanAge: true
+				yearsLowerThanAge: true
 			},
 			cargaTabagistica:{
 				max:   500,
