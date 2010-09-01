@@ -152,7 +152,7 @@ $.validator.addMethod("yearsSmokingLowerThanAge", function(value, element) {
 $.validator.addMethod("yearsLowerThanAge", function(value, element) {
 	var age = $("#idade").val();
 	retcode = parseInt($(element).val()) <= parseInt(age);
-		return retcode;
+	return retcode;
 }, "Esse campo deve ser menor do que a idade do paciente.");
 
 $.validator.addMethod("numberOfCigarrettes", function(value, element) {
