@@ -158,7 +158,7 @@ $.validator.addMethod("yearsLowerThanAge", function(value, element) {
 
 $.validator.addMethod("yearsLowerThanAge", function(value, element) {
 	var age = $("#idade").val();
-	retcode = parseInt($(element).val()) < parseInt(age);
+	retcode = parseInt($(element).val()) <= parseInt(age);
 	return retcode;
 }, "Esse campo deve ser menor do que a idade do paciente.");
 
