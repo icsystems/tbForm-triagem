@@ -132,6 +132,7 @@ $(document).ready(function(){
 	$('.data').datepicker({
 		dateFormat: 'dd/mm/yy',
 		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Aug','Set','Out','Nov','Dez'],
 		maxDate: '+0d',
 		changeMonth: true,
 		changeYear: true,
@@ -150,12 +151,19 @@ $(document).ready(function(){
 			return false;
 		}
 	});
+	$('.money').priceFormat({
+		prefix: 'R$ ',
+		centsSeparator: ',',
+		thousandsSeparator: '.',
+		centsLimit: 2
+	});
 
 	$('#data_consulta').writePortugueseDate();
 	//Build birthday calendar
 	$('#data_nascimento').datepicker({
 			dateFormat: 'dd/mm/yy',
 			monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+			monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Aug','Set','Out','Nov','Dez'],
 			maxDate: '+0d',
 			changeMonth: true,
 			changeYear: true,
@@ -1159,6 +1167,7 @@ $(document).ready(function(){
 		dep[4] = '#divCriterioCage';
 		// Se sim, disponibilizar colunas listadas a cima
 		if($(this).val()=='sim'){
+			$('#criterioCage').val('Negativo');
 			for(div in dep){
 				var elems = $('*', dep[div]);
 				$(elems).each(function(){
@@ -1176,6 +1185,7 @@ $(document).ready(function(){
 					});
 			}
 		} else {
+			$('#criterioCage').val('');
 			for(div in dep){
 				var elems = $('*', dep[div]);
 				$(elems).each(function(){
