@@ -20,6 +20,7 @@
 		@import url(./css/styles.css);
 	-->
 	</style>
+	<title>Triagem de Pacientes - Implementação</title>
 </head>
 <body>
 	<div id='menu'>
@@ -48,18 +49,26 @@
 						<label for='numeroProntuario'> Número de Prontuário: </label>
 						<input type='text' name='numeroProntuario' id='numeroProntuario' class='primary required' size='10' />
 					</div>
-					<div id='divDataAssinatura' class='primary required'>
-						<label for='data_assinatura'> Data de assinatura do termo de consentimento (TCLE): </label>
-						<input type="text" name="data_assinatura" id="data_assinatura" class='required data' readonly/>
-					</div>
 					<div id='divPacienteExcluido' class='primary required'>
 						<label for='pacienteExcluido'>Excluído: </label>
-						<select name = "pacienteExcluido" class='required'>
-							<option              	>  ----   	</option>
+						<select name = "pacienteExcluido" id="pacienteExcluido">
+							<option value=""        >  ----   	</option>
 							<option value="sim"		>  Sim   	</option>
 							<option value="nao"		>  Não    	</option>
 							<option value="semTcle"	>  Sem TCLE </option>
 						</select>
+					</div>
+					<div id='divDataAssinatura' class='secondary'>
+						<label for='data_assinatura'> Data de assinatura do termo de consentimento (TCLE): </label>
+						<input type="text" name="data_assinatura" id="data_assinatura" class='required data' readonly/>
+					</div>
+					<div id='divCausaInternacao' class='primary required'>
+						<label for='causaInternacao'>Qual a causa da internação?</label>
+						<input type='text' name='causaInternacao' id='causaInternacao' size='30' />
+					</div>
+					<div id='divEncaminhamentoInternacao' class='primary required'>
+						<label for='encaminhamentoInternacao'>Como foi o encaminhamento para a internação?</label>
+						<input type='text' name='encaminhamentoInternacao' id='encaminhamentoInternacao' size='30' />
 					</div>
 				</fieldset>
 				<fieldset id='info_pessoais'>
@@ -98,8 +107,8 @@
 					</fieldset>
 					</div>
 					<div id='divRaca' class='primary required'>
-						<label for='raca'>Raça/Cor: </label>
-						<select name = "raca" class='required'>
+						<label for='raca'>Cor da pele (expressa pelo paciente): </label>
+						<select name = "raca" id="raca" class='required'>
 							<option              >     ----   </option>
 							<option value="branco">   Branca   </option>
 							<option value="preta">    Preta    </option>
@@ -110,13 +119,15 @@
 					</div>
 					<div id='divEstadoCivil' class='primary required'>
 						<label for='estado_civil'>Estado Civil: </label>
-						<select name = "estado_civil"  class='required'>
+						<select name = "estado_civil"  id="estado_civil" class='required'>
 							<option              >      ----     </option>
 							<option value="casado">     Casado(a)     </option>
 							<option value="solteiro">   Solteiro(a)   </option>
-							<option value="amigado">    Amigado(a)   </option>
+							<option value="amigado">    Junto/Amigado(a)   </option>
+							<option value="separado">	Desquitado(a)/Separado(a) </option>
 							<option value="divorciado"> Divorciado(a) </option>
 							<option value="viuvo">      Vi&uacute;vo(a)      </option>
+							<option value="ignorado">	Ignorado		</option>
 						</select>
 					</div>
 					<div id='divCep' class='primary'>
@@ -154,9 +165,9 @@
 						<label for='complemento'>Complemento: </label>
 						<input type="text" name="complemento" id="complemento" class='textbox'/>
 					</div>
-				<div id='divGrauInstrucao' class='primary required'>
-					<label for='grauInstrucao'>Grau de Instrução:</label>
-					<select name='grauInstrucao' id='grauInstrucao' style="width:360px;">
+				<div id='divGrauInstrucaoPaciente' class='primary required'>
+					<label for='grauInstrucaoPaciente'>Grau de Instrução do Paciente:</label>
+					<select name='grauInstrucaoPaciente' id='grauInstrucaoPaciente' style="width:360px;">
 						<option value='ignorado'					> Ignorado	</option>
 						<option value='naoFrequentaEscola'			> Não frequenta a escola  </option>
 						<option value='primarioIncompleto'			> Primário incompleto(até 3ª série fundamental)  </option>
@@ -305,9 +316,16 @@
 								<option value='perdaDeApetite'>Perda de apetite </option>
 								<option value='sudoreseNoturna'>Sudorese noturna </option>
 								<option value='dispneia'>Dispnéia </option>
-								<option value='cansaco'>Cansaço </option>
+								<option value='cansaco'>Cansaço(Astenia) </option>
+								<option value='dorNoPeito'>Dor no Peito</option>
+								<option value='chiadoNoPeito'>Chiado no peito</option>
+								<option value='alteracaoRaioX'>Alteração no Raio X</option>
 								<option value='outros'>Outros </option>
 							</select>
+						</div>
+						<div id='divEspecificarMotivoVindaUnidadeSaude' class='secondary'>
+							<label for='especificarMotivoVindaUnidadeSaude'>Especificar: </label>
+							<input type="text" size="30" class="text" name='especificarMotivoVindaUnidadeSaude' id='especificarMotivoVindaUnidadeSaude' />
 						</div>
 						<div id='divProcurouUnidadeSaudePorOrientacao' class='primary required'>
 							<label for='procurouUnidadeSaudePorOrientacao'>Você procurou a unidade de saúde por orientação de alguém?</label>
@@ -323,7 +341,7 @@
 						</div>
 						<div id='divEspecificacaoEncaminhamento' class='secondary'>
 							<label for='especificacaoEncaminhamento'>Especificar: </label>
-							<input type='text' class='text' name='especificacaoEncaminhamento' id='especificacaoEncaminhamento' />
+							<input type='text' class='text' size='30' name='especificacaoEncaminhamento' id='especificacaoEncaminhamento' />
 						</div>
 				</div>
 				</fieldset>
@@ -882,34 +900,12 @@
 							<option value='nao'> N&atilde;o  </option>
 						</select>
 					</div>
-					<div id='divTipoContatoTuberculosePositiva' class='secondary'>
-						<label for='tipoContatoTuberculosePositiva'>Tipo de contato:</label>
-						<select name='tipoContatoTuberculosePositiva' id='tipoContatoTuberculosePositiva' class='selectOneSinais sinais required'>
-							<option value='domiciliar' selected> Domiciliar  </option>
-							<option value='trabalho'> Trabalho  </option>
-							<option value='vizinhanca'> Vizinhança  </option>
-							<option value='presDel'> Presídio/Delegacia  </option>
-							<option value='hospital'> Hospital  </option>
-							<option value='casaApoio'> Casa de apoio  </option>
-						</select>
-					</div>
 					<div id='divContatoTuberculoseResistente' class='primary required'>
 						<label for='contatoTuberculoseResistente'>Contato com TB pulmonar resistente:</label>
 						<select name='contatoTuberculoseResistente' id='contatoTuberculoseResistente' class='selectOneSinais required'>
 							<option value='ignorado' selected> Ignorado  </option>
 							<option value='sim'> Sim  </option>
 							<option value='nao'> N&atilde;o  </option>
-						</select>
-					</div>
-					<div id='divTipoContatoTuberculoseResistente' class='secondary'>
-						<label for='tipoContatoTuberculoseResistente'>Tipo de contato:</label>
-						<select name='tipoContatoTuberculoseResistente' id='tipoContatoTuberculoseResistente' class='selectOneSinais sinais required'>
-							<option value='domiciliar' selected> Domiciliar  </option>
-							<option value='trabalho'> Trabalho  </option>
-							<option value='vizinhanca'> Vizinhança  </option>
-							<option value='presDel'> Presídio/Delegacia  </option>
-							<option value='hospital'> Hospital  </option>
-							<option value='casaApoio'> Casa de apoio  </option>
 						</select>
 					</div>
 				</fieldset>
@@ -1018,7 +1014,11 @@
 						<label for='avaliacao'> Como o entrevistador avalia a confiabilidade das respostas do entrevistado? (0 a 10) </label>
 						<input type='text' name='avaliacao' id='avaliacao' class='number' size='2' maxlength='2'/>
 					</div>
-					<div class='submit'><input value="Enviar Formulário"  class='inputButton'  type="submit"></div>
+					<div id='divHorarioFimEntrevista' class='primary required'>
+						<label for='horarioFimEntrevista'> Horário do fim da entrevista: </label>
+						<input type='text' name='horarioFimEntrevista' id='horarioFimEntrevista' size='6' maxlength='6' readonly/>
+					</div>
+					<div class='submit'><input id="submitButton" value="Enviar Formulário"  class='inputButton'  type="submit"></div>
 				</fieldset>
 			</div><!--/maincontent-->
 		</div><!--/content-->
