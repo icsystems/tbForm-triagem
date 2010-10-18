@@ -112,7 +112,6 @@ function showClock(argumento) {
 	var minutes = time.getMinutes();
 	if (minutes.toString().length == 1)
 		minutes = '0' + minutes;
-	console.log(minutes.toString().length);
 	var timeStr = hours+':'+minutes;
 	document.getElementById(argumento).value = timeStr;
 	return setInterval("showClock('" + argumento + "');",60000);
