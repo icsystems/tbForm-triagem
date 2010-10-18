@@ -477,14 +477,6 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#motivoVindaUnidadeSaude').change(function(){
-		var dep = new Array();
-		dep[0] = '#divEspecificarMotivoVindaUnidadeSaude';
-		if ($(this).val() == 'outros')
-			$().showFields(dep);
-		else
-			$().hideFields(dep);
-	});
 	$('#contatoTuberculosePositiva').change(function(){
 			var dep = new Array();
 			dep[0] = '#divTipoContatoTuberculosePositiva';
@@ -727,42 +719,6 @@ $(document).ready(function(){
 					$(this).addClass('primary');
 					$(this).removeAttr('disabled');
 					$(this).addClass('number');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
-	});
-	$('#procurouUnidadeSaudePorOrientacao').change(function(){
-			var dep = new Array();
-			dep[0] = '#divEspecificacaoEncaminhamento';
-			if($(this).val()=='encaminhadoPorOutroServicoDeSaude' || $(this).val() == 'outros'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('text');
 				});
 			if($(dep[div]).css('display') != 'block')
 			$(dep[div]).toggle(function() {
