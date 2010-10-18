@@ -209,6 +209,7 @@ $(document).ready(function(){
 	});
 
 	$('#data_consulta').writePortugueseDate();
+	$('#dataFimTriagem').writePortugueseDate();
 	//Build birthday calendar
 	$('#data_nascimento').datepicker({
 			dateFormat: 'dd/mm/yy',
