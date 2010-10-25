@@ -23,11 +23,6 @@
 	<title>Triagem de Pacientes - Implementação</title>
 </head>
 <body>
-	<div id='menu'>
-		<ul>
-			<li class='help'><a href='#'>Ajuda</a></li>
-		</ul>
-	</div>
 	<div id='mainFrame'>
 		<div id='content'>
 			<div id='maincontent'>
@@ -294,7 +289,7 @@
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeAutomovel" id="quantidadeAutomovel" />
 						</div>
 						<div id='divEmpregadaMensalista' class='primary required'>
-							<label for='empregadaMensalista'>Empregada Mensalista:</label>
+							<label for='empregadaMensalista'>Empregada Mensalista (Não diarista):</label>
 							<select name='empregadaMensalista' id='empregadaMensalista' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado</option>
 								<option value='sim'>Sim</option>
@@ -304,6 +299,14 @@
 						<div id='divQuantidadeEmpregadaMensalista' class='secondary'>
 							<label for='quantidadeEmpregadaMensalista'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeEmpregadaMensalista" id="quantidadeEmpregadaMensalista" />
+						</div>
+						<div id='divFrasesAjuda'>
+							<p><b>Paciente possui geladeira duplex, mas não freezer: </b>[Considerar como se tivesse uma geladeira e um freezer]</p>
+							<p><b>Paciente possui geladeira duplex e freezer: </b>[Considerar como se tivesse uma geladeira e um freezer]</p>
+						</div>
+						<div id='divClasseSocial'>
+							<label for='classeSocial'>Classe Social do Paciente: </label>
+							<input type='text' size='2' name='classeSocial' id='classeSocial' readonly/>
 						</div>
 				</fieldset>
 				<fieldset>

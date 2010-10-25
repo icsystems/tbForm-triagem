@@ -116,7 +116,6 @@ function showClock(argumento) {
 	document.getElementById(argumento).value = timeStr;
 	return setInterval("showClock('" + argumento + "');",60000);
 }
-
 //After page is loaded set actions
 $(document).ready(function(){
 
@@ -155,6 +154,74 @@ $(document).ready(function(){
 			if($(dep[div]).css('display') != 'none')
 				$(dep[div]).toggle();
 		}
+	}
+	$.fn.defineSocialClass = function(totalPoints){
+		var socialClass = '';
+		points = parseInt(totalPoints,10);
+		if (points <= 7)
+			socialClass = 'E';
+		else if (points >= 8 && points <= 13)
+			socialClass = 'D';
+		else if (points >= 14 && points <= 17)
+			socialClass = 'C2';
+		else if (points >= 18 && points <= 22)
+			socialClass = 'C1';
+		else if (points >= 23 && points <= 28)
+			socialClass = 'B2';
+		else if (points >= 29 && points <= 34)
+			socialClass = 'B1';
+		else if (points >= 35 && points <= 41)
+			socialClass = 'A2';
+		else if (points >= 42 && points <= 46)
+			socialClass = 'A1';
+		return socialClass;
+	}
+	$.fn.countPoints = function(){
+		var points = 0;
+		var field = '';
+		var fields = ['quantidadeFreezer','quantidadeGeladeira','quantidadeMaquinaLavarRoupa'
+						,'quantidadeVideoDVD','quantidadeTelevisao','quantidadeRadio'
+						,'quantidadeBanheiro','quantidadeAutomovel','quantidadeEmpregadaMensalista'];
+		for (fieldIndex in fields){
+			field = fields[fieldIndex];
+			if ($('#' + field).val().length != 0)
+				fieldValue = parseInt($('#' + field).val(),10);
+			else
+				fieldValue = 0;
+			if (field == 'quantidadeTelevisao' || field == '#quantidadeRadio'){
+				if (fieldValue >= 4)
+					points += 4;
+				else
+					points += fieldValue;
+			}
+			if (field == 'quantidadeMaquinaLavarRoupa' || field == 'quantidadeVideoDVD' || field == 'quantidadeFreezer')
+				if (fieldValue >= 1)
+					points += 2;
+			if (field == 'quantidadeGeladeira')
+				if (fieldValue >= 1)
+					points += 4;
+			if (field == 'quantidadeBanheiro'){
+				if (fieldValue >= 4)
+					points += 7;
+				else
+					points += fieldValue + 3;
+			}
+			if (field == 'quantidadeAutomovel'){
+				if (fieldValue == 1)
+					points += 4;
+				else if (fieldValue == 2)
+					points += 7;
+				else if (fieldValue >= 3)
+					points += 9;
+			}
+			if (field == 'quantidadeEmpregadaMensalista'){
+				if (fieldValue == 1)
+					points += 3;
+				else if (fieldValue >= 2)
+					points += 4;
+			}
+		}
+		return points;
 	}
 
 	var hlcolor = '#FFF8C6';
@@ -374,6 +441,34 @@ $(document).ready(function(){
 				$().showFields(dep);
 			else
 				$().hideFields(dep);
+	});
+
+	$('#quantidadeFreezer').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeGeladeira').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeMaquinaLavarRoupa').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeVideoDVD').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeTelevisao').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeRadio').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeBanheiro').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeAutomovel').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeEmpregadaMensalista').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
 	});
 
 	$('#cep').keyup(function() {
