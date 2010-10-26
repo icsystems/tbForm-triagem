@@ -603,13 +603,22 @@ $(document).ready(function(){
 	$('#fumante').change(function(){
 		var dep = new Array();
 		dep[0] = '#divNumeroCigarros';
-		dep[1] = '#divNumeroAnosFumante';
+		dep[1] = '#divTempoFumante';
 		dep[2] = '#divCargaTabagistica';
 		// Se sim, disponibilizar colunas listadas a cima
 		if($(this).val()=='sim' || $(this).val()=='exfumante')
 			$().showFields(dep);
 		else
 			$().hideFields(dep);
+	});
+	$('#numeroMesesFumante').keyup(function(){
+		var valueYears = parseInt($('#numeroAnosFumante').val(),10);
+		var valueMonths = parseInt($(this).val(),10);
+		if (valueMonths >= 12)
+		{
+			$('#numeroAnosFumante').val(valueYears+1);
+			$('#numeroMesesFumante').val(valueMonths-12);
+		}
 	});
 
 	$('#exameSida').change(function(){

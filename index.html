@@ -311,11 +311,30 @@
 				</fieldset>
 				<fieldset>
 					<legend>Informações sobre a internação</legend>
-					<div id='causasNaoMedicas' name='causasNaoMedicas' class='primary required'>
+					<div id='divCausasNaoMedicas' name='causasNaoMedicas' class='primary required'>
 						<label for='causasNaoMedicas'>Causas não Médicas:</label>
+						<select name='causasNaoMedicas' id='causasNaoMedicas'>
+							<option value='moradorDeRua'		>Morador de Rua			</option>
+							<option value='alcoolista'			>Alcoolista				</option>
+							<option value='drogadito'			>Drogadito				</option>
+							<option value='abandonoFamiliar'	>Abandono Familiar		</option>
+							<option value='pacientePsiquiatrico'>Paciente psiquiátrico	</option>
+							<option value='decidiuSozinho'		>Decidiu sozinho		</option>
+						</select>
 					</div>
-					<div id='causasMedicas' name='causasMedicas' class='primary required'>
+					<div id='divCausasMedicas' name='causasMedicas' class='primary required'>
 						<label for='causasMedicas'>Causas Médicas:</label>
+						<select name='causasMedicas' id='causasMedicas'>
+							<option value='intoleranciaMedicamentosa'	>Intolerância Medicamentosa	</option>
+							<option value='hepatiteMedicamentosa'		>Hepatite Medicamentosa		</option>
+							<option value='desnutricao'					>Desnutrição				</option>
+							<option value='hemoptise'					>Hemoptise					</option>
+							<option value='comorbidades'				>Comorbidades				</option>
+							<option value='transplante'					>Transplante				</option>
+							<option value='tbExtraPulmonar'				>TB extra pulmonar			</option>
+							<option value='hiv'							>HIV						</option>
+							<option value='tbPleural'					>TB Pleural					</option>
+						</select>
 					</div>
 					<div id='responsavelPeloEncaminhamentoParaInternacao' name='responsavelPeloEncaminhamentoParaInternacao' class='primary required'>
 						<label for='responsavelPeloEncaminhamentoParaInternacao'>Responsável pelo encaminhamento para a internação:</label>
@@ -906,9 +925,10 @@
 						<label for="numeroCigarros">Número de cigarros que fuma/fumava por dia:</label>
 						<input type="text" size="5" maxlength="3" class="number required" name="numeroCigarros" id='numeroCigarros' /> cigarros
 					</div>
-					<div class="secondary" id="divNumeroAnosFumante">
-						<label for="numeroAnosFumante">Número de anos que fuma/fumou :</label>
-						<input type="text" size="5" maxlength="2" class="number required" name="numeroAnosFumante" id="numeroAnosFumante"/> anos
+					<div class="secondary" id="divTempoFumante">
+						<label for="tempoFumante">Há quanto(s) ano(s) fuma/fumou :</label>
+						<input type="text" size="5" maxlength="2" class="number required" name="numeroAnosFumante" id="numeroAnosFumante"/> ano(s)
+						<input type="text" size="5" maxlength="2" class="number required" name="numeroMesesFumante" id="numeroMesesFumante"/> mes(es)
 					</div>
 					<div id='divCargaTabagistica' class='secondary'>
 						<label for='name'> Carga Tabágica: </label>
