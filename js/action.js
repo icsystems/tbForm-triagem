@@ -367,6 +367,22 @@ $(document).ready(function(){
 
 //Take care about the address fields
 
+	$('#tipoUnidade').change(function(){
+			var dep1 = new Array();
+			dep1[0] = '#divMotivoVindaUnidadeSaude';
+			dep1[1] = '#divProcurouUnidadeSaudePorOrientacao';
+			var dep2 = new Array();
+			dep2[0] = '#divCausasNaoMedicas';
+			dep2[1] = '#divCausasMedicas';
+			dep2[2] = '#divResponsavelPeloEncaminhamentoParaInternacao';
+			if($(this).val()=='ambulatorio'){
+				$().showFields(dep1);
+				$().hideFields(dep2);
+			}else if ($(this).val()=='hospital'){
+				$().showFields(dep2);
+				$().hideFields(dep1);
+			}
+	});
 	$('#pacienteExcluido').change(function(){
 			var dep = new Array();
 			dep[0] = '#divDataAssinatura';

@@ -41,6 +41,14 @@
 						<label for='unidade'> Unidade: </label>
 						<input type="text" name="unidade" id="unidade" class='textbox required'/>
 					</div>
+					<div id='divTipoUnidade' class='primary required'>
+						<label for='tipoUnidade'> Tipo da Unidade: </label>
+						<select name="tipoUnidade" id="tipoUnidade"/>
+							<option value=''>----</option>
+							<option value='ambulatorio'>Ambulatório</option>
+							<option value='hospital'>Hospital</option>
+						</select>
+					</div>
 					<div id='divNumeroPaciente' class='primary required'>
 						<label for='numeroPaciente'> Número do Paciente no Estudo: </label>
 						<input type="text" name="numeroPaciente" id="numeroPaciente" class='number required' size='10' />
@@ -305,7 +313,10 @@
 							<label for='quantidadeEmpregadaMensalista'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeEmpregadaMensalista" id="quantidadeEmpregadaMensalista" />
 						</div>
-						<div id='divMotivoVindaUnidadeSaude' class='primary required'>
+				</fieldset>
+				<fieldset>
+					<legend>Informações sobre a internação</legend>
+						<div id='divMotivoVindaUnidadeSaude' class='secondary'>
 							<label for='motivoVindaUnidadeSaude'>Por que você veio a unidade de saúde para a consulta?</label>
 							<select name='motivoVindaUnidadeSaude' id='motivoVindaUnidadeSaude' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado </option>
@@ -327,7 +338,7 @@
 							<label for='especificarMotivoVindaUnidadeSaude'>Especificar: </label>
 							<input type="text" size="30" class="text" name='especificarMotivoVindaUnidadeSaude' id='especificarMotivoVindaUnidadeSaude' />
 						</div>
-						<div id='divProcurouUnidadeSaudePorOrientacao' class='primary required'>
+						<div id='divProcurouUnidadeSaudePorOrientacao' class='secondary'>
 							<label for='procurouUnidadeSaudePorOrientacao'>Você procurou a unidade de saúde por orientação de alguém?</label>
 							<select name='procurouUnidadeSaudePorOrientacao' id='procurouUnidadeSaudePorOrientacao' class='primary' style='width:176px'>
 								<option value='ignorado'>Ignorado </option>
@@ -343,18 +354,34 @@
 							<label for='especificacaoEncaminhamento'>Especificar: </label>
 							<input type='text' class='text' size='30' name='especificacaoEncaminhamento' id='especificacaoEncaminhamento' />
 						</div>
-				</fieldset>
-				<fieldset>
-					<legend>Informações sobre a internação</legend>
-					<div id='causasNaoMedicas' name='causasNaoMedicas' class='primary required'>
+					<div id='divCausasNaoMedicas' name='causasNaoMedicas' class='secondary'>
 						<label for='causasNaoMedicas'>Causas não Médicas:</label>
+						<select name='causasNaoMedicas' id='causasNaoMedicas'>
+							<option value='moradorDeRua'>Morador de Rua</option>
+							<option value='alcoolista'>Alcoolista</option>
+							<option value='drogadito'>Drogadito</option>
+							<option value='abandonoFamiliar'>Abandono Familiar</option>
+							<option value='pacientePsiquiatrico'>Paciente Psiquiátrico</option>
+							<option value='decidiuSozinho'>Decidiu sozinho</option>
+						</select>
 					</div>
-					<div id='causasMedicas' name='causasMedicas' class='primary required'>
+					<div id='divCausasMedicas' name='causasMedicas' class='secondary'>
 						<label for='causasMedicas'>Causas Médicas:</label>
+						<select name='causasMedicas' id='causasMedicas'>
+							<option value='intoleranciaMedicamentosa'>Intolerância Medicamentosa</option>
+							<option value='hepatiteMedicamentosa'>Hepatite Medicamentosa</option>
+							<option value='desnutricao'>Desnutrição</option>
+							<option value='hemoptise'>Hemoptise</option>
+							<option value='comorbidades'>Comorbidades</option>
+							<option value='transplante'>Transplante</option>
+							<option value='tbExtraPulmonar'>TB Extra Pulmonar</option>
+							<option value='hiv'>HIV</option>
+							<option value='tbPleural'>TB pleural</option>
+						</select>
 					</div>
-					<div id='responsavelPeloEncaminhamentoParaInternacao' name='responsavelPeloEncaminhamentoParaInternacao' class='primary required'>
+					<div id='divResponsavelPeloEncaminhamentoParaInternacao' name='divResponsavelPeloEncaminhamentoParaInternacao' class='secondary'>
 						<label for='responsavelPeloEncaminhamentoParaInternacao'>Responsável pelo encaminhamento para a internação:</label>
-							<select name='responsavelPeloEncaminhamentoParaInternacao' id='responsavelPeloEncaminhamentoParaInternacao' class='selectOne'>
+							<select name='responsavelPeloEncaminhamentoParaInternacao' id='responsavelPeloEncaminhamentoParaInternacao'>
 								<option value='postoDeSaude'		> Posto de Saúde  			</option>
 								<option value='upa'					> UPA  						</option>
 								<option value='hospital'			> Hospital  				</option>
