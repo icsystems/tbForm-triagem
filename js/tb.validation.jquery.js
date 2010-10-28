@@ -133,7 +133,7 @@ $.validator.addMethod("warningSymptoms", function(value, element, params) {
 	if(params.search('mes') >= 0 ) n2=n2*4;
 	msg = 'O tempo de ' +$(element).attr('name').substr(5)+ ' é maior que ' +n2+ ' semanas. Confirma?';
 	retcode = $(element).ConfirmUI(msg, function(element){
-		return n < n2;
+		return n <= n2;
 	},options);
 	return retcode;
 }, 'Por favor, confira há quanto tempo o paciente apresenta o sintoma.');

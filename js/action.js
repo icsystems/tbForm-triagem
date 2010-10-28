@@ -103,9 +103,59 @@ function calculateAge(dateStr){
 	if (mes == mesAtual && diaAtual < dia) idade--;
 	return idade;
 }
+//Make a clock
+function showClock(argumento) {
+	var time = new Date();
+	var hours = time.getHours();
+	if (hours.toString().length == 1)
+		hours = '0' + hours;
+	var minutes = time.getMinutes();
+	if (minutes.toString().length == 1)
+		minutes = '0' + minutes;
+	var timeStr = hours+':'+minutes;
+	document.getElementById(argumento).value = timeStr;
+	return setInterval("showClock('" + argumento + "');",60000);
+}
 
 //After page is loaded set actions
 $(document).ready(function(){
+
+	showClock('horarioFimEntrevista');
+
+	$.fn.showFields = function(argumento){
+		var dep = argumento;
+		for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+				var element = $(this);
+				if (   element[0].nodeName != 'FIELDSET'
+					&& element[0].nodeName != 'SMALL'
+					&& element[0].nodeName != 'OPTION')
+					$(this).addClass('required');
+					$(this).removeAttr('disabled',false);
+				});
+			if($(dep[div]).css('display') != 'block')
+				$(dep[div]).toggle(function() {
+					$(this).css('background-color', hlcolor);
+					$(this).animate({backgroundColor : "white"}, 4000);
+					});
+		}
+	}
+	$.fn.hideFields = function(argumento){
+		var dep = argumento;
+		for(div in dep){
+			var elems = $('*', dep[div]);
+			$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+						&& element[0].nodeName != 'SMALL'
+						&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+					});
+			if($(dep[div]).css('display') != 'none')
+				$(dep[div]).toggle();
+		}
+	}
 
 	var hlcolor = '#FFF8C6';
 	var d = new Date()
@@ -132,6 +182,7 @@ $(document).ready(function(){
 	$('.data').datepicker({
 		dateFormat: 'dd/mm/yy',
 		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Aug','Set','Out','Nov','Dez'],
 		maxDate: '+0d',
 		changeMonth: true,
 		changeYear: true,
@@ -150,12 +201,20 @@ $(document).ready(function(){
 			return false;
 		}
 	});
+	$('.money').priceFormat({
+		prefix: 'R$ ',
+		centsSeparator: ',',
+		thousandsSeparator: '.',
+		centsLimit: 2
+	});
 
 	$('#data_consulta').writePortugueseDate();
+	$('#dataFimTriagem').writePortugueseDate();
 	//Build birthday calendar
 	$('#data_nascimento').datepicker({
 			dateFormat: 'dd/mm/yy',
 			monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+			monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Aug','Set','Out','Nov','Dez'],
 			maxDate: '+0d',
 			changeMonth: true,
 			changeYear: true,
@@ -204,7 +263,7 @@ $(document).ready(function(){
 								var msgOrientacao = $('#msgResultado');
 								msgOrientacao.html('');
 								if(response.TB == 'no'){
-									msgOrientacao.append('Se Doença Pulmonar, agilizar consulta com médico do pulmão. Caso contrário, encaminhar para consulta com clínico geral.');
+									msgOrientacao.append('Se Doença Pulmonar(Asma brônquica, DPOC, Bronquiectasia), agilizar consulta com médico do pulmão. Caso contrário, encaminhar para consulta com clínico geral.');
 									msg.append($('<strong />')
 										.append('O paciente não possui TB')
 									);
@@ -308,6 +367,31 @@ $(document).ready(function(){
 
 //Take care about the address fields
 
+	$('#tipoUnidade').change(function(){
+			var dep1 = new Array();
+			dep1[0] = '#divMotivoVindaUnidadeSaude';
+			dep1[1] = '#divProcurouUnidadeSaudePorOrientacao';
+			var dep2 = new Array();
+			dep2[0] = '#divCausasNaoMedicas';
+			dep2[1] = '#divCausasMedicas';
+			dep2[2] = '#divResponsavelPeloEncaminhamentoParaInternacao';
+			if($(this).val()=='ambulatorio'){
+				$().showFields(dep1);
+				$().hideFields(dep2);
+			}else if ($(this).val()=='hospital'){
+				$().showFields(dep2);
+				$().hideFields(dep1);
+			}
+	});
+	$('#pacienteExcluido').change(function(){
+			var dep = new Array();
+			dep[0] = '#divDataAssinatura';
+			if($(this).val()=='nao')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+
 	$('#cep').keyup(function() {
 		var cepForm = $(this).val();
 		var format = '#####-###';
@@ -332,24 +416,9 @@ $(document).ready(function(){
 		dep[2] = '#divInterrompeuAtividade';
 		dep[3] = '#divAcordaSemAr';
 		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim'){
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).addClass('required');
-						$(this).removeAttr('disabled');
-				});
-				if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-					});
-			}
-		} else {
+		if($(this).val()=='sim')
+			$().showFields(dep);
+		else{
 			for(div in dep){
 				if(dep[div] == '#divAcordaSemAr'){
 					if( $('#chiado').val()  == 'sim' ||
@@ -374,24 +443,9 @@ $(document).ready(function(){
 		var dep = new Array();
 		dep[0] = '#divAcordaSemAr';
 		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim'){
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).addClass('required');
-						$(this).removeAttr('disabled');
-				});
-				if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-					});
-			}
-		} else {
+		if($(this).val()=='sim')
+			$().showFields(dep);
+		else {
 			for(div in dep){
 				if(dep[div] == '#divAcordaSemAr'){
 					if( $('#dispneia').val() == 'sim' ||
@@ -416,24 +470,9 @@ $(document).ready(function(){
 		var dep = new Array();
 		dep[0] = '#divAcordaSemAr';
 		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim'){
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).addClass('required');
-						$(this).removeAttr('disabled');
-				});
-				if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-					});
-			}
-		} else {
+		if($(this).val()=='sim')
+			$().showFields(dep);
+		else {
 			for(div in dep){
 				if(dep[div] == '#divAcordaSemAr'){
 					if( $('#dispneia').val() == 'sim' ||
@@ -454,75 +493,29 @@ $(document).ready(function(){
 			}
 		}
 	});
+	$('#motivoVindaUnidadeSaude').change(function(){
+		var dep = new Array();
+		dep[0] = '#divEspecificarMotivoVindaUnidadeSaude';
+		if ($(this).val() == 'outros')
+			$().showFields(dep);
+		else
+			$().hideFields(dep);
+	});
 	$('#contatoTuberculosePositiva').change(function(){
 			var dep = new Array();
 			dep[0] = '#divTipoContatoTuberculosePositiva';
-			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('required');
-					$(this).removeAttr('disabled');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
 	});
 	$('#contatoTuberculoseResistente').change(function(){
 			var dep = new Array();
 			dep[0] = '#divTipoContatoTuberculoseResistente';
-			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('required');
-					$(this).removeAttr('disabled');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
 	});
 	$('#tratamentoAnterior').change(function(){
 		var dep = new Array();
@@ -531,38 +524,10 @@ $(document).ready(function(){
 		dep[2] = '#divLocalTuberculose';
 		dep[3] = '#divDesfecho';
 		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim'){
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).addClass('required');
-						$(this).removeAttr('disabled');
-				});
-				if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-					});
-			}
-		} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						$(this).attr('disabled', 'disabled');
-				});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-		}
+		if($(this).val()=='sim')
+			$().showFields(dep);
+		else
+			$().hideFields(dep);
 	});
 	$('#fumante').change(function(){
 		var dep = new Array();
@@ -570,38 +535,10 @@ $(document).ready(function(){
 		dep[1] = '#divNumeroAnosFumante';
 		dep[2] = '#divCargaTabagistica';
 		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim' || $(this).val()=='exfumante'){
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).addClass('required');
-						$(this).removeAttr('disabled');
-				});
-				if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-					});
-			}
-		} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						$(this).attr('disabled', 'disabled');
-				});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-		}
+		if($(this).val()=='sim' || $(this).val()=='exfumante')
+			$().showFields(dep);
+		else
+			$().hideFields(dep);
 	});
 
 	$('#exameSida').change(function(){
@@ -609,184 +546,44 @@ $(document).ready(function(){
 		dep[0] = '#divDataSida';
 		dep[1] = '#divSIDA';
 		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim'){
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).addClass('required');
-						$(this).removeAttr('disabled');
-				});
-				if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-					});
-			}
-		} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (element[0].nodeName != 'FIELDSET'
-						&& element[0].nodeName != 'SMALL'
-						&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						$(this).attr('disabled', 'disabled');
-				});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-		}
+		if($(this).val()=='sim')
+			$().showFields(dep);
+		else
+			$().hideFields(dep);
 	});
 
 	$('#freezer').change(function(){
 			var dep = new Array();
 			dep[0] = '#divQuantidadeFreezer';
-			if($(this).val()=='sim'){
-				for(div in dep){
-					var elems = $('*', dep[div]);
-					$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-							$(this).addClass('primary');
-							$(this).removeAttr('disabled');
-							$(this).addClass('number');
-						});
-					if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-						});
-				}
-			} else {
-				for(div in dep){
-					var elems = $('*', dep[div]);
-					$(elems).each(function(){
-							var element = $(this);
-							if (   element[0].nodeName != 'FIELDSET'
-								&& element[0].nodeName != 'SMALL'
-								&& element[0].nodeName != 'OPTION')
-							$(this).removeClass('required');
-							});
-					if($(dep[div]).css('display') != 'none')
-						$(dep[div]).toggle();
-				}
-			}
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
 	});
 
 	$('#geladeira').change(function(){
 			var dep = new Array();
 			dep[0] = '#divQuantidadeGeladeira';
-			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('number');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
 	});
 	$('#maquinaLavarRoupa').change(function(){
 			var dep = new Array();
 			dep[0] = '#divQuantidadeMaquinaLavarRoupa';
-			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('number');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
 	});
 	$('#videoDVD').change(function(){
 			var dep = new Array();
 			dep[0] = '#divQuantidadeVideoDVD';
-			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('number');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
 	});
 	$('#televisao').change(function(){
 			var dep = new Array();
@@ -971,7 +768,7 @@ $(document).ready(function(){
 	$('#procurouUnidadeSaudePorOrientacao').change(function(){
 			var dep = new Array();
 			dep[0] = '#divEspecificacaoEncaminhamento';
-			if($(this).val()=='outros'){
+			if($(this).val()=='encaminhadoPorOutroServicoDeSaude' || $(this).val() == 'outros'){
 			for(div in dep){
 			var elems = $('*', dep[div]);
 			$(elems).each(function(){
@@ -1159,6 +956,7 @@ $(document).ready(function(){
 		dep[4] = '#divCriterioCage';
 		// Se sim, disponibilizar colunas listadas a cima
 		if($(this).val()=='sim'){
+			$('#criterioCage').val('Negativo');
 			for(div in dep){
 				var elems = $('*', dep[div]);
 				$(elems).each(function(){
@@ -1176,6 +974,7 @@ $(document).ready(function(){
 					});
 			}
 		} else {
+			$('#criterioCage').val('');
 			for(div in dep){
 				var elems = $('*', dep[div]);
 				$(elems).each(function(){
@@ -1341,7 +1140,6 @@ $(document).ready(function(){
 				numberOfCigarrettes: true,
 				warningNumberOfCigarrettes: true
 			},
-			//Gambiarrado
 			tempoResidenteEstadoAtual:{
 				yearsLowerThanAge: true
 			},
