@@ -383,6 +383,14 @@ $(document).ready(function(){
 				$().hideFields(dep1);
 			}
 	});
+	$('#condutaEnfermagem').change(function(){
+		var dep = new Array();
+		dep[0] = '#divEspecificarConduta';
+		if ($(this).val() == 'outro')
+			$().showFields(dep);
+		else
+			$().hideFields(dep);
+	});
 	$('#pacienteExcluido').change(function(){
 			var dep = new Array();
 			dep[0] = '#divDataAssinatura';

@@ -20,7 +20,7 @@
 		@import url(./css/styles.css);
 	-->
 	</style>
-	<title>Triagem de Pacientes - Implementação</title>
+	<title>Triagem de Pacientes - Baseline (Hospital)</title>
 </head>
 <body>
 	<div id='menu'>
@@ -995,7 +995,35 @@
 						<input  name="data_sida" id="data_sida" type="text" class='number' maxlength=4 size='8'/>
 					</div>
 				</fieldset>
-
+				<fieldset>
+					<div id='divDesfechoTriagem' name='divDesfechoTriagem' class='primary required'>
+						<label for='desfechoTriagem'>Desfecho</label>
+						<select id='desfechoTriagem' name='desfechoTriagem'>
+							<option value='provavelTB'>Provável TB</option>
+							<option value='provavelTBResistente'>Provável TB Resistente</option>
+							<option value='naoTB'>Não TB</option>
+						</select>
+					</div>
+					<div id='divCondutaEnfermagem' name='divCondutaEnfermagem' class='primary required'>
+						<label for='condutaEnfermagem'>Conduta a ser utilizada pela enfermagem</label>
+						<select id='condutaEnfermagem' name='condutaEnfermagem'>
+							<option value='baar2Amostras'>BAAR 2 amostras</option>
+							<option value='raioXTorax'>Raio X de tórax</option>
+							<option value='baarRaioXTorax'>BAAR + Raio X de tórax</option>
+							<option value='baarCultura'>BAAR + cultura</option>
+							<option value='baarCulturaRaioXTorax'>BAAR + cultura + Raio X de tórax</option>
+							<option value='outro'>Outro</option>
+						</select>
+					</div>
+					<div id='divEspecificarConduta' name='divEspecificarConduta' class='secondary'>
+						<label for='especificarConduta'>Especificar</label>
+						<input id='especificarConduta' name='especificarConduta' class='text'>
+					</div>
+					<div id='divOutraConduta' name='divOutraConduta' class='primary'>
+						<label for='outraConduta' class='labelTextarea'>Outras condutas</label>
+						<textarea id='outraConduta' name='outraConduta' rows='5'></textarea>
+					</div>
+				</fieldset>
 				<fieldset>
 					<div id='divAvaliador' class='primary required'>
 						<label for='avaliador'> Avaliado por: </label>
