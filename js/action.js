@@ -391,6 +391,14 @@ $(document).ready(function(){
 			else
 				$().hideFields(dep);
 	});
+	$('#condutaEnfermagem').change(function(){
+			var dep = new Array();
+			dep[0] = '#divEspecificarConduta';
+			if($(this).val()=='outro')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
 
 	$('#cep').keyup(function() {
 		var cepForm = $(this).val();
