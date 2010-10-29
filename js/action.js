@@ -122,6 +122,124 @@ $(document).ready(function(){
 
 	showClock('horarioFimEntrevista');
 
+/*--------------------------------- Logica da Classe Social do Paciente --------------------------------------*/
+	$.fn.countPoints = function(){
+		var points = 0;
+		var fields = ['#quantidadeFreezer','#quantidadeGeladeira','#quantidadeMaquinaLavarRoupa',
+					'#quantidadeVideoDVD','#quantidadeTelevisao','#quantidadeRadio','#quantidadeBanheiro',
+					'#quantidadeAutomovel','#quantidadeEmpregadaMensalista'];
+		for (i in fields){
+			field = $(fields[i]);
+			if (field.val())
+				fieldValue = parseInt(field.val(),10);
+			else
+				fieldValue = 0;
+			if (fields[i] == '#quantidadeFreezer' || fields[i] == '#quantidadeVideoDVD' || fields[i] == '#quantidadeMaquinaLavarRoupa')
+			{
+				if (fieldValue >= 1)
+					points += 2;
+			}
+			if (fields[i] == '#quantidadeGeladeira')
+			{
+				if (fieldValue >= 1)
+					points += 4;
+			}
+			if (fields[i] == '#quantidadeTelevisao' || fields[i] == '#quantidadeRadio')
+			{
+				if (fieldValue <= 4)
+					points += fieldValue;
+				else
+					points += 4;
+			}
+			if (fields[i] == '#quantidadeBanheiro')
+			{
+				if (fieldValue >= 1 && fieldValue < 4)
+					points += fieldValue + 3;
+				else if (fieldValue >= 4 )
+					points += 7;
+			}
+			if (fields[i] == '#quantidadeAutomovel')
+			{
+				if (fieldValue == 1)
+					points += 4;
+				else if (fieldValue == 2)
+					points += 7;
+				else if (fieldValue >= 3)
+					points += 9;
+			}
+			if (fields[i] == '#quantidadeEmpregadaMensalista')
+			{
+				if (fieldValue == 1)
+					points += 3;
+				else if (fieldValue >= 2)
+					points += 4;
+			}
+		}
+		if ($('#grauInstrucaoChefeFamilia').val() == 'analfabetoPrimarioIncompleto' )
+			points += 0;
+		else if ($('#grauInstrucaoChefeFamilia').val() == 'primarioCompleto' )
+			points += 1;
+		else if ($('#grauInstrucaoChefeFamilia').val() == 'ginasialOuFundamentalCompleto' )
+			points += 2;
+		else if ($('#grauInstrucaoChefeFamilia').val() == 'colegialOuMedioCompleto' )
+			points += 4;
+		else if ($('#grauInstrucaoChefeFamilia').val() == 'superiorCompleto' )
+			points += 8;
+
+		return points;
+	}
+	$.fn.defineSocialClass = function(totalPoints){
+		var points = parseInt(totalPoints,10);
+		var socialClass = '';
+		if (points >= 0 && points <= 7)
+			socialClass = 'E';
+		else if (points >= 8 && points <= 13)
+			socialClass = 'D';
+		else if (points >= 14 && points <= 17)
+			socialClass = 'C2';
+		else if (points >= 18 && points <= 22)
+			socialClass = 'C1';
+		else if (points >= 23 && points <= 28)
+			socialClass = 'B2';
+		else if (points >= 29 && points <= 34)
+			socialClass = 'B1';
+		else if (points >= 35 && points <= 41)
+			socialClass = 'A2';
+		else if (points >= 42 && points <= 46)
+			socialClass = 'A1';
+		return socialClass;
+	}
+	$('#quantidadeFreezer').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeGeladeira').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeMaquinaLavarRoupa').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeVideoDVD').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeTelevisao').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeRadio').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeBanheiro').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeAutomovel').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#quantidadeEmpregadaMensalista').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+	$('#grauInstrucaoChefeFamilia').change(function(){
+		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+	});
+/* --------------------------------------------------------------------------------------------------------*/
 	$.fn.showFields = function(argumento){
 		var dep = argumento;
 		for(div in dep){
@@ -501,6 +619,14 @@ $(document).ready(function(){
 		else
 			$().hideFields(dep);
 	});
+	$('#numeroMesesFumante').keyup(function(){
+		var meses = parseInt($('#numeroMesesFumante').val(),10);
+		var anos = parseInt($('#numeroAnosFumante').val(),10);
+		if (meses >= 12){
+			$('#numeroMesesFumante').val(meses - 12);
+			$('#numeroAnosFumante').val(anos + 1);
+		}
+	});
 	$('#contatoTuberculosePositiva').change(function(){
 			var dep = new Array();
 			dep[0] = '#divTipoContatoTuberculosePositiva';
@@ -532,7 +658,7 @@ $(document).ready(function(){
 	$('#fumante').change(function(){
 		var dep = new Array();
 		dep[0] = '#divNumeroCigarros';
-		dep[1] = '#divNumeroAnosFumante';
+		dep[1] = '#divTempoFumante';
 		dep[2] = '#divCargaTabagistica';
 		// Se sim, disponibilizar colunas listadas a cima
 		if($(this).val()=='sim' || $(this).val()=='exfumante')
