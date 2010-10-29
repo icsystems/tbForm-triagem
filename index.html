@@ -176,19 +176,17 @@
 						<option value='colegialCompleto'			> Colegial(2º grau) completo / Superior incompleto  </option>
 						<option value='superiorCompleto'			> Superior completo  </option>
 						<option value='posGraduacao'				> Pós graduação  </option>
-						<option value='ignorado'					> Ignorado  </option>
 					</select>
 				</div>
 				<div id='divGrauInstrucaoChefeFamilia' class='primary required'>
 					<label for='grauInstrucaoChefeFamilia'>Grau de Instrução do chefe de família:</label>
 					<select name='grauInstrucaoChefeFamilia' id='grauInstrucaoChefeFamilia' style="width:360px;">
-						<option value='ignorado'					> Ignorado	</option>
+						<option value=''					> ----	</option>
 						<option value='analfabetoPrimarioIncompleto'> Analfabeto / primário incompleto (até 3ª série fundamental)  </option>
 						<option value='primarioCompleto'> Primário completo(até 4ª série fundamental)  </option>
 						<option value='ginasialOuFundamentalCompleto'> Ginasial ou Fundamental completo  </option>
 						<option value='colegialOuMedioCompleto'> Colegial ou Médio completo </option>
 						<option value='superiorCompleto'> Superior completo  </option>
-						<option value='ignorado'> Ignorado  </option>
 					</select>
 				</div>
 				<div id='divRendaMensalFamiliar' class='primary'>
@@ -304,6 +302,14 @@
 						<div id='divQuantidadeEmpregadaMensalista' class='secondary'>
 							<label for='quantidadeEmpregadaMensalista'>Quantidade: </label>
 							<input type="text" size="5" maxlength="2" class="number" name="quantidadeEmpregadaMensalista" id="quantidadeEmpregadaMensalista" />
+						</div>
+						<div id='divClasseSocial' name='divClasseSocial' class='primary required'>
+							<label for='classeSocial'>Classe Social:</label>
+							<input type='text' id='classeSocial' name='classeSocial' size='3' readonly/>
+						</div>
+						<div id='frasesAjuda'>
+							<p><b>Paciente possui geladeira duplex e freezer</b> - Considerar como Geladeira + Freezer</p>
+							<p><b>Paciente possui geladeira duplex, mas não freezer</b> - Considerar como Geladeira + Freezer</p>
 						</div>
 				</fieldset>
 				<fieldset>
@@ -910,9 +916,10 @@
 						<label for="numeroCigarros">Número de cigarros que fuma/fumava por dia:</label>
 						<input type="text" size="5" maxlength="3" class="number required" name="numeroCigarros" id='numeroCigarros' /> cigarros
 					</div>
-					<div class="secondary" id="divNumeroAnosFumante">
-						<label for="numeroAnosFumante">Número de anos que fuma/fumou :</label>
+					<div class="secondary" id="divTempoFumante">
+						<label for="numeroAnosFumante">Há quanto tempo fuma/fumou :</label>
 						<input type="text" size="5" maxlength="2" class="number required" name="numeroAnosFumante" id="numeroAnosFumante"/> anos
+						<input type="text" size="5" maxlength="2" class="number required" name="numeroMesesFumante" id="numeroMesesFumante"/> meses
 					</div>
 					<div id='divCargaTabagistica' class='secondary'>
 						<label for='name'> Carga Tabágica: </label>
