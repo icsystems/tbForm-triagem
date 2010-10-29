@@ -620,8 +620,12 @@ $(document).ready(function(){
 			$().hideFields(dep);
 	});
 	$('#numeroMesesFumante').keyup(function(){
-		var meses = parseInt($('#numeroMesesFumante').val(),10);
-		var anos = parseInt($('#numeroAnosFumante').val(),10);
+		var meses = 0;
+		var anos = 0;
+		if ($('#numeroMesesFumante').val())
+			meses = parseInt($('#numeroMesesFumante').val(),10);
+		if ($('#numeroAnosFumante').val())
+			anos = parseInt($('#numeroAnosFumante').val(),10);
 		if (meses >= 12){
 			$('#numeroMesesFumante').val(meses - 12);
 			$('#numeroAnosFumante').val(anos + 1);
