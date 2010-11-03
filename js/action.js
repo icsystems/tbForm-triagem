@@ -104,7 +104,7 @@ function calculateAge(dateStr){
 	return idade;
 }
 //Make a clock
-function showClock(argumento) {
+function getTime(){
 	var time = new Date();
 	var hours = time.getHours();
 	if (hours.toString().length == 1)
@@ -113,14 +113,15 @@ function showClock(argumento) {
 	if (minutes.toString().length == 1)
 		minutes = '0' + minutes;
 	var timeStr = hours+':'+minutes;
-	document.getElementById(argumento).value = timeStr;
+	return timeStr;
+}
+function showClock(argumento) {
+	document.getElementById(argumento).value = getTime();
 	return setInterval("showClock('" + argumento + "');",60000);
 }
 
 //After page is loaded set actions
 $(document).ready(function(){
-
-	showClock('horarioFimEntrevista');
 
 /*--------------------------------- Logica da Classe Social do Paciente --------------------------------------*/
 	$.fn.countPoints = function(){
@@ -135,45 +136,33 @@ $(document).ready(function(){
 			else
 				fieldValue = 0;
 			if (fields[i] == '#quantidadeFreezer' || fields[i] == '#quantidadeVideoDVD' || fields[i] == '#quantidadeMaquinaLavarRoupa')
-			{
 				if (fieldValue >= 1)
 					points += 2;
-			}
 			if (fields[i] == '#quantidadeGeladeira')
-			{
 				if (fieldValue >= 1)
 					points += 4;
-			}
 			if (fields[i] == '#quantidadeTelevisao' || fields[i] == '#quantidadeRadio')
-			{
 				if (fieldValue <= 4)
 					points += fieldValue;
 				else
 					points += 4;
-			}
 			if (fields[i] == '#quantidadeBanheiro')
-			{
 				if (fieldValue >= 1 && fieldValue < 4)
 					points += fieldValue + 3;
 				else if (fieldValue >= 4 )
 					points += 7;
-			}
 			if (fields[i] == '#quantidadeAutomovel')
-			{
 				if (fieldValue == 1)
 					points += 4;
 				else if (fieldValue == 2)
 					points += 7;
 				else if (fieldValue >= 3)
 					points += 9;
-			}
 			if (fields[i] == '#quantidadeEmpregadaMensalista')
-			{
 				if (fieldValue == 1)
 					points += 3;
 				else if (fieldValue >= 2)
 					points += 4;
-			}
 		}
 		if ($('#grauInstrucaoChefeFamilia').val() == 'analfabetoPrimarioIncompleto' )
 			points += 0;
@@ -207,51 +196,40 @@ $(document).ready(function(){
 			socialClass = 'A2';
 		else if (points >= 42 && points <= 46)
 			socialClass = 'A1';
-		return socialClass;
+		return $(this).val(socialClass);
 	}
 	$('#quantidadeFreezer').change(function(){
-		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 	$('#quantidadeGeladeira').change(function(){
-		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 	$('#quantidadeMaquinaLavarRoupa').change(function(){
-		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 	$('#quantidadeVideoDVD').change(function(){
-		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 	$('#quantidadeTelevisao').change(function(){
-		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 	$('#quantidadeRadio').change(function(){
-		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 	$('#quantidadeBanheiro').change(function(){
-		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 	$('#quantidadeAutomovel').change(function(){
-		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 	$('#quantidadeEmpregadaMensalista').change(function(){
-		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 	$('#grauInstrucaoChefeFamilia').change(function(){
-		$('#classeSocial').val($().defineSocialClass($().countPoints()));
+		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 /* --------------------------------------------------------------------------------------------------------*/
-	$('#numeroMesesFumante').keyup(function(){
-		var meses = 0;
-		var anos = 0;
-		if ($('#numeroMesesFumante').val())
-			meses = parseInt($('#numeroMesesFumante').val(),10);
-		if ($('#numeroAnosFumante').val())
-			anos = parseInt($('#numeroAnosFumante').val(),10);
-		if (meses >= 12){
-			$('#numeroMesesFumante').val(meses - 12);
-			$('#numeroAnosFumante').val(anos + 1);
-		}
-	});
+/* ---------------------------------------- Funcoes Auxiliares	-------------------------------------------*/
 	$.fn.showFields = function(argumento){
 		var dep = argumento;
 		for(div in dep){
@@ -287,11 +265,25 @@ $(document).ready(function(){
 		}
 	}
 
-	var hlcolor = '#FFF8C6';
-	var d = new Date()
-	var cYear = d.getFullYear();
-	var argNNet = new argumentsNNet();
+/* --------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------*/
+//Caso o usuario preencha com um numero maior que 12 no
+//numero de meses, o numero de anos e incrementado
 
+	$('#numeroMesesFumante').keyup(function(){
+		var meses = 0;
+		var anos = 0;
+		if ($('#numeroMesesFumante').val())
+			meses = parseInt($('#numeroMesesFumante').val(),10);
+		if ($('#numeroAnosFumante').val())
+			anos = parseInt($('#numeroAnosFumante').val(),10);
+		if (meses >= 12){
+			$('#numeroMesesFumante').val(meses - 12);
+			$('#numeroAnosFumante').val(anos + 1);
+		}
+	});
+/*---------------------------------------------------------------------------------------------------------*/
+/* ------------------------------------------------ Data Quality ------------------------------------------*/
 	//Disables enter
 	$("#form_triagem").keypress(function(e) {
 		if (e.which == 13) {
@@ -337,9 +329,21 @@ $(document).ready(function(){
 		thousandsSeparator: '.',
 		centsLimit: 2
 	});
-
+/*---------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------- Global Variables ------------------------------------------------*/
+	var hlcolor = '#FFF8C6';
+	var d = new Date()
+	var cYear = d.getFullYear();
+	var argNNet = new argumentsNNet();
+/*---------------------------------------------------------------------------------------------------------*/
+	//Make a clock in the page e write date in
+	//a portuguese format
+	showClock('horarioFimEntrevista');
+	$('#horarioInicioEntrevista').val(getTime());
 	$('#data_consulta').writePortugueseDate();
 	$('#dataFimTriagem').writePortugueseDate();
+/*---------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------- Neural Netwrok ------------------------------------------------*/
 	//Build birthday calendar
 	$('#data_nascimento').datepicker({
 			dateFormat: 'dd/mm/yy',
@@ -423,726 +427,7 @@ $(document).ready(function(){
 				}
 			}
 	});
-
-
-	//Checking aids exam date
-	years = new Array();
-	for (i=cYear-100; i <=cYear; i++)
-		years.push(i.toString());
-
-	$('#data_ultimo_tratamento').autocomplete({
-		lookup: years
-	});
-
-	$('#data_sida').autocomplete({
-		lookup: years
-	});
-
-	//Fill States in 'Estado' selectbox
-	$.ajax({
-		url: './cgi-bin/autocomplete.py',
-		data:({service:'state'}),
-		dataType : 'json',
-		cache: false,
-		success : function(data){
-			$.each(data.suggestions, function(i, item){
-				$('#estado').append($('<option>'+item+'</option>' )
-					.val(item)
-				);
-			});
-		}
-	});
-	$.ajax({
-		url: './cgi-bin/autocomplete.py',
-		data:({service:'state'}),
-		dataType : 'json',
-		cache: false,
-		success : function(data){
-			$.each(data.suggestions, function(i, item){
-				$('#naturalidade').append($('<option>'+item+'</option>' )
-					.val(item)
-				);
-			});
-		}
-	});
-
-	//Autocomplete features
-	var ajaxOpt;
-	//Set options
-	ajaxOpt = {
-		serviceUrl:'./cgi-bin/autocomplete.py',
-		noCache: true
-	};
-	//autocomplete triggers
-	ac_city = $('#cidade').autocomplete(ajaxOpt);
-	ac_city.setOptions({params: {service:'city', state:function(){ return $('#estado').val()}}});
-
-	ac_neighborhood = $('#bairro').autocomplete(ajaxOpt);
-	ac_neighborhood.setOptions({params: {service:'neighborhood', city:function(){ return $('#cidade').val()}}});
-
-	ac_street = $('#endereco').autocomplete(ajaxOpt);
-	ac_street.setOptions({params: {service:'street', city:function(){ return $('#cidade').val()}}});
-
-	//hide secondary fields
-	$('div.secondary').css('display', 'none');
-	$('*', 'div.secondary').each(function(){
-		if($(this)[0].nodeName == 'SELECT' || $(this)[0].nodeName == 'INPUT' )
-			$(this).attr('disabled', 'disabled');
-	});
-
-	$('*', 'div.tempoSinais').each(function(){
-		if($(this)[0].nodeName == 'SELECT' || $(this)[0].nodeName == 'INPUT' )
-			$(this).attr('disabled', 'disabled');
-	});
-
-//Take care about the address fields
-
-	$('#tipoUnidade').change(function(){
-			var dep1 = new Array();
-			dep1[0] = '#divMotivoVindaUnidadeSaude';
-			dep1[1] = '#divProcurouUnidadeSaudePorOrientacao';
-			var dep2 = new Array();
-			dep2[0] = '#divCausasNaoMedicas';
-			dep2[1] = '#divCausasMedicas';
-			dep2[2] = '#divResponsavelPeloEncaminhamentoParaInternacao';
-			if($(this).val()=='ambulatorio'){
-				$().showFields(dep1);
-				$().hideFields(dep2);
-			}else if ($(this).val()=='hospital'){
-				$().showFields(dep2);
-				$().hideFields(dep1);
-			}
-	});
-	$('#pacienteExcluido').change(function(){
-			var dep = new Array();
-			dep[0] = '#divDataAssinatura';
-			if($(this).val()=='nao')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-
-	$('#cep').keyup(function() {
-		var cepForm = $(this).val();
-		var format = '#####-###';
-		var i = cepForm.length;
-		var output = format.substring(0,1);
-		var text   = format.substring(i)
-		if (text.substring(0,1) != output) $(this).val(cepForm + text.substring(0,1))
-		if (cepForm.length == 9){
-			$.getJSON('./cgi-bin/autocomplete.py?service=cep&query=' + cepForm, function(json){
-				$('#estado').val(json.state);
-				$('#cidade').val(json.city);
-				$('#endereco').val(json.street);
-			});
-		}
-	});
-
-
-	$('#dispneia').change(function(){
-		var dep = new Array();
-		dep[0] = '#divFaltaAr';
-		dep[1] = '#divCansaco';
-		dep[2] = '#divInterrompeuAtividade';
-		dep[3] = '#divAcordaSemAr';
-		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim')
-			$().showFields(dep);
-		else{
-			for(div in dep){
-				if(dep[div] == '#divAcordaSemAr'){
-					if( $('#chiado').val()  == 'sim' ||
-						$('#tosse').val()   == 'sim'
-					) continue;
-				}
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						$(this).attr('disabled', 'disabled');
-				});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-		}
-	});
-	$('#chiado').change(function(){
-		var dep = new Array();
-		dep[0] = '#divAcordaSemAr';
-		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim')
-			$().showFields(dep);
-		else {
-			for(div in dep){
-				if(dep[div] == '#divAcordaSemAr'){
-					if( $('#dispneia').val() == 'sim' ||
-						$('#tosse').val()   == 'sim'
-					) continue;
-				}
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						$(this).attr('disabled', 'disabled');
-				});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-		}
-	});
-	$('#tosse').change(function(){
-		var dep = new Array();
-		dep[0] = '#divAcordaSemAr';
-		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim')
-			$().showFields(dep);
-		else {
-			for(div in dep){
-				if(dep[div] == '#divAcordaSemAr'){
-					if( $('#dispneia').val() == 'sim' ||
-						$('#tosse').val()   == 'sim'
-					) continue;
-				}
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-					    && element[0].nodeName != 'SMALL'
-					    && element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						$(this).attr('disabled', 'disabled');
-				});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-		}
-	});
-	$('#motivoVindaUnidadeSaude').change(function(){
-		var dep = new Array();
-		dep[0] = '#divEspecificarMotivoVindaUnidadeSaude';
-		if ($(this).val() == 'outros')
-			$().showFields(dep);
-		else
-			$().hideFields(dep);
-	});
-	$('#contatoTuberculosePositiva').change(function(){
-			var dep = new Array();
-			dep[0] = '#divTipoContatoTuberculosePositiva';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#contatoTuberculoseResistente').change(function(){
-			var dep = new Array();
-			dep[0] = '#divTipoContatoTuberculoseResistente';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#tratamentoAnterior').change(function(){
-		var dep = new Array();
-		dep[0] = '#divQuantasVezesTratouTB';
-		dep[1] = '#divDataUltimoTratamento';
-		dep[2] = '#divLocalTuberculose';
-		dep[3] = '#divDesfecho';
-		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim')
-			$().showFields(dep);
-		else
-			$().hideFields(dep);
-	});
-	$('#fumante').change(function(){
-		var dep = new Array();
-		dep[0] = '#divNumeroCigarros';
-		dep[1] = '#divTempoFumante';
-		dep[2] = '#divCargaTabagistica';
-		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim' || $(this).val()=='exfumante')
-			$().showFields(dep);
-		else
-			$().hideFields(dep);
-	});
-
-	$('#exameSida').change(function(){
-		var dep = new Array();
-		dep[0] = '#divDataSida';
-		dep[1] = '#divSIDA';
-		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim')
-			$().showFields(dep);
-		else
-			$().hideFields(dep);
-	});
-
-	$('#freezer').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeFreezer';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-
-	$('#geladeira').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeGeladeira';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#maquinaLavarRoupa').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeMaquinaLavarRoupa';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#videoDVD').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeVideoDVD';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#televisao').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeTelevisao';
-			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('number');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
-	});
-	$('#radio').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeRadio';
-			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('number');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
-	});
-	$('#banheiro').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeBanheiro';
-			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('number');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
-	});
-	$('#automovel').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeAutomovel';
-			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('number');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
-	});
-	$('#empregadaMensalista').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeEmpregadaMensalista';
-			if($(this).val()=='sim'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('number');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
-	});
-	$('#procurouUnidadeSaudePorOrientacao').change(function(){
-			var dep = new Array();
-			dep[0] = '#divEspecificacaoEncaminhamento';
-			if($(this).val()=='encaminhadoPorOutroServicoDeSaude' || $(this).val() == 'outros'){
-			for(div in dep){
-			var elems = $('*', dep[div]);
-			$(elems).each(function(){
-				var element = $(this);
-				if (   element[0].nodeName != 'FIELDSET'
-					&& element[0].nodeName != 'SMALL'
-					&& element[0].nodeName != 'OPTION')
-					$(this).addClass('primary');
-					$(this).removeAttr('disabled');
-					$(this).addClass('text');
-				});
-			if($(dep[div]).css('display') != 'block')
-			$(dep[div]).toggle(function() {
-				$(this).css('background-color', hlcolor);
-				$(this).animate({backgroundColor : "white"}, 4000);
-				});
-			}
-			} else {
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-			}
-	});
-// Check emagrecimento field
-
-	$('#pesoAtual').change(function(){
-		if (($(this).val() != 0)&&($('#pesoHabitual').val() != 0))
-		{
-			var dep = new Array();
-			dep[0] = '#divTempoEmagrecimento';
-			if ($(this).val() < $('#pesoHabitual').val())
-			{
-				for(div in dep)
-				{
-					var elems = $('*', dep[div]);
-					$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-							$(this).addClass('primary');
-							$(this).removeAttr('disabled');
-							$(this).addClass('number');
-						});
-					if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-						});
-				}
-			} else {
-				for(div in dep){
-					var elems = $('*', dep[div]);
-					$(elems).each(function(){
-							var element = $(this);
-							if (   element[0].nodeName != 'FIELDSET'
-								&& element[0].nodeName != 'SMALL'
-								&& element[0].nodeName != 'OPTION')
-							$(this).removeClass('required');
-							});
-					if($(dep[div]).css('display') != 'none')
-						$(dep[div]).toggle();
-					$('#emagrecimento').val('Não');
-				}
-			}
-		}
-	});
-	$('#pesoHabitual').change(function(){
-		if (($(this).val() != 0)&&($('#pesoAtual').val() != 0))
-		{
-			var dep = new Array();
-			dep[0] = '#divTempoEmagrecimento';
-			if ($('#pesoAtual').val() < $(this).val())
-			{
-				for(div in dep)
-				{
-					var elems = $('*', dep[div]);
-					$(elems).each(function(){
-						var element = $(this);
-						if (   element[0].nodeName != 'FIELDSET'
-							&& element[0].nodeName != 'SMALL'
-							&& element[0].nodeName != 'OPTION')
-							$(this).addClass('primary');
-							$(this).removeAttr('disabled');
-							$(this).addClass('number');
-						});
-					if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-						});
-				}
-			} else {
-				for(div in dep){
-					var elems = $('*', dep[div]);
-					$(elems).each(function(){
-							var element = $(this);
-							if (   element[0].nodeName != 'FIELDSET'
-								&& element[0].nodeName != 'SMALL'
-								&& element[0].nodeName != 'OPTION')
-							$(this).removeClass('required');
-							});
-					if($(dep[div]).css('display') != 'none')
-						$(dep[div]).toggle();
-					$('#emagrecimento').val('Não');
-				}
-			}
-		}
-	});
-
-	$('#pesoAtual').change(function(){
-		if ($('#tempoEmagrecimento').val()>=1 && $('#tempoEmagrecimento').val()<3)
-		{
-			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.05)
-				$('#emagrecimento').val('Sim');
-			else
-				$('#emagrecimento').val('Não');
-		}else if ($('#tempoEmagrecimento').val()>=3 && $('#tempoEmagrecimento').val()<6){
-			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.075)
-				$('#emagrecimento').val('Sim');
-			else
-				$('#emagrecimento').val('Não');
-		}else if ($('#tempoEmagrecimento').val()>=6){
-			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.10)
-				$('#emagrecimento').val('Sim');
-			else
-				$('#emagrecimento').val('Não');
-		}
-	});
-	$('#pesoHabitual').change(function(){
-		if ($('#tempoEmagrecimento').val()>=1 && $('#tempoEmagrecimento').val()<3)
-		{
-			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.05)
-				$('#emagrecimento').val('Sim');
-			else
-				$('#emagrecimento').val('Não');
-		}else if ($('#tempoEmagrecimento').val()>=3 && $('#tempoEmagrecimento').val()<6){
-			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.075)
-				$('#emagrecimento').val('Sim');
-			else
-				$('#emagrecimento').val('Não');
-		}else if ($('#tempoEmagrecimento').val()>=6){
-			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.10)
-				$('#emagrecimento').val('Sim');
-			else
-				$('#emagrecimento').val('Não');
-		}
-	});
-	$('#tempoEmagrecimento').change(function(){
-		if ($('#tempoEmagrecimento').val()>=1 && $('#tempoEmagrecimento').val()<3)
-		{
-			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.05)
-				$('#emagrecimento').val('Sim');
-			else
-				$('#emagrecimento').val('Não');
-		}else if ($('#tempoEmagrecimento').val()>=3 && $('#tempoEmagrecimento').val()<6){
-			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.075)
-				$('#emagrecimento').val('Sim');
-			else
-				$('#emagrecimento').val('Não');
-		}else if ($('#tempoEmagrecimento').val()>=6){
-			if((parseInt($('#pesoHabitual').val()) - parseInt($('#pesoAtual').val()))/parseInt($('#pesoHabitual').val()) > 0.10)
-				$('#emagrecimento').val('Sim');
-			else
-				$('#emagrecimento').val('Não');
-		}
-	});
-
-
-	$('#bebida').change(function(){
-		var dep = new Array();
-		dep[0] = '#divDiminuirQuantidadeBebida';
-		dep[1] = '#divCriticasModoBeber';
-		dep[2] = '#divBebePelaManha';
-		dep[3] = '#divCulpadoManeiraBeber';
-		dep[4] = '#divCriterioCage';
-		// Se sim, disponibilizar colunas listadas a cima
-		if($(this).val()=='sim'){
-			$('#criterioCage').val('Negativo');
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-						&& element[0].nodeName != 'SMALL'
-						&& element[0].nodeName != 'OPTION')
-						$(this).addClass('required');
-						$(this).removeAttr('disabled');
-				});
-				if($(dep[div]).css('display') != 'block')
-					$(dep[div]).toggle(function() {
-						$(this).css('background-color', hlcolor);
-						$(this).animate({backgroundColor : "white"}, 4000);
-					});
-			}
-		} else {
-			$('#criterioCage').val('');
-			for(div in dep){
-				var elems = $('*', dep[div]);
-				$(elems).each(function(){
-					var element = $(this);
-					if (   element[0].nodeName != 'FIELDSET'
-						&& element[0].nodeName != 'SMALL'
-						&& element[0].nodeName != 'OPTION')
-						$(this).removeClass('required');
-						$(this).attr('disabled', 'disabled');
-				});
-				if($(dep[div]).css('display') != 'none')
-					$(dep[div]).toggle();
-			}
-		}
-	});
-
-//Check bebida field
-	var indiceCriterioCage;
-	var contadorSim;
-	var contadorNao;
-	$('.criterio_cage').change(function(){
-		indiceCriterioCage = 0;
-		contadorSim = 0;
-		contadorNao = 0;
-		while (indiceCriterioCage <= 3)
-		{
-			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'sim')
-				contadorSim++;
-			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'nao')
-				contadorNao++;
-			indiceCriterioCage++;
-		}
-		if (contadorSim >= 2)
-			$('#criterioCage').val('Positivo');
-		if (contadorNao > 2)
-			$('#criterioCage').val('Negativo');
-	});
-//Submit to the neural network to check the patient's possibility of having TB
+	//Submit to the neural network to check the patient's possibility of having TB
 
 	$('select.sinais').change(function(){
 		if($('#idade').val() > 0 && $('#idade').val() <131){
@@ -1227,8 +512,454 @@ $(document).ready(function(){
 	}else
 		$('#msgTosse').html('');
 	});
+/*---------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------*/
+	//Autocomplete years fields
+	years = new Array();
+	for (i=cYear-100; i <=cYear; i++)
+		years.push(i.toString());
+
+	$('#data_ultimo_tratamento').autocomplete({
+		lookup: years
+	});
+
+	$('#data_sida').autocomplete({
+		lookup: years
+	});
+/*---------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------*/
+	//Fill States in 'Estado' selectbox
+	$.ajax({
+		url: './cgi-bin/autocomplete.py',
+		data:({service:'state'}),
+		dataType : 'json',
+		cache: false,
+		success : function(data){
+			$.each(data.suggestions, function(i, item){
+				$('#estado').append($('<option>'+item+'</option>' )
+					.val(item)
+				);
+			});
+		}
+	});
+	$.ajax({
+		url: './cgi-bin/autocomplete.py',
+		data:({service:'state'}),
+		dataType : 'json',
+		cache: false,
+		success : function(data){
+			$.each(data.suggestions, function(i, item){
+				$('#naturalidade').append($('<option>'+item+'</option>' )
+					.val(item)
+				);
+			});
+		}
+	});
+	//Complete everything just with the CEP complete
+	$('#cep').keyup(function() {
+		var cepForm = $(this).val();
+		var format = '#####-###';
+		var i = cepForm.length;
+		var output = format.substring(0,1);
+		var text   = format.substring(i)
+		if (text.substring(0,1) != output) $(this).val(cepForm + text.substring(0,1))
+		if (cepForm.length == 9){
+			$.getJSON('./cgi-bin/autocomplete.py?service=cep&query=' + cepForm, function(json){
+				$('#estado').val(json.state);
+				$('#cidade').val(json.city);
+				$('#endereco').val(json.street);
+			});
+		}
+	});
+	//Autocomplete features
+	var ajaxOpt;
+	//Set options
+	ajaxOpt = {
+		serviceUrl:'./cgi-bin/autocomplete.py',
+		noCache: true
+	};
+	//autocomplete triggers
+	ac_city = $('#cidade').autocomplete(ajaxOpt);
+	ac_city.setOptions({params: {service:'city', state:function(){ return $('#estado').val()}}});
+
+	ac_neighborhood = $('#bairro').autocomplete(ajaxOpt);
+	ac_neighborhood.setOptions({params: {service:'neighborhood', city:function(){ return $('#cidade').val()}}});
+
+	ac_street = $('#endereco').autocomplete(ajaxOpt);
+	ac_street.setOptions({params: {service:'street', city:function(){ return $('#cidade').val()}}});
+/*---------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------*/
+	//hide secondary fields
+	$('div.secondary').css('display', 'none');
+	$('*', 'div.secondary').each(function(){
+		if($(this)[0].nodeName == 'SELECT' || $(this)[0].nodeName == 'INPUT' )
+			$(this).attr('disabled', 'disabled');
+	});
+
+	$('*', 'div.tempoSinais').each(function(){
+		if($(this)[0].nodeName == 'SELECT' || $(this)[0].nodeName == 'INPUT' )
+			$(this).attr('disabled', 'disabled');
+	});
+/*---------------------------------------------------------------------------------------------------------*/
+/*------------------------------------  Take care of secondary fields  ------------------------------------*/
+	$('#tipoUnidade').change(function(){
+			var dep1 = new Array();
+			dep1[0] = '#divMotivoVindaUnidadeSaude';
+			dep1[1] = '#divProcurouUnidadeSaudePorOrientacao';
+			var dep2 = new Array();
+			dep2[0] = '#divCausasNaoMedicas';
+			dep2[1] = '#divCausasMedicas';
+			dep2[2] = '#divResponsavelPeloEncaminhamentoParaInternacao';
+			if($(this).val()=='ambulatorio'){
+				$().showFields(dep1);
+				$().hideFields(dep2);
+			}else if ($(this).val()=='hospital'){
+				$().showFields(dep2);
+				$().hideFields(dep1);
+			}
+	});
+	$('#pacienteExcluido').change(function(){
+			var dep = new Array();
+			dep[0] = '#divDataAssinatura';
+			if($(this).val()=='nao')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
 
 
+
+	$('#dispneia').change(function(){
+		var dep = new Array();
+		dep[0] = '#divFaltaAr';
+		dep[1] = '#divCansaco';
+		dep[2] = '#divInterrompeuAtividade';
+		dep[3] = '#divAcordaSemAr';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim')
+			$().showFields(dep);
+		else{
+			for(div in dep){
+				if(dep[div] == '#divAcordaSemAr'){
+					if( $('#chiado').val()  == 'sim' ||
+						$('#tosse').val()   == 'sim'
+					) continue;
+				}
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+						&& element[0].nodeName != 'SMALL'
+						&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						$(this).attr('disabled', 'disabled');
+				});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+		}
+	});
+	$('#chiado').change(function(){
+		var dep = new Array();
+		dep[0] = '#divAcordaSemAr';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim')
+			$().showFields(dep);
+		else {
+			for(div in dep){
+				if(dep[div] == '#divAcordaSemAr'){
+					if( $('#dispneia').val() == 'sim' ||
+						$('#tosse').val()   == 'sim'
+					) continue;
+				}
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+						&& element[0].nodeName != 'SMALL'
+						&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						$(this).attr('disabled', 'disabled');
+				});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+		}
+	});
+	$('#tosse').change(function(){
+		var dep = new Array();
+		dep[0] = '#divAcordaSemAr';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim')
+			$().showFields(dep);
+		else {
+			for(div in dep){
+				if(dep[div] == '#divAcordaSemAr'){
+					if( $('#dispneia').val() == 'sim' ||
+						$('#tosse').val()   == 'sim'
+					) continue;
+				}
+				var elems = $('*', dep[div]);
+				$(elems).each(function(){
+					var element = $(this);
+					if (   element[0].nodeName != 'FIELDSET'
+						&& element[0].nodeName != 'SMALL'
+						&& element[0].nodeName != 'OPTION')
+						$(this).removeClass('required');
+						$(this).attr('disabled', 'disabled');
+				});
+				if($(dep[div]).css('display') != 'none')
+					$(dep[div]).toggle();
+			}
+		}
+	});
+	$('#motivoVindaUnidadeSaude').change(function(){
+		var dep = new Array();
+		dep[0] = '#divEspecificarMotivoVindaUnidadeSaude';
+		if ($(this).val() == 'outros')
+			$().showFields(dep);
+		else
+			$().hideFields(dep);
+	});
+	$('#tratamentoAnterior').change(function(){
+		var dep = new Array();
+		dep[0] = '#divQuantasVezesTratouTB';
+		dep[1] = '#divDataUltimoTratamento';
+		dep[2] = '#divLocalTuberculose';
+		dep[3] = '#divDesfecho';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim')
+			$().showFields(dep);
+		else
+			$().hideFields(dep);
+	});
+	$('#fumante').change(function(){
+		var dep = new Array();
+		dep[0] = '#divNumeroCigarros';
+		dep[1] = '#divTempoFumante';
+		dep[2] = '#divCargaTabagistica';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim' || $(this).val()=='exfumante')
+			$().showFields(dep);
+		else
+			$().hideFields(dep);
+	});
+
+	$('#exameSida').change(function(){
+		var dep = new Array();
+		dep[0] = '#divDataSida';
+		dep[1] = '#divSIDA';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim')
+			$().showFields(dep);
+		else
+			$().hideFields(dep);
+	});
+	$('#freezer').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeFreezer';
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+	$('#geladeira').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeGeladeira';
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+	$('#maquinaLavarRoupa').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeMaquinaLavarRoupa';
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+	$('#videoDVD').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeVideoDVD';
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+	$('#televisao').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeTelevisao';
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+	$('#radio').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeRadio';
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+	$('#banheiro').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeBanheiro';
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+	$('#automovel').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeAutomovel';
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+	$('#empregadaMensalista').change(function(){
+			var dep = new Array();
+			dep[0] = '#divQuantidadeEmpregadaMensalista';
+			if($(this).val()=='sim')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+	$('#procurouUnidadeSaudePorOrientacao').change(function(){
+			var dep = new Array();
+			dep[0] = '#divEspecificacaoEncaminhamento';
+			if($(this).val()=='encaminhadoPorOutroServicoDeSaude' || $(this).val() == 'outros')
+				$().showFields(dep);
+			else
+				$().hideFields(dep);
+	});
+/*------------------------------------------------------------------------------------------------*/
+/*---------------------------------- Logica  do Emagrecimento ------------------------------------*/
+	// Check emagrecimento field
+	$('#pesoAtual').change(function(){
+		var dep = new Array();
+		dep[0] = '#divTempoEmagrecimento';
+		var valor = parseInt($(this).val(),10);
+		var valorPeso = parseInt($('#pesoHabitual').val(),10);
+		if ((valor != 0)&&(valorPeso != 0))
+			if (valor < valorPeso)
+				$().showFields(dep);
+			else{
+				$().hideFields(dep);
+				$('#emagrecimento').val('Não');
+			}
+	});
+	$('#pesoHabitual').change(function(){
+		var dep = new Array();
+		dep[0] = '#divTempoEmagrecimento';
+		var valor = parseInt($(this).val(),10);
+		var valorPeso = parseInt($('#pesoAtual').val(),10);
+		if ((valor != 0)&&(valorPeso != 0))
+			if (valorPeso < valor)
+				$().showFields(dep);
+			else{
+				$().hideFields(dep);
+				$('#emagrecimento').val('Não');
+			}
+	});
+	$('#pesoAtual').change(function(){
+		var tempoEmagrecimento = parseInt($('#tempoEmagrecimento').val(),10);
+		var percentagem = (parseInt($('#pesoHabitual').val(),10) - parseInt($('#pesoAtual').val(),10))/parseInt($('#pesoHabitual').val(),10);
+		if (tempoEmagrecimento >= 1 && tempoEmagrecimento < 3)
+			if(percentagem > 0.05)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		else if (tempoEmagrecimento >= 3 && tempoEmagrecimento < 6)
+			if(percentagem > 0.075)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		else if (tempoEmagrecimento >= 6)
+			if(percentagem > 0.10)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+	});
+	$('#pesoHabitual').change(function(){
+		var tempoEmagrecimento = parseInt($('#tempoEmagrecimento').val(),10);
+		var percentagem = (parseInt($('#pesoHabitual').val(),10) - parseInt($('#pesoAtual').val(),10))/parseInt($('#pesoHabitual').val(),10);
+		if (tempoEmagrecimento >= 1 && tempoEmagrecimento < 3)
+			if(percentagem > 0.05)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		else if (tempoEmagrecimento >= 3 && tempoEmagrecimento < 6)
+			if(percentagem > 0.075)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		else if (tempoEmagrecimento >= 6)
+			if(percentagem > 0.10)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+	});
+	$('#tempoEmagrecimento').change(function(){
+		var tempoEmagrecimento = parseInt($('#tempoEmagrecimento').val(),10);
+		var percentagem = (parseInt($('#pesoHabitual').val(),10) - parseInt($('#pesoAtual').val(),10))/parseInt($('#pesoHabitual').val(),10);
+		if (tempoEmagrecimento >= 1 && tempoEmagrecimento < 3)
+			if(percentagem > 0.05)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		else if (tempoEmagrecimento >= 3 && tempoEmagrecimento < 6)
+			if(percentagem > 0.075)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+		else if (tempoEmagrecimento >= 6)
+			if(percentagem > 0.10)
+				$('#emagrecimento').val('Sim');
+			else
+				$('#emagrecimento').val('Não');
+	});
+/*------------------------------------------------------------------------------------------------*/
+/*------------------------------------ Logica da Bebida ------------------------------------------*/
+	$('#bebida').change(function(){
+		var dep = new Array();
+		dep[0] = '#divDiminuirQuantidadeBebida';
+		dep[1] = '#divCriticasModoBeber';
+		dep[2] = '#divBebePelaManha';
+		dep[3] = '#divCulpadoManeiraBeber';
+		dep[4] = '#divCriterioCage';
+		// Se sim, disponibilizar colunas listadas a cima
+		if($(this).val()=='sim'){
+			$('#criterioCage').val('Negativo');
+			$().showFields(dep);
+		} else {
+			$('#criterioCage').val('');
+			$().hideFields(dep);
+		}
+	});
+	//Check bebida field
+	$('.criterio_cage').change(function(){
+		var indiceCriterioCage = 0;
+		var contadorSim = 0;
+		var contadorNao = 0;
+		while (indiceCriterioCage <= 3)
+		{
+			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'sim')
+				contadorSim++;
+			if ($('#criterio_cage_' + indiceCriterioCage).val() == 'nao')
+				contadorNao++;
+			indiceCriterioCage++;
+		}
+		if (contadorSim >= 2)
+			$('#criterioCage').val('Positivo');
+		if (contadorNao > 2)
+			$('#criterioCage').val('Negativo');
+	});
+
+/*------------------------------------------------------------------------------------------------*/
+/*------------------------------- Data Quality with Validate Plugin ------------------------------*/
 	$('#form_triagem').validate({
 		onkeyup: false,
 		onclick: false,
@@ -1311,4 +1042,5 @@ $(document).ready(function(){
 			}
 		}
 	});
+/*-----------------------------------------------------------------------------------------------*/
 });
