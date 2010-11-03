@@ -104,7 +104,7 @@ function calculateAge(dateStr){
 	return idade;
 }
 //Make a clock
-function showClock(argumento) {
+function getTime(){
 	var time = new Date();
 	var hours = time.getHours();
 	if (hours.toString().length == 1)
@@ -113,7 +113,10 @@ function showClock(argumento) {
 	if (minutes.toString().length == 1)
 		minutes = '0' + minutes;
 	var timeStr = hours+':'+minutes;
-	document.getElementById(argumento).value = timeStr;
+	return timeStr;
+}
+function showClock(argumento) {
+	document.getElementById(argumento).value = getTime();
 	return setInterval("showClock('" + argumento + "');",60000);
 }
 
@@ -336,7 +339,7 @@ $(document).ready(function(){
 	//Make a clock in the page e write date in
 	//a portuguese format
 	showClock('horarioFimEntrevista');
-	showClock('horarioInicioEntrevista');
+	$('#horarioInicioEntrevista').val(getTime());
 	$('#data_consulta').writePortugueseDate();
 	$('#dataFimTriagem').writePortugueseDate();
 /*---------------------------------------------------------------------------------------------------------*/
