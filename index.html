@@ -23,11 +23,6 @@
 	<title>Triagem de Pacientes - Implementação (Hospital)</title>
 </head>
 <body>
-	<div id='menu'>
-		<ul>
-			<li class='help'><a href='#'>Ajuda</a></li>
-		</ul>
-	</div>
 	<div id='mainFrame'>
 		<div id='content'>
 			<div id='maincontent'>
@@ -36,6 +31,10 @@
 					<div id='divDataConsulta' class='primary required'>
 						<label for='data_consulta'> Data da triagem: </label>
 						<input type="text" name="data_consulta" id="data_consulta" class='textbox required' readonly/>
+					</div>
+					<div id='divHorarioInicioEntrevista' class='primary required'>
+						<label for='horarioInicioEntrevista'> Horário do Inicio da entrevista: </label>
+						<input type='text' name='horarioInicioEntrevista' id='horarioInicioEntrevista' size='6' maxlength='6' readonly/>
 					</div>
 					<div id='divUnidade' class='primary required'>
 						<label for='unidade'> Unidade: </label>
