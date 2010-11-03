@@ -336,6 +336,7 @@ $(document).ready(function(){
 	//Make a clock in the page e write date in
 	//a portuguese format
 	showClock('horarioFimEntrevista');
+	showClock('horarioInicioEntrevista');
 	$('#data_consulta').writePortugueseDate();
 	$('#dataFimTriagem').writePortugueseDate();
 /*---------------------------------------------------------------------------------------------------------*/
