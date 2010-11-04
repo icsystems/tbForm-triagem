@@ -1288,6 +1288,9 @@ $(document).ready(function(){
 				LowerThanCurrentYear: true,
 				maxlength: 4
 			},
+			numeroAnosFumante:{
+				yearsSmokingLowerThanAge: true,
+			},
 			tempoTosse:{
 				warningSymptoms:'20meses'
 			},
