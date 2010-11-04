@@ -975,6 +975,9 @@ $(document).ready(function(){
 				warningAge: true,
 				warningMaritalState: true
 			},
+			numeroAnosFumante:{
+				yearsSmokingLowerThanAge: true,
+			},
 			pesoAtual:{
 				range : [1, 500],
 				validIMC : true,
