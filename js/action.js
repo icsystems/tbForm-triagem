@@ -115,10 +115,6 @@ function getTime(){
 	var timeStr = hours+':'+minutes;
 	return timeStr;
 }
-function showClock(argumento) {
-	document.getElementById(argumento).value = getTime();
-	return setInterval("showClock('" + argumento + "');",60000);
-}
 
 //After page is loaded set actions
 $(document).ready(function(){
@@ -338,7 +334,9 @@ $(document).ready(function(){
 /*---------------------------------------------------------------------------------------------------------*/
 	//Make a clock in the page e write date in
 	//a portuguese format
-	showClock('horarioFimEntrevista');
+	$('#form_triagem').submit(function(){
+		$('#horarioFimEntrevista').val(getTime());
+	});
 	$('#horarioInicioEntrevista').val(getTime());
 	$('#data_consulta').writePortugueseDate();
 	$('#dataFimTriagem').writePortugueseDate();
