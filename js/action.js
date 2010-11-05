@@ -103,24 +103,9 @@ function calculateAge(dateStr){
 	if (mes == mesAtual && diaAtual < dia) idade--;
 	return idade;
 }
-//Make a clock
-function showClock(argumento) {
-	var time = new Date();
-	var hours = time.getHours();
-	if (hours.toString().length == 1)
-		hours = '0' + hours;
-	var minutes = time.getMinutes();
-	if (minutes.toString().length == 1)
-		minutes = '0' + minutes;
-	var timeStr = hours+':'+minutes;
-	document.getElementById(argumento).value = timeStr;
-	return setInterval("showClock('" + argumento + "');",60000);
-}
 
 //After page is loaded set actions
 $(document).ready(function(){
-
-	showClock('horarioFimEntrevista');
 
 /*--------------------------------- Logica da Classe Social do Paciente --------------------------------------*/
 	$.fn.countPoints = function(){
