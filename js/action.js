@@ -119,6 +119,88 @@ function getTime(){
 //After page is loaded set actions
 $(document).ready(function(){
 
+/*------------------------------Edition and Relation-----------------------------*/
+	//Relation between forms
+	//Diagnóstico - Consulta e FollowUp
+	var urlString = $(location).attr('href');
+	var numPaciente = urlString[urlString.length - 2];
+	if (urlString.search("edit") != -1){
+		var numForm = parseInt(urlString[urlString.length - 4],10);
+		var ajaxEdicaoCompleto = false;
+		$.ajax({
+			type: 'POST',
+			url:'../../../patientLastRegister/' + numForm + '/' + numPaciente + '/',
+			dataType: "html",
+			success: function(text){
+				if (window.DOMParser)
+				{
+					parser=new DOMParser();
+					xml=parser.parseFromString(text,"text/xml");
+				}else{ // Internet Explorer
+					xml=new ActiveXObject("Microsoft.XMLDOM");
+					xml.async="false";
+					xml.loadXML(text);
+				}
+				var elements = xml.getElementsByTagName('documento')[0].childNodes;
+				$(elements).each(function(){
+					var el = $(this).get(0);
+					if($(el)[0].nodeType == xml.ELEMENT_NODE){
+						var tagname = $(el)[0].tagName;
+						idDiv = $('#'+tagname).parent().attr('id');
+						//console.log(tagname + ' : ' + $('#'+tagname).attr('type'));
+						//Checkbox
+						if (tagname == 'sexo')
+							$('input[name=sexo]').each(function(){
+							if ($(el).text().search($(this).val()) != -1)
+								$(this).attr('checked',true);
+							});
+						$('#'+tagname).val($(el).text());
+						$('#'+tagname).change();
+						if (tagname == 'estado')
+							$("#" + tagname + " option[value='" + $(el).text()+"']").attr('selected', true);
+					}
+				});
+			},
+			complete: function(){
+				ajaxEdicaoCompleto = true;
+				$('#sida').change();
+			}
+		});
+	}else{
+		var numForm = parseInt(urlString[urlString.length - 4],10) + 1;
+		$.ajax({
+			type: 'POST',
+			url:'../../../patientLastRegister/' + numForm + '/' + numPaciente + '/',
+			dataType: "html",
+			success: function(text){
+				if (window.DOMParser)
+				{
+					parser=new DOMParser();
+					xml=parser.parseFromString(text,"text/xml");
+				}else{ // Internet Explorer
+					xml=new ActiveXObject("Microsoft.XMLDOM");
+					xml.async="false";
+					xml.loadXML(text);
+				}
+				//Numero do paciente - Triagem e Exames
+					var elements = xml.getElementsByTagName('documento')[0].childNodes;
+					$(elements).each(function(){
+						var el = $(this).get(0);
+						if($(el)[0].nodeType == xml.ELEMENT_NODE){
+							var tagname = $(el)[0].tagName;
+							idDiv = $('#'+tagname).parent().attr('id');
+							//console.log(tagname + ' : ' + $(el).text());
+							var hlcolor = '#FFF8C6';
+							if (tagname == 'numeroPaciente')
+								$('#' + tagname).val($(el).text());
+							if (tagname == 'unidade')
+								$('#' + tagname).val($(el).text());
+						}
+					});
+				}
+			});
+		}
+/*-------------------------------------------------------------------------------*/
 /*--------------------------------- Logica da Classe Social do Paciente --------------------------------------*/
 	$.fn.countPoints = function(){
 		var points = 0;
@@ -973,9 +1055,6 @@ $(document).ready(function(){
 				warningAge: true,
 				warningMaritalState: true
 			},
-			numeroAnosFumante:{
-				yearsSmokingLowerThanAge: true,
-			},
 			pesoAtual:{
 				range : [1, 500],
 				validIMC : true,
@@ -1019,6 +1098,9 @@ $(document).ready(function(){
 				GreaterThanBirthYear : true,
 				LowerThanCurrentYear: true,
 				maxlength: 4
+			},
+			numeroAnosFumante:{
+				yearsSmokingLowerThanAge: true,
 			},
 			tempoTosse:{
 				warningSymptoms:'20meses'
