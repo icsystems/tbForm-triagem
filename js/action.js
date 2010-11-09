@@ -532,6 +532,14 @@ $(document).ready(function(){
 	});
 /*---------------------------------------------------------------------------------------------------------*/
 /*------------------------------------  Take care of secondary fields  ------------------------------------*/
+	$('#exames').change(function(){
+		var dep = new Array();
+		dep[0] = '#divOutrosExames';
+		if ($(this).val() == 'outro')
+			$().showFields(dep);
+		else
+			$().hideFields(dep);
+	});
 	$('#tipoUnidade').change(function(){
 			var dep1 = new Array();
 			dep1[0] = '#divMotivoVindaUnidadeSaude';

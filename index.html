@@ -973,6 +973,42 @@
 					</div>
 				</fieldset>
 				<fieldset>
+					<legend>Desfecho</legend>
+					<div id='divDesfecho' name='divDesfecho' class='primary required'>
+						<label for='desfecho'>Desfecho: </label>
+						<select id='desfecho' name='desfecho' class='required'>
+							<option value=''>----</option>
+							<option value='provavelTB'>Provável TB</option>
+							<option value='provavelTBResistente'>Provável TB Resistente</option>
+							<option value='naoTB'>Não TB</option>
+						</select>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>Conduta a ser utilizada pela enfermagem</legend>
+					<div id='divExames' name='divExames' class='primary required'>
+						<label for='exames'>Exames: </label>
+						<select id='exames' name='exames' class='required'>
+							<option value=''>----</option>
+							<option value='baar2amostras'>BAAR 2 amostras</option>
+							<option value='raioXDeTorax'>Raio X de tórax</option>
+							<option value='BAARRaioXDeTorax'>BAAR + Raio X de tórax</option>
+							<option value='BAARcultura'>BAAR + cultura</option>
+							<option value='BAARculturaRaioXDeTorax'>BAAR + cultura + Raio X de tórax</option>
+							<option value='outro'>Outro</option>
+						</select>
+					</div>
+					<div id='divOutrosExames' name='divOutrosExames' class='secondary'>
+						<label for='outrosExames'>Outro: </label>
+							<input type='text' id='outrosExames' name='outrosExames' class='required'/>
+					</div>
+					<br /><br />
+					<div id='divOutrasCondutas' class='primary required'>
+						<label for='outrasCondutas' class='labelTextarea'> Outras condutas: </label>
+						<textarea name="outrasCondutas" id="outrasCondutas" rows="5"></textarea>
+					</div>
+				</fieldset>
+				<fieldset>
 					<div id='divAvaliador' class='primary required'>
 						<label for='avaliador'> Avaliado por: </label>
 						<input type="text" name="avaliador" id="avaliador" class='textbox required text'/>
