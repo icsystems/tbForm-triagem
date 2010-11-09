@@ -204,39 +204,39 @@ $(document).ready(function(){
 /*--------------------------------- Logica da Classe Social do Paciente --------------------------------------*/
 	$.fn.countPoints = function(){
 		var points = 0;
-		var fields = ['#quantidadeFreezer','#quantidadeGeladeira','#quantidadeMaquinaLavarRoupa',
-					'#quantidadeVideoDVD','#quantidadeTelevisao','#quantidadeRadio','#quantidadeBanheiro',
-					'#quantidadeAutomovel','#quantidadeEmpregadaMensalista'];
+		var fields = ['#freezer','#geladeira','#maquinaLavarRoupa',
+					'#videoDVD','#televisao','#radio','#banheiro',
+					'#automovel','#empregadaMensalista'];
 		for (i in fields){
 			field = $(fields[i]);
-			if (field.val())
+			if (field.val() != '' && field.val() != 'nao')
 				fieldValue = parseInt(field.val(),10);
 			else
 				fieldValue = 0;
-			if (fields[i] == '#quantidadeFreezer' || fields[i] == '#quantidadeVideoDVD' || fields[i] == '#quantidadeMaquinaLavarRoupa')
+			if (fields[i] == '#freezer' || fields[i] == '#videoDVD' || fields[i] == '#maquinaLavarRoupa')
 				if (fieldValue >= 1)
 					points += 2;
-			if (fields[i] == '#quantidadeGeladeira')
+			if (fields[i] == '#geladeira')
 				if (fieldValue >= 1)
 					points += 4;
-			if (fields[i] == '#quantidadeTelevisao' || fields[i] == '#quantidadeRadio')
+			if (fields[i] == '#televisao' || fields[i] == '#radio')
 				if (fieldValue <= 4)
 					points += fieldValue;
 				else
 					points += 4;
-			if (fields[i] == '#quantidadeBanheiro')
+			if (fields[i] == '#banheiro')
 				if (fieldValue >= 1 && fieldValue < 4)
 					points += fieldValue + 3;
 				else if (fieldValue >= 4 )
 					points += 7;
-			if (fields[i] == '#quantidadeAutomovel')
+			if (fields[i] == '#automovel')
 				if (fieldValue == 1)
 					points += 4;
 				else if (fieldValue == 2)
 					points += 7;
 				else if (fieldValue >= 3)
 					points += 9;
-			if (fields[i] == '#quantidadeEmpregadaMensalista')
+			if (fields[i] == '#empregadaMensalista')
 				if (fieldValue == 1)
 					points += 3;
 				else if (fieldValue >= 2)
@@ -276,31 +276,31 @@ $(document).ready(function(){
 			socialClass = 'A1';
 		return $(this).val(socialClass);
 	}
-	$('#quantidadeFreezer').change(function(){
+	$('#freezer').change(function(){
 		$('#classeSocial').defineSocialClass($().countPoints());
 	});
-	$('#quantidadeGeladeira').change(function(){
+	$('#geladeira').change(function(){
 		$('#classeSocial').defineSocialClass($().countPoints());
 	});
-	$('#quantidadeMaquinaLavarRoupa').change(function(){
+	$('#maquinaLavarRoupa').change(function(){
 		$('#classeSocial').defineSocialClass($().countPoints());
 	});
-	$('#quantidadeVideoDVD').change(function(){
+	$('#videoDVD').change(function(){
 		$('#classeSocial').defineSocialClass($().countPoints());
 	});
-	$('#quantidadeTelevisao').change(function(){
+	$('#televisao').change(function(){
 		$('#classeSocial').defineSocialClass($().countPoints());
 	});
-	$('#quantidadeRadio').change(function(){
+	$('#radio').change(function(){
 		$('#classeSocial').defineSocialClass($().countPoints());
 	});
-	$('#quantidadeBanheiro').change(function(){
+	$('#banheiro').change(function(){
 		$('#classeSocial').defineSocialClass($().countPoints());
 	});
-	$('#quantidadeAutomovel').change(function(){
+	$('#automovel').change(function(){
 		$('#classeSocial').defineSocialClass($().countPoints());
 	});
-	$('#quantidadeEmpregadaMensalista').change(function(){
+	$('#empregadaMensalista').change(function(){
 		$('#classeSocial').defineSocialClass($().countPoints());
 	});
 	$('#grauInstrucaoChefeFamilia').change(function(){
@@ -834,78 +834,6 @@ $(document).ready(function(){
 			$().showFields(dep);
 		else
 			$().hideFields(dep);
-	});
-	$('#freezer').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeFreezer';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#geladeira').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeGeladeira';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#maquinaLavarRoupa').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeMaquinaLavarRoupa';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#videoDVD').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeVideoDVD';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#televisao').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeTelevisao';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#radio').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeRadio';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#banheiro').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeBanheiro';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#automovel').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeAutomovel';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
-	});
-	$('#empregadaMensalista').change(function(){
-			var dep = new Array();
-			dep[0] = '#divQuantidadeEmpregadaMensalista';
-			if($(this).val()=='sim')
-				$().showFields(dep);
-			else
-				$().hideFields(dep);
 	});
 	$('#procurouUnidadeSaudePorOrientacao').change(function(){
 			var dep = new Array();
