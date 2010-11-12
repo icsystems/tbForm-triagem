@@ -121,15 +121,18 @@ $(document).ready(function(){
 
 /*------------------------------Edition and Relation-----------------------------*/
 	//Relation between forms
-	//Diagnóstico - Consulta e FollowUp
+	//Diagnóstico - Triagem e Exames
 	var urlString = $(location).attr('href');
-	var numPaciente = urlString[urlString.length - 2];
+	var urlbase = 'https://gruyere.lps.ufrj.br/~fferreira/sapem/';
+	var urlArray = urlString.split('/');
 	if (urlString.search("edit") != -1){
-		var numForm = parseInt(urlString[urlString.length - 4],10);
+		var fichaId = urlArray[urlArray.length-2];
+		var url = urlbase + 'ficha/' + fichaId + '/';
+		$('#form_consulta').append("<input type='hidden' id='edit' name='edit' value='" + fichaId + "'/>");
 		var ajaxEdicaoCompleto = false;
-		$.ajax({
+		window.setTimeout(function(){$.ajax({
 			type: 'POST',
-			url:'../../../patientLastRegister/' + numForm + '/' + numPaciente + '/',
+			url: url,
 			dataType: "html",
 			success: function(text){
 				if (window.DOMParser)
@@ -141,36 +144,39 @@ $(document).ready(function(){
 					xml.async="false";
 					xml.loadXML(text);
 				}
-				var elements = xml.getElementsByTagName('documento')[0].childNodes;
-				$(elements).each(function(){
-					var el = $(this).get(0);
-					if($(el)[0].nodeType == xml.ELEMENT_NODE){
-						var tagname = $(el)[0].tagName;
-						idDiv = $('#'+tagname).parent().attr('id');
-						//console.log(tagname + ' : ' + $('#'+tagname).attr('type'));
-						//Checkbox
-						if (tagname == 'sexo')
-							$('input[name=sexo]').each(function(){
-							if ($(el).text().search($(this).val()) != -1)
-								$(this).attr('checked',true);
-							});
-						$('#'+tagname).val($(el).text());
-						$('#'+tagname).change();
-						if (tagname == 'estado')
-							$("#" + tagname + " option[value='" + $(el).text()+"']").attr('selected', true);
-					}
-				});
+				if (xml.getElementsByTagName('error')[0] == undefined){
+					var elements = xml.getElementsByTagName('documento')[0].childNodes;
+					$(elements).each(function(){
+						var el = $(this).get(0);
+						if($(el)[0].nodeType == xml.ELEMENT_NODE){
+							var tagname = $(el)[0].tagName;
+							idDiv = $('#'+tagname).parent().attr('id');
+							//console.log(tagname + ' : ' + $('#'+tagname).attr('type'));
+							//Checkbox
+							if (tagname == 'sexo')
+								$('input[name=sexo]').each(function(){
+								if ($(el).text().search($(this).val()) != -1)
+									$(this).attr('checked',true);
+								});
+							$('#'+tagname).val($(el).text());
+							$('#'+tagname).change();
+							ajaxEdicaoCompleto = true;
+						}
+					});
+				}
 			},
 			complete: function(){
-				ajaxEdicaoCompleto = true;
-				$('#sida').change();
+				if (ajaxEdicaoCompleto)
+					$('#sida').change();
 			}
-		});
+		});},1000);
 	}else{
-		var numForm = parseInt(urlString[urlString.length - 4],10) + 1;
+		var numPaciente = urlArray[urlArray.length-2];
+		var numForm = urlArray[urlArray.length-3] - 1;
+		var url = urlbase + 'patientLastRegister/' + numForm + '/' + numPaciente + '/';
 		$.ajax({
 			type: 'POST',
-			url:'../../../patientLastRegister/' + numForm + '/' + numPaciente + '/',
+			url: url,
 			dataType: "html",
 			success: function(text){
 				if (window.DOMParser)
@@ -182,7 +188,8 @@ $(document).ready(function(){
 					xml.async="false";
 					xml.loadXML(text);
 				}
-				//Numero do paciente - Triagem e Exames
+				if (xml.getElementsByTagName('error')[0] == undefined){
+					//Numero do paciente - Triagem e Exames
 					var elements = xml.getElementsByTagName('documento')[0].childNodes;
 					$(elements).each(function(){
 						var el = $(this).get(0);
@@ -198,8 +205,9 @@ $(document).ready(function(){
 						}
 					});
 				}
-			});
-		}
+			}
+		});
+	}
 /*-------------------------------------------------------------------------------*/
 /*--------------------------------- Logica da Classe Social do Paciente --------------------------------------*/
 	$.fn.countPoints = function(){
@@ -417,7 +425,8 @@ $(document).ready(function(){
 	//Make a clock in the page e write date in
 	//a portuguese format
 	$('#form_triagem').submit(function(){
-		$('#horarioFimEntrevista').val(getTime());
+		if (!ajaxEdicaoCompleto)
+			$('#horarioFimEntrevista').val(getTime());
 	});
 	$('#horarioInicioEntrevista').val(getTime());
 	$('#data_consulta').writePortugueseDate();
