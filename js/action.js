@@ -541,6 +541,17 @@ $(document).ready(function(){
 	});
 /*---------------------------------------------------------------------------------------------------------*/
 /*------------------------------------  Take care of secondary fields  ------------------------------------*/
+	$('.sinais').change(function(){
+		elem_id  = $(this).attr('id');
+		elem_id = elem_id.charAt(0).toUpperCase() + elem_id.substr(1);
+		elem_id = '#tempo' + elem_id;
+		if($(this).val() == 'sim'){
+			$(elem_id).removeAttr('disabled');
+		} else {
+			$(elem_id).attr('disabled', true);
+		}
+	});
+
 	$('#exames').change(function(){
 		var dep = new Array();
 		dep[0] = '#divOutrosExames'
